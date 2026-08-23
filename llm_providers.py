@@ -124,18 +124,27 @@ class AnthropicProvider(BaseLLMProvider):
     """Anthropic Claude 原生 API（支持 api_key 和 auth_token 两种认证）"""
 
     def _get_client_kwargs(self) -> dict:
-        """构建客户端参数"""
+        """
+        构建客户端参数。
+
+        关键: Anthropic SDK 支持两种认证:
+        - api_key → 发送 x-api-key 头 (Anthropic 官方)
+        - auth_token → 发送 Authorization: Bearer 头 (LongCat 等兼容网关)
+
+        LongCat 的 /anthropic 端点要求 Bearer 认证，因此有 auth_token 时优先使用它。
+        """
         client_kwargs = {}
 
         api_key = self.config.get('api_key', '')
         auth_token = self.config.get('auth_token', '')
         base_url = self.config.get('base_url', '')
 
-        if api_key:
+        if auth_token:
+            # Bearer 认证 (LongCat 等网关需要)
+            client_kwargs['auth_token'] = auth_token
+        elif api_key:
+            # 标准 x-api-key 认证 (Anthropic 官方)
             client_kwargs['api_key'] = api_key
-        elif auth_token:
-            # LongCat: 使用 auth_token 作为 api_key 传递
-            client_kwargs['api_key'] = auth_token
         else:
             raise ValueError(
                 "未配置 API 认证信息。请设置 api_key 或 auth_token。"

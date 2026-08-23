@@ -106,8 +106,9 @@ def init_db():
         default_providers = [
             ('Anthropic Claude', 'anthropic', '',
              'https://api.anthropic.com', 'claude-sonnet-4-20250514', 1024, 0.7, 0),
+            # LongCat 使用 Anthropic 兼容 API（与 Claude Code 配置一致）
             ('LongCat', 'anthropic', '',
-             'https://api.longcat.chat/anthropic', 'LongCat-2.0', 1024, 0.7, 1),
+             'https://api.longcat.ai/anthropic', 'LongCat-2.0', 1024, 0.7, 1),
         ]
         for p in default_providers:
             cursor.execute('''
