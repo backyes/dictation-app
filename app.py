@@ -66,6 +66,10 @@ from database import (
 from llm_service import extract_words_from_text, generate_hint_for_word, test_connection, batch_generate_meanings, generate_meaning_for_word, generate_passage
 from llm_providers import PROVIDER_PRESETS
 
+# 确保 instance 目录存在
+import os
+os.makedirs('instance', exist_ok=True)
+
 # 配置日志
 logging.basicConfig(
     level=logging.INFO,
