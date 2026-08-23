@@ -128,10 +128,14 @@ class AnthropicProvider(BaseLLMProvider):
         client_kwargs = {}
 
         api_key = self.config.get('api_key', '')
+        auth_token = self.config.get('auth_token', '')
         base_url = self.config.get('base_url', '')
 
         if api_key:
             client_kwargs['api_key'] = api_key
+        elif auth_token:
+            # LongCat: 使用 auth_token 作为 api_key
+            client_kwargs['api_key'] = auth_token
 
         if base_url:
             client_kwargs['base_url'] = base_url
