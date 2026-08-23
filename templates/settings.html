@@ -11,11 +11,19 @@
     </p>
 
     <div class="form-group">
-        <label class="form-label">API Key</label>
+        <label class="form-label">Auth Token (LongCat)</label>
+        <input type="password" id="authToken" class="form-control"
+            value="{{ llm_settings.get('auth_token', {}).get('value', '') }}"
+            placeholder="ak_...">
+        <small style="color: var(--text-light);">LongCat API 认证令牌（推荐）</small>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">API Key (Anthropic 官方)</label>
         <input type="password" id="apiKey" class="form-control"
             value="{{ llm_settings.get('api_key', {}).get('value', '') }}"
             placeholder="sk-ant-...">
-        <small style="color: var(--text-light);">你的Anthropic API密钥</small>
+        <small style="color: var(--text-light);">Anthropic 官方 API 密钥（可选）</small>
     </div>
 
     <div class="form-group">
@@ -81,6 +89,7 @@
 <script>
 function saveSettings() {
     const settings = {
+        auth_token: document.getElementById('authToken').value,
         api_key: document.getElementById('apiKey').value,
         model: document.getElementById('modelName').value,
         max_tokens: document.getElementById('maxTokens').value,
