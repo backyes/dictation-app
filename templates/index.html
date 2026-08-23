@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% block title %}单词录入 - 英语听写练习{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title"><span class="icon">📥</span>录入听写单词</h2>
+    </div>
+    <p style="color: var(--text-light); margin-bottom: 20px;">
+        输入要默写的单词清单，支持多种格式（逗号分隔、换行分隔、自然语言描述等），系统会自动提取有效单词。
+    </p>
+
+    <div class="form-group">
+        <label class="form-label">输入单词文本：</label>
+        <textarea id="wordInput" class="form-control" rows="8"
+            placeholder="例如：&#10;apple, banana, cherry, date, elephant, forest, garden, happiness, important, knowledge&#10;&#10;或者：&#10;今天要默写的单词有：&#10;1. beautiful&#10;2. challenge&#10;3. discover&#10;4. environment&#10;5. fantastic"></textarea>
+    </div>
+
+    <div class="flex gap-2">
+        <button class="btn btn-primary" onclick="extractWords()" id="extractBtn">
+            🔍 提取单词
+        </button>
+        <button class="btn btn-outline" onclick="loadSampleWords()">
+            📋 加载示例
+        </button>
+    </div>
+
+    <!-- 提取结果预览 -->
+    <div id="extractResult" class="hidden mt-3">
+        <div class="form-group">
+            <label class="form-label">提取到的单词（<span id="wordCount">0</span>个）：</label>
+            <div id="extractedWords" class="word-list"></div>
+        </div>
+        <button class="btn btn-success" onclick="confirmAddWords()">
+            ✅ 确认添加到词库
+        </button>
+    </div>
+</div>
+
+<!-- 当前词库概览 -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title"><span class="icon">📚</span>当前词库</h2>
+        <div class="flex gap-2">
+            <button class="btn btn-primary btn-sm" onclick="generateMeanings()" id="genMeaningBtn">
+                ✨ 生成释义
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="clearAllWords()">🗑️ 清空词库</button>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">{{ stats.total }}</div>
+            <div class="stat-label">总单词数</div>
+        </div>
+        <div class="stat-card success">
+            <div class="stat-value">{{ stats.right }}</div>
+            <div class="stat-label">已掌握</div>
+        </div>
+        <div class="stat-card warning">
+            <div class="stat-value">{{ stats.pending }}</div>
+            <div class="stat-label">待练习</div>
+        </div>
+        <div class="stat-card danger">
+            <div class="stat-value">{{ stats.wrong }}</div>
+            <div class="stat-label">错误单词</div>
+        </div>
+    </div>
+
+    <div id="currentWords" class="word-list">
+        <p style="color: var(--text-light);">加载中...</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let extractedWordsList = [];
+
+function extractWords() {
+    const text = document.getElementById('wordInput').value.trim();
+    if (!text) {
+        showToast('请输入单词文本', 'error');
+        return;
+    }
+
+    const btn = document.getElementById('extractBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading"></span> 提取中...';
+
+    fetch('/api/words/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+    })
+    .then(r => r.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.innerHTML = '🔍 提取单词';
+
+        if (data.success) {
+            extractedWordsList = data.words;
+            document.getElementById('wordCount').textContent = data.count;
+            renderExtractedWords(data.words);
+            document.getElementById('extractResult').classList.remove('hidden');
+        } else {
+            showToast(data.message, 'error');
+        }
+    })
+    .catch(err => {
+        btn.disabled = false;
+        btn.innerHTML = '🔍 提取单词';
+        showToast('请求失败: ' + err.message, 'error');
+    });
+}
+
+function renderExtractedWords(words) {
+    const container = document.getElementById('extractedWords');
+    container.innerHTML = words.map(w =>
+        `<span class="word-tag">${w}</span>`
+    ).join('');
+}
+
+function confirmAddWords() {
+    if (extractedWordsList.length === 0) return;
+
+    fetch('/api/words/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ words: extractedWordsList })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast(`成功添加 ${data.added} 个单词${data.duplicate > 0 ? `，${data.duplicate} 个重复` : ''}`, 'success');
+            document.getElementById('extractResult').classList.add('hidden');
+            document.getElementById('wordInput').value = '';
+            loadCurrentWords();
+        } else {
+            showToast(data.message, 'error');
+        }
+    });
+}
+
+function loadSampleWords() {
+    const samples = [
+        "apple, banana, cherry, date, elephant",
+        "forest, garden, happiness, important, knowledge",
+        "language, mountain, natural, original, practice",
+        "question, remember, success, together, valuable",
+        "wonderful, yesterday, beautiful, challenge, discover"
+    ];
+    document.getElementById('wordInput').value = samples.join('\n');
+}
+
+function generateMeanings() {
+    const btn = document.getElementById('genMeaningBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading"></span> 生成中...';
+
+    fetch('/api/words/generate-meanings', { method: 'POST' })
+    .then(r => r.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.innerHTML = '✨ 生成释义';
+        if (data.success) {
+            showToast(`释义生成完成！成功 ${data.success} 个，失败 ${data.failed} 个`, 'success');
+            loadCurrentWords();
+        } else {
+            showToast(data.message || '生成失败', 'error');
+        }
+    })
+    .catch(err => {
+        btn.disabled = false;
+        btn.innerHTML = '✨ 生成释义';
+        showToast('请求失败: ' + err.message, 'error');
+    });
+}
+
+function loadCurrentWords() {
+    fetch('/api/words')
+    .then(r => r.json())
+    .then(data => {
+        const container = document.getElementById('currentWords');
+        if (data.words.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-light);">词库为空，请先添加单词</p>';
+            return;
+        }
+        // 使用表格形式展示完整单词清单
+        let html = '<div style="overflow-x: auto;"><table><thead><tr>' +
+            '<th style="width: 40px;">#</th>' +
+            '<th style="width: 100px;">单词</th>' +
+            '<th style="width: 90px;">音标</th>' +
+            '<th>释义</th>' +
+            '<th>例句</th>' +
+            '<th style="width: 70px;">状态</th>' +
+            '<th width="50">操作</th>' +
+            '</tr></thead><tbody>';
+        data.words.forEach((w, i) => {
+            let statusHtml = '';
+            if (w.status === 'right') {
+                statusHtml = '<span style="color: var(--success);">✅</span>';
+            } else if (w.error_count > 0) {
+                statusHtml = `<span style="color: var(--danger);">❌${w.error_count}</span>`;
+            } else {
+                statusHtml = '<span style="color: var(--text-muted);">📝</span>';
+            }
+            const phonetic = w.phonetic ? `<code style="font-size: 0.8rem; color: var(--blue);">${w.phonetic}</code>` : '-';
+            const meaning = w.meaning || '-';
+            const example = w.example ? w.example.replace(/______/g, '<span style="color: var(--green); font-weight: 600;">______</span>') : '-';
+            html += `<tr>
+                <td>${i + 1}</td>
+                <td><strong>${w.word}</strong></td>
+                <td>${phonetic}</td>
+                <td style="color: var(--text-light); font-size: 0.85rem;">${meaning}</td>
+                <td style="color: var(--text-light); font-size: 0.82rem; font-style: italic;">${example}</td>
+                <td style="text-align: center;">${statusHtml}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="deleteWord(${w.id})" style="padding: 2px 6px; font-size: 0.7rem;">✕</button></td>
+            </tr>`;
+        });
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
+    });
+}
+
+function deleteWord(id) {
+    if (!confirm('确定要删除这个单词吗？')) return;
+    fetch(`/api/words/delete/${id}`, { method: 'POST' })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast('已删除', 'success');
+            loadCurrentWords();
+        }
+    });
+}
+
+function clearAllWords() {
+    if (!confirm('确定要清空所有单词吗？此操作不可恢复！')) return;
+    fetch('/api/words/clear', { method: 'POST' })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast('词库已清空', 'success');
+            loadCurrentWords();
+        }
+    });
+}
+
+// 页面加载时获取词库
+loadCurrentWords();
+</script>
+{% endblock %}

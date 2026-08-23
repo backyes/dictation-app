@@ -1,0 +1,357 @@
+{% extends "base.html" %}
+{% block title %}报表 - 英语听写练习{% endblock %}
+
+{% block content %}
+<!-- 统计概览 -->
+<div class="stats-grid">
+    <div class="stat-card" onclick="showDetailModal('all')" style="cursor: pointer;" title="点击查看详情">
+        <div class="stat-value">{{ stats.total }}</div>
+        <div class="stat-label">📚 总单词数</div>
+    </div>
+    <div class="stat-card success" onclick="showDetailModal('right')" style="cursor: pointer;" title="点击查看详情">
+        <div class="stat-value">{{ stats.right }}</div>
+        <div class="stat-label">✅ 已掌握</div>
+    </div>
+    <div class="stat-card warning" onclick="showDetailModal('pending')" style="cursor: pointer;" title="点击查看详情">
+        <div class="stat-value">{{ stats.pending }}</div>
+        <div class="stat-label">📝 待练习</div>
+    </div>
+    <div class="stat-card danger" onclick="showDetailModal('wrong')" style="cursor: pointer;" title="点击查看详情">
+        <div class="stat-value">{{ stats.wrong }}</div>
+        <div class="stat-label">❌ 有错误</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.accuracy }}%</div>
+        <div class="stat-label">🎯 正确率</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.total_attempts }}</div>
+        <div class="stat-label">🔄 总练习次数</div>
+    </div>
+</div>
+
+<!-- 详情弹窗 -->
+<div id="detailModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: var(--white); border-radius: var(--radius-lg); max-width: 700px; width: 90%; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column;">
+        <div style="padding: 20px 24px; border-bottom: 2px solid var(--green); display: flex; justify-content: space-between; align-items: center;">
+            <h3 id="modalTitle" style="color: var(--green-deep); font-family: 'Libre Baskerville', serif;"></h3>
+            <button onclick="closeModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light);">&times;</button>
+        </div>
+        <div id="modalContent" style="padding: 20px 24px; overflow-y: auto; flex: 1;"></div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title"><span class="icon">📊</span>单词清单</h2>
+        <button class="btn btn-warning btn-sm" onclick="resetAllWords()">🔄 重置所有状态</button>
+    </div>
+
+    <!-- 标签页 -->
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('all')">全部 ({{ stats.total }})</button>
+        <button class="tab" onclick="switchTab('wrong')">错误清单 ({{ stats.wrong }})</button>
+        <button class="tab" onclick="switchTab('right')">正确清单 ({{ stats.right }})</button>
+        <button class="tab" onclick="switchTab('history')">最近记录</button>
+    </div>
+
+    <!-- 全部单词 -->
+    <div id="tab-all" class="tab-content active">
+        {% if all_words %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>单词</th>
+                        <th>音标</th>
+                        <th>释义</th>
+                        <th>状态</th>
+                        <th>错误次数</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for word in all_words %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><strong>{{ word.word }}</strong></td>
+                        <td><code style="color: var(--blue); font-size: 0.85rem;">{{ word.phonetic or '-' }}</code></td>
+                        <td style="color: var(--text-light); font-size: 0.9rem;">{{ word.meaning or '-' }}</td>
+                        <td>
+                            {% if word.status == 'right' %}
+                                <span style="color: var(--success);">✅ 已掌握</span>
+                            {% elif word.error_count > 0 %}
+                                <span style="color: var(--danger);">❌ {{ word.error_count }}次</span>
+                            {% else %}
+                                <span style="color: var(--text-muted);">📝 待练习</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ word.error_count }}</td>
+                        <td>
+                            <button class="btn btn-outline btn-sm" onclick="resetWord({{ word.id }})">重置</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteWord({{ word.id }})">删除</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="icon">📭</div>
+            <p>暂无单词，请先添加</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- 错误清单 -->
+    <div id="tab-wrong" class="tab-content">
+        {% if wrong_words %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>单词</th>
+                        <th>错误次数</th>
+                        <th>优先级</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for word in wrong_words %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><strong>{{ word.word }}</strong></td>
+                        <td><span style="color: var(--danger); font-weight: 600;">{{ word.error_count }}</span></td>
+                        <td>
+                            {% if word.error_count >= 3 %}
+                                <span style="background: #ffebee; color: #c62828; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;">🔥 高频</span>
+                            {% else %}
+                                <span style="background: #fff3e0; color: #e65100; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;">⚠️ 一般</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button class="btn btn-outline btn-sm" onclick="resetWord({{ word.id }})">重置</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="icon">🎉</div>
+            <p>太棒了！没有错误单词</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- 正确清单 -->
+    <div id="tab-right" class="tab-content">
+        {% if right_words %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>单词</th>
+                        <th>掌握时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for word in right_words %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><strong>{{ word.word }}</strong></td>
+                        <td>{{ word.updated_at }}</td>
+                        <td>
+                            <button class="btn btn-outline btn-sm" onclick="resetWord({{ word.id }})">重新练习</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="icon">📝</div>
+            <p>还没有已掌握的单词，继续努力！</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- 最近记录 -->
+    <div id="tab-history" class="tab-content">
+        {% if recent_history %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>单词</th>
+                        <th>你的答案</th>
+                        <th>结果</th>
+                    </tr>
+                </thead>
+                <tbody %}
+                    {% for h in recent_history %}
+                    <tr>
+                        <td>{{ h.created_at }}</td>
+                        <td><strong>{{ h.word }}</strong></td>
+                        <td>{{ h.user_input or '-' }}</td>
+                        <td>
+                            {% if h.is_correct %}
+                                <span style="color: var(--success);">✅ 正确</span>
+                            {% else %}
+                                <span style="color: var(--danger);">❌ 错误</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="icon">📋</div>
+            <p>暂无练习记录</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function switchTab(tabName) {
+    // 切换tab样式
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+    event.target.classList.add('active');
+    document.getElementById('tab-' + tabName).classList.add('active');
+}
+
+function resetWord(id) {
+    if (!confirm('确定要重置这个单词的状态吗？')) return;
+    fetch(`/api/words/reset/${id}`, { method: 'POST' })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast('已重置', 'success');
+            location.reload();
+        }
+    });
+}
+
+function deleteWord(id) {
+    if (!confirm('确定要删除这个单词吗？')) return;
+    fetch(`/api/words/delete/${id}`, { method: 'POST' })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast('已删除', 'success');
+            location.reload();
+        }
+    });
+}
+
+function resetAllWords() {
+    if (!confirm('确定要重置所有单词的状态吗？这将清除所有进度！')) return;
+    fetch('/api/reset_all', { method: 'POST' })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast('已重置所有单词', 'success');
+            location.reload();
+        }
+    });
+}
+
+// 详情弹窗
+const allWordsData = {{ all_words | tojson }};
+const wrongWordsData = {{ wrong_words | tojson }};
+const rightWordsData = {{ right_words | tojson }};
+const pendingWordsData = [{% for w in all_words %}{% if w.status == 'pending' and w.error_count == 0 %}{{ w | tojson }}{% if not loop.last %},{% endif %}{% endif %}{% endfor %}];
+
+function showDetailModal(type) {
+    const modal = document.getElementById('detailModal');
+    const title = document.getElementById('modalTitle');
+    const content = document.getElementById('modalContent');
+
+    let words = [];
+    let titleText = '';
+
+    switch(type) {
+        case 'wrong':
+            words = wrongWordsData;
+            titleText = `❌ 错误单词清单 (${words.length} 个)`;
+            break;
+        case 'right':
+            words = rightWordsData;
+            titleText = `✅ 已掌握单词 (${words.length} 个)`;
+            break;
+        case 'pending':
+            words = pendingWordsData;
+            titleText = `📝 待练习单词 (${words.length} 个)`;
+            break;
+        default:
+            words = allWordsData;
+            titleText = `📚 全部单词 (${words.length} 个)`;
+    }
+
+    title.textContent = titleText;
+
+    if (words.length === 0) {
+        content.innerHTML = '<div class="empty-state"><div class="icon">🎉</div><p>暂无单词</p></div>';
+    } else {
+        let html = '<div style="overflow-x: auto;"><table><thead><tr>' +
+            '<th>#</th>' +
+            '<th>单词</th>' +
+            '<th>音标</th>' +
+            '<th>释义</th>' +
+            '<th>例句</th>';
+        if (type === 'wrong' || type === 'all') {
+            html += '<th>错误次数</th>';
+        }
+        html += '</tr></thead><tbody>';
+        words.forEach((w, i) => {
+            const phonetic = w.phonetic ? `<code style="color: var(--blue); font-size: 0.8rem;">${w.phonetic}</code>` : '-';
+            const meaning = w.meaning || '-';
+            const example = w.example ? w.example.replace(/______/g, '<span style="color: var(--green); font-weight: 600;">______</span>') : '-';
+            html += `<tr>
+                <td>${i + 1}</td>
+                <td><strong>${w.word}</strong></td>
+                <td>${phonetic}</td>
+                <td style="color: var(--text-light); font-size: 0.85rem;">${meaning}</td>
+                <td style="color: var(--text-light); font-size: 0.85rem; font-style: italic;">${example}</td>`;
+            if (type === 'wrong' || type === 'all') {
+                html += `<td>${w.error_count || 0}</td>`;
+            }
+            html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+        content.innerHTML = html;
+    }
+
+    modal.style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('detailModal').style.display = 'none';
+}
+
+// 点击弹窗外部关闭
+document.getElementById('detailModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ESC 关闭弹窗
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+});
+</script>
+{% endblock %}

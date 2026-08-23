@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}设置 - 英语听写练习{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title"><span class="icon">⚙️</span>大模型配置</h2>
+    </div>
+    <p style="color: var(--text-light); margin-bottom: 20px;">
+        配置Anthropic Claude API参数，用于单词提取和学习提示生成。
+    </p>
+
+    <div class="form-group">
+        <label class="form-label">API Key</label>
+        <input type="password" id="apiKey" class="form-control"
+            value="{{ llm_settings.get('api_key', {}).get('value', '') }}"
+            placeholder="sk-ant-...">
+        <small style="color: var(--text-light);">你的Anthropic API密钥</small>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">模型名称</label>
+        <input type="text" id="modelName" class="form-control"
+            value="{{ llm_settings.get('model', {}).get('value', 'LongCat-2.0[1m]') }}"
+            placeholder="输入模型名称，如 LongCat-2.0[1m]">
+        <small style="color: var(--text-light);">常用模型: LongCat-2.0[1m], claude-sonnet-4-20250514, claude-opus-4-20250514</small>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">最大Token数</label>
+        <input type="number" id="maxTokens" class="form-control"
+            value="{{ llm_settings.get('max_tokens', {}).get('value', '1024') }}"
+            min="100" max="4096">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Temperature (温度)</label>
+        <input type="number" id="temperature" class="form-control"
+            value="{{ llm_settings.get('temperature', {}).get('value', '0.7') }}"
+            min="0" max="2" step="0.1">
+        <small style="color: var(--text-light);">0 = 确定性输出，1 = 创造性输出，建议0.5-0.8</small>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Base URL (可选)</label>
+        <input type="text" id="baseUrl" class="form-control"
+            value="{{ llm_settings.get('base_url', {}).get('value', '') }}"
+            placeholder="https://api.anthropic.com (留空使用默认)">
+        <small style="color: var(--text-light);">用于设置API代理地址，留空则使用官方地址</small>
+    </div>
+
+    <div class="flex gap-2">
+        <button class="btn btn-primary" onclick="saveSettings()">💾 保存设置</button>
+        <button class="btn btn-outline" onclick="testConnection()">🔌 测试连接</button>
+    </div>
+
+    <div id="testResult" class="mt-2"></div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title"><span class="icon">📖</span>使用说明</h2>
+    </div>
+    <div style="color: var(--text-light); line-height: 1.8;">
+        <p><strong>1. 获取API Key：</strong></p>
+        <p style="margin-left: 20px;">访问 <a href="https://console.anthropic.com/" target="_blank" style="color: var(--primary);">console.anthropic.com</a> 注册并获取API密钥。</p>
+
+        <p><strong>2. 模型选择：</strong></p>
+        <p style="margin-left: 20px;">推荐使用 Claude Sonnet 4，性价比较高。Haiku适合高频简单任务。</p>
+
+        <p><strong>3. Temperature说明：</strong></p>
+        <p style="margin-left: 20px;">单词提取使用固定低温度(0.1)保证准确；提示生成使用你设置的温度值。</p>
+
+        <p><strong>4. 隐私说明：</strong></p>
+        <p style="margin-left: 20px;">API Key仅保存在本地数据库中，不会上传到任何第三方服务器。</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function saveSettings() {
+    const settings = {
+        api_key: document.getElementById('apiKey').value,
+        model: document.getElementById('modelName').value,
+        max_tokens: document.getElementById('maxTokens').value,
+        temperature: document.getElementById('temperature').value,
+        base_url: document.getElementById('baseUrl').value
+    };
+
+    fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings)
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast('设置已保存', 'success');
+        } else {
+            showToast(data.message || '保存失败', 'error');
+        }
+    })
+    .catch(err => showToast('保存失败: ' + err.message, 'error'));
+}
+
+function testConnection() {
+    const resultDiv = document.getElementById('testResult');
+    resultDiv.innerHTML = '<div class="loading"></div> 测试中...';
+
+    fetch('/api/test/connection')
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            resultDiv.innerHTML = `<div class="feedback correct"><span>✅</span><span>${data.message}</span></div>`;
+        } else {
+            resultDiv.innerHTML = `<div class="feedback incorrect"><span>❌</span><span>${data.message}</span></div>`;
+        }
+    })
+    .catch(err => {
+        resultDiv.innerHTML = `<div class="feedback incorrect"><span>❌</span><span>测试失败: ${err.message}</span></div>`;
+    });
+}
+</script>
+{% endblock %}

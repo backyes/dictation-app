@@ -1,0 +1,793 @@
+{% extends "base.html" %}
+{% block title %}短文阅读{% endblock %}
+
+{% block extra_css %}
+<style>
+    .passages-container {
+        max-width: 750px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    .passages-header {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+    .passages-header h2 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 4px;
+    }
+
+    .passages-header p {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+    }
+
+    /* 暖纸风格卡片 */
+    .passage-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 28px;
+        margin-bottom: 20px;
+        border: 1px solid var(--border-light);
+        transition: all 0.15s;
+    }
+
+    .passage-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-1px);
+    }
+
+    /* 生成区域 */
+    .generate-section {
+        background: var(--bg-secondary);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        margin-bottom: 24px;
+    }
+
+    .generate-section summary {
+        cursor: pointer;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        user-select: none;
+    }
+
+    .generate-section summary:hover {
+        color: var(--text);
+    }
+
+    .prompt-editor {
+        margin-top: 16px;
+    }
+
+    .prompt-editor textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        font-size: 0.8rem;
+        font-family: 'SF Mono', monospace;
+        line-height: 1.5;
+        resize: vertical;
+        background: var(--bg);
+    }
+
+    .prompt-editor textarea:focus {
+        outline: none;
+        border-color: var(--text);
+    }
+
+    .prompt-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+    }
+
+    /* 状态指示器 */
+    .status-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        background: var(--bg-secondary);
+        border-radius: var(--radius);
+        margin-bottom: 16px;
+        font-size: 0.82rem;
+    }
+
+    .status-bar .status-icon {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--text-muted);
+    }
+
+    .status-bar .status-icon.loading {
+        background: var(--warning);
+        animation: pulse 1s infinite;
+    }
+
+    .status-bar .status-icon.success {
+        background: var(--accent);
+    }
+
+    .status-bar .status-icon.error {
+        background: var(--danger);
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
+
+    .status-bar .status-text {
+        color: var(--text-secondary);
+        flex: 1;
+    }
+
+    .status-bar .status-time {
+        color: var(--text-muted);
+        font-size: 0.75rem;
+    }
+
+    /* 生成按钮 */
+    .generate-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: all 0.15s;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        margin-bottom: 16px;
+        gap: 8px;
+    }
+
+    .generate-btn:hover {
+        border-color: var(--text);
+        color: var(--text);
+    }
+
+    .generate-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* 短文卡片 */
+    .passage-card {
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        margin-bottom: 16px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+
+    .passage-card:hover {
+        border-color: var(--border);
+    }
+
+    .passage-card-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 8px;
+    }
+
+    .passage-card-words {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .passage-word-tag {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        background: var(--accent-light);
+        color: var(--accent);
+        border-radius: 10px;
+        font-weight: 500;
+    }
+
+    .passage-word-tag.wrong {
+        background: var(--warning-light);
+        color: var(--warning);
+    }
+
+    /* 短文内容 - 中英对照 */
+    .passage-content {
+        display: none;
+        padding: 40px 60px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .passage-content.active {
+        display: block;
+    }
+
+    .passage-content h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    .passage-reading {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        margin-bottom: 24px;
+    }
+
+    .passage-reading-column h4 {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .passage-reading-column .text {
+        font-size: 1rem;
+        line-height: 2.2;
+        color: var(--text);
+    }
+
+    .passage-reading-column .text strong {
+        color: var(--accent);
+        font-weight: 600;
+    }
+
+    .passage-reading-column .text.translation {
+        color: var(--text-secondary);
+    }
+
+    .passage-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    /* 数据库短文列表 */
+    .saved-section {
+        margin-top: 32px;
+        border-top: 1px solid var(--border-light);
+        padding-top: 24px;
+    }
+
+    .saved-section h4 {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        margin-bottom: 16px;
+        font-weight: 500;
+    }
+
+    .saved-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius);
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+
+    .saved-card:hover {
+        border-color: var(--border);
+        background: var(--bg-secondary);
+    }
+
+    .saved-card-title {
+        font-size: 0.85rem;
+        color: var(--text);
+        font-weight: 500;
+    }
+
+    .saved-card-meta {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+        .passages-container { padding: 24px 16px; }
+        .passage-card { padding: 16px; }
+        .passage-content { padding: 20px 16px; }
+        .passage-reading { grid-template-columns: 1fr; gap: 20px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="passages-container" id="passagesList">
+    <div class="passages-header">
+        <h2>短文阅读</h2>
+        <p>通过短文阅读巩固单词记忆，优先复现高频错误词汇</p>
+    </div>
+
+    <!-- 提示词编辑 -->
+    <details class="generate-section">
+        <summary>⚙️ 提示词设置</summary>
+        <div class="prompt-editor">
+            <textarea id="promptTemplate"># Role
+你是一位精通英语教学与故事创作的资深语言专家，擅长通过高联想度、具象化且富有戏剧性的情境短文（Contextual Storytelling），帮助学生高效记忆英语单词。
+
+# Objective
+请根据我提供的【目标单词列表】和【高频错误词汇列表】，创作一篇连贯、有趣且逻辑顺畅的英语阅读短文，将所有目标单词自然融入故事中，帮助学生结合语境深化记忆。
+
+# Target Words (必须全部使用)
+{words}
+
+# 高频错误词汇（请在文中多次复现，加深记忆）
+{wrong_words}
+
+# Article Requirements
+1. **词汇融入 (100% Coverage & Highlight)**：
+   - 必须涵盖"目标单词"列表中的**每一个单词**，不得遗漏或随意替换词形。
+   - 高频错误词汇请在文中**多次出现**（至少3次），加深记忆。
+   - 文章中出现目标单词时，请使用 **加粗**（**word**）显眼标注。
+2. **词汇比例要求**：
+   - 高频错误词汇占比至少 **30%**。
+   - 每篇短文包含 **15-20 个**目标单词。
+3. **篇幅限制 (Length)**：
+   - 短文总字数严格控制在 **500 - 800 个英文单词** 之间，保证情节丰富、细节充分。
+4. **内容与趣味性 (Storyline & Fun)**：
+   - **主题自定/情境匹配**：请观察单词列表的核心主题（如"校园侦探"、"荒岛求生"、"科幻冒险"、"日常奇遇"等），围绕词汇的核心语义设计契合的情景。
+   - **戏剧冲突**：情节要生动有趣、有转折或幽默感，避免流水账和为了堆砌词汇而生硬造句。
+5. **语言难度 (Language Level)**：
+   - 语法结构清晰、自然流畅，适应中初级至中高级英语学习者的阅读水平。
+
+# Output Format
+请严格按照以下格式输出，必须包含英文短文和中文翻译：
+
+### 📖 阅读短文 (Story)
+
+**English:**
+[300-400词的英文短文，目标单词用**加粗**标记，分段书写]
+
+**Chinese:**
+[与英文逐句对应的中文翻译，必须完整翻译整篇文章]
+
+### 📝 重点词汇对照表 (Word Check)
+[按单词在文中出现的顺序列出：**单词** - 词性 - 中文释义]
+
+**重要提醒：**
+- English 部分必须是纯英文短文
+- Chinese 部分必须是与英文对应的中文翻译（逐段对照）
+- 不要在中英文部分混入其他语言</textarea>
+            <div class="prompt-actions">
+                <button class="btn btn-primary btn-sm" onclick="generatePassage()">生成短文</button>
+                <button class="btn btn-outline btn-sm" onclick="resetPrompt()">重置默认</button>
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-secondary); margin-left: auto; cursor: pointer;">
+                    <input type="checkbox" id="diagnosticSwitch" onchange="toggleDiagnostic()">
+                    🔍 诊断模式
+                </label>
+            </div>
+            <!-- 诊断面板：显示展开后的完整提示词 -->
+            <div id="diagnosticPanel" style="display: none; margin-top: 16px; padding: 16px; background: #1a1a2e; border-radius: var(--radius); text-align: left;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span style="color: #9ca3af; font-size: 0.75rem; font-family: monospace;">展开后的完整提示词</span>
+                    <button onclick="copyDiagnostic()" style="background: none; border: 1px solid #4b5563; color: #9ca3af; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;">复制</button>
+                </div>
+                <pre id="diagnosticContent" style="color: #e5e7eb; font-size: 0.75rem; line-height: 1.6; white-space: pre-wrap; word-break: break-all; max-height: 400px; overflow-y: auto;"></pre>
+            </div>
+        </div>
+    </details>
+
+    <!-- 状态栏 -->
+    <div class="status-bar" id="statusBar" style="display: none;">
+        <div class="status-icon" id="statusIcon"></div>
+        <span class="status-text" id="statusText">准备中...</span>
+        <span class="status-time" id="statusTime"></span>
+    </div>
+
+    <!-- 生成按钮 -->
+    <div class="generate-btn" onclick="generatePassage()" id="generateBtn">
+        <span>+</span> 生成新短文
+    </div>
+
+    <!-- 操作栏 -->
+    <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+        <button class="btn btn-outline btn-sm" onclick="loadPassages()">刷新</button>
+        <button class="btn btn-danger btn-sm" onclick="clearPassages()">清空全部</button>
+    </div>
+
+    <!-- 当前生成结果 -->
+    <div id="currentPassage"></div>
+
+    <!-- 数据库短文列表 -->
+    <div class="saved-section">
+        <h4>📚 已保存短文</h4>
+        <div id="savedPassages">
+            <div class="empty-state">暂无保存的短文</div>
+        </div>
+    </div>
+</div>
+
+<!-- 短文阅读 -->
+<div class="passage-content" id="passageContent"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let passages = [];
+let currentPassage = null;
+let startTime = null;
+
+const DEFAULT_PROMPT = `# Role
+你是一位精通英语教学与故事创作的资深语言专家，擅长通过高联想度、具象化且富有戏剧性的情境短文（Contextual Storytelling），帮助学生高效记忆英语单词。
+
+# Objective
+请根据我提供的【目标单词列表】和【高频错误词汇列表】，创作一篇连贯、有趣且逻辑顺畅的英语阅读短文，将所有目标单词自然融入故事中，帮助学生结合语境深化记忆。
+
+# Target Words (必须全部使用)
+{words}
+
+# 高频错误词汇（请在文中多次复现，加深记忆）
+{wrong_words}
+
+# Article Requirements
+1. **词汇融入 (100% Coverage & Highlight)**：
+   - 必须涵盖"目标单词"列表中的**每一个单词**，不得遗漏或随意替换词形。
+   - 高频错误词汇请在文中**多次出现**（至少3次），加深记忆。
+   - 文章中出现目标单词时，请使用 **加粗**（**word**）显眼标注。
+2. **词汇比例要求**：
+   - 高频错误词汇占比至少 **30%**。
+   - 每篇短文包含 **15-20 个**目标单词。
+3. **篇幅限制 (Length)**：
+   - 短文总字数严格控制在 **500 - 800 个英文单词** 之间，保证情节丰富、细节充分。
+4. **内容与趣味性 (Storyline & Fun)**：
+   - **主题自定/情境匹配**：请观察单词列表的核心主题（如"校园侦探"、"荒岛求生"、"科幻冒险"、"日常奇遇"等），围绕词汇的核心语义设计契合的情景。
+   - **戏剧冲突**：情节要生动有趣、有转折或幽默感，避免流水账和为了堆砌词汇而生硬造句。
+5. **语言难度 (Language Level)**：
+   - 语法结构清晰、自然流畅，适应中初级至中高级英语学习者的阅读水平。
+
+# Output Format
+请严格按照以下格式输出，必须包含英文短文和中文翻译：
+
+### 📖 阅读短文 (Story)
+
+**English:**
+[300-400词的英文短文，目标单词用**加粗**标记，分段书写]
+
+**Chinese:**
+[与英文逐句对应的中文翻译，必须完整翻译整篇文章]
+
+### 📝 重点词汇对照表 (Word Check)
+[按单词在文中出现的顺序列出：**单词** - 词性 - 中文释义]
+
+**重要提醒：**
+- English 部分必须是纯英文短文
+- Chinese 部分必须是与英文对应的中文翻译（逐段对照）
+- 不要在中英文部分混入其他语言`;
+
+// 诊断模式切换
+function toggleDiagnostic() {
+    const switchEl = document.getElementById('diagnosticSwitch');
+    const panel = document.getElementById('diagnosticPanel');
+    const content = document.getElementById('diagnosticContent');
+
+    if (switchEl.checked) {
+        // 获取当前提示词并展开变量
+        const prompt = document.getElementById('promptTemplate').value;
+        const expanded = expandPrompt(prompt);
+        content.textContent = expanded;
+        panel.style.display = 'block';
+    } else {
+        panel.style.display = 'none';
+    }
+}
+
+// 展开提示词中的变量
+function expandPrompt(prompt) {
+    // 获取词库单词
+    const allWords = passages.length > 0
+        ? [...new Set(passages.flatMap(p => p.words_list || []))]
+        : ['apple', 'banana', 'cherry', 'elephant', 'forest', 'garden', 'happiness', 'important', 'knowledge', 'language'];
+
+    // 模拟高频错误词汇（前30%）
+    const wrongWords = allWords.slice(0, Math.ceil(allWords.length * 0.3));
+
+    return prompt
+        .replace(/{words}/g, allWords.slice(0, 20).join(', '))
+        .replace(/{wrong_words}/g, wrongWords.join(', '))
+        .replace(/{difficulty}/g, 'intermediate');
+}
+
+// 复制诊断内容
+function copyDiagnostic() {
+    const content = document.getElementById('diagnosticContent').textContent;
+    navigator.clipboard.writeText(content).then(() => {
+        showToast('已复制到剪贴板', 'success');
+    });
+}
+
+// 加载短文列表
+async function loadPassages() {
+    try {
+        const r = await fetch('/api/passages');
+        const data = await r.json();
+        if (data.success) {
+            passages = data.passages;
+            renderSavedPassages();
+        }
+    } catch (e) {
+        console.error('加载失败:', e);
+    }
+}
+
+function renderSavedPassages() {
+    const container = document.getElementById('savedPassages');
+    if (passages.length === 0) {
+        container.innerHTML = '<div class="empty-state">暂无保存的短文</div>';
+        return;
+    }
+
+    container.innerHTML = passages.map((p, i) => `
+        <div class="saved-card" onclick="showSavedPassage(${i})">
+            <span class="saved-card-title">${p.title || '短文 #' + p.id}</span>
+            <span class="saved-card-meta">${(p.words_list || []).length} 词</span>
+        </div>
+    `).join('');
+}
+
+function showSavedPassage(index) {
+    currentPassage = passages[index];
+    showPassageDetail(currentPassage);
+}
+
+function showPassageDetail(p) {
+    const content = document.getElementById('passageContent');
+    const list = document.getElementById('passagesList');
+
+    // 解析中英文内容
+    let englishText = '';
+    let chineseText = '';
+
+    if (p.content) {
+        // 尝试按 "English:" 和 "Chinese:" 分割
+        const engMatch = p.content.match(/(?:English|英文)[：:]\s*([\s\S]*?)(?:Chinese|中文|$)/i);
+        const chnMatch = p.content.match(/(?:Chinese|中文)[：:]\s*([\s\S]*?)(?:📝|Word Check|$)/i);
+
+        if (engMatch && chnMatch) {
+            englishText = engMatch[1].trim();
+            chineseText = chnMatch[1].trim();
+        } else {
+            // 如果没有明确标记，使用 content 和 translation
+            englishText = p.content;
+            chineseText = p.translation || '';
+        }
+    }
+
+    // 格式化：加粗标记 + 换行
+    const formatText = (text) => {
+        return text
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
+    };
+
+    content.innerHTML = `
+        <h3>${p.title || '短文 #' + p.id}</h3>
+        <div class="passage-reading">
+            <div class="passage-reading-column">
+                <h4>English</h4>
+                <div class="text">${formatText(englishText)}</div>
+            </div>
+            <div class="passage-reading-column">
+                <h4>中文</h4>
+                <div class="text translation">${formatText(chineseText)}</div>
+            </div>
+        </div>
+        <div class="passage-actions">
+            <button class="btn btn-outline btn-sm" onclick="backToList()">← 返回</button>
+            <button class="btn btn-danger btn-sm" onclick="deletePassage(${p.id})">删除</button>
+        </div>
+    `;
+
+    list.style.display = 'none';
+    content.classList.add('active');
+}
+
+function backToList() {
+    document.getElementById('passagesList').style.display = 'block';
+    document.getElementById('passageContent').classList.remove('active');
+    currentPassage = null;
+}
+
+// 状态更新
+function updateStatus(status, message) {
+    const bar = document.getElementById('statusBar');
+    const icon = document.getElementById('statusIcon');
+    const text = document.getElementById('statusText');
+    const time = document.getElementById('statusTime');
+
+    bar.style.display = 'flex';
+    text.textContent = message;
+
+    icon.className = 'status-icon ' + status;
+
+    if (status === 'loading') {
+        startTime = Date.now();
+        updateTimer();
+    } else if (status === 'success' || status === 'error') {
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        time.textContent = elapsed + 's';
+    }
+}
+
+function updateTimer() {
+    if (!startTime) return;
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+    document.getElementById('statusTime').textContent = elapsed + 's';
+    if (document.getElementById('statusIcon').classList.contains('loading')) {
+        setTimeout(updateTimer, 100);
+    }
+}
+
+async function generatePassage() {
+    const btn = document.getElementById('generateBtn');
+    const prompt = document.getElementById('promptTemplate').value;
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading" style="width: 14px; height: 14px; border-width: 2px;"></span> 生成中...';
+
+    updateStatus('loading', '正在调用大模型生成短文...');
+
+    try {
+        const r = await fetch('/api/passages/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ difficulty: 'intermediate', custom_prompt: prompt })
+        });
+        const data = await r.json();
+
+        if (data.success) {
+            updateStatus('success', `生成成功！使用 ${data.words_used?.length || 0} 个单词`);
+            currentPassage = data;
+            showGeneratedPassage(data);
+            loadPassages();
+        } else {
+            updateStatus('error', data.message || '生成失败');
+        }
+    } catch (e) {
+        updateStatus('error', '请求失败: ' + e.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>+</span> 生成新短文';
+    }
+}
+
+function showGeneratedPassage(data) {
+    const container = document.getElementById('currentPassage');
+
+    // 解析中英文内容
+    let englishText = '';
+    let chineseText = '';
+
+    if (data.content) {
+        const engMatch = data.content.match(/(?:English|英文)[：:]\s*([\s\S]*?)(?:Chinese|中文|$)/i);
+        const chnMatch = data.content.match(/(?:Chinese|中文)[：:]\s*([\s\S]*?)(?:📝|Word Check|$)/i);
+
+        if (engMatch && chnMatch) {
+            englishText = engMatch[1].trim();
+            chineseText = chnMatch[1].trim();
+        } else {
+            englishText = data.content;
+            chineseText = data.translation || '';
+        }
+    }
+
+    const formatText = (text) => {
+        return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    };
+
+    container.innerHTML = `
+        <div class="passage-card" style="margin-bottom: 24px;">
+            <div class="passage-card-title">${data.title || '新短文'}</div>
+            <div class="passage-reading" style="margin-top: 16px;">
+                <div class="passage-reading-column">
+                    <h4>English</h4>
+                    <div class="text">${formatText(englishText)}</div>
+                </div>
+                <div class="passage-reading-column">
+                    <h4>中文</h4>
+                    <div class="text translation">${formatText(chineseText)}</div>
+                </div>
+            </div>
+            <div class="passage-actions" style="margin-top: 16px;">
+                <button class="btn btn-primary btn-sm" onclick="saveNewPassage()">保存到数据库</button>
+            </div>
+        </div>
+    `;
+}
+
+async function saveNewPassage() {
+    if (!currentPassage || !currentPassage.content) return;
+
+    try {
+        const r = await fetch('/api/passages/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title: currentPassage.title || '短文',
+                content: currentPassage.content,
+                words_used: currentPassage.words_used || [],
+                translation: currentPassage.translation || ''
+            })
+        });
+        const data = await r.json();
+        if (data.success) {
+            showToast('保存成功！', 'success');
+            loadPassages();
+        }
+    } catch (e) {
+        showToast('保存失败', 'error');
+    }
+}
+
+async function deletePassage(id) {
+    if (!confirm('确定删除？')) return;
+    try {
+        const r = await fetch(`/api/passages/${id}`, { method: 'DELETE' });
+        const data = await r.json();
+        if (data.success) {
+            showToast('已删除', 'success');
+            backToList();
+            loadPassages();
+        }
+    } catch (e) {
+        showToast('删除失败', 'error');
+    }
+}
+
+async function clearPassages() {
+    if (!confirm('确定清空所有短文？')) return;
+    try {
+        const r = await fetch('/api/passages/clear', { method: 'POST' });
+        const data = await r.json();
+        if (data.success) {
+            showToast('已清空', 'success');
+            loadPassages();
+        }
+    } catch (e) {
+        showToast('清空失败', 'error');
+    }
+}
+
+function resetPrompt() {
+    document.getElementById('promptTemplate').value = DEFAULT_PROMPT;
+}
+
+// 页面加载
+document.addEventListener('DOMContentLoaded', function() {
+    loadPassages();
+    if (!document.getElementById('promptTemplate').value) {
+        document.getElementById('promptTemplate').value = DEFAULT_PROMPT;
+    }
+});
+</script>
+{% endblock %}

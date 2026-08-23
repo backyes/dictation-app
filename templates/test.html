@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}测试 - 英语听写练习{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title"><span class="icon">🔧</span>大模型API测试</h2>
+    </div>
+    <p style="color: var(--text-light); margin-bottom: 20px;">
+        测试大模型服务封装API是否正常工作，包括单词提取和提示生成功能。
+    </p>
+
+    <div class="flex gap-2">
+        <button class="btn btn-primary" onclick="testConnection()">🔌 测试连接</button>
+        <button class="btn btn-outline" onclick="testExtract()">🔍 测试单词提取</button>
+        <button class="btn btn-outline" onclick="testHint()">💡 测试提示生成</button>
+    </div>
+
+    <div id="testResult" class="mt-3"></div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title"><span class="icon">📝</span>测试用例</h2>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">测试单词提取 - 输入文本：</label>
+        <textarea id="extractTestInput" class="form-control" rows="4"
+            placeholder="输入测试文本...">今天要默写的单词有：apple, banana, cherry, date, elephant, forest, garden</textarea>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">测试提示生成 - 输入单词：</label>
+        <input type="text" id="hintTestInput" class="form-control" value="beautiful" placeholder="输入单词...">
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function showResult(title, content, isSuccess) {
+    const resultDiv = document.getElementById('testResult');
+    const icon = isSuccess ? '✅' : '❌';
+    const cls = isSuccess ? 'correct' : 'incorrect';
+    resultDiv.innerHTML = `
+        <div class="feedback ${cls}">
+            <span>${icon}</span>
+            <div>
+                <strong>${title}</strong>
+                <pre style="margin-top: 8px; white-space: pre-wrap; font-size: 0.9rem;">${content}</pre>
+            </div>
+        </div>
+    `;
+}
+
+function testConnection() {
+    const resultDiv = document.getElementById('testResult');
+    resultDiv.innerHTML = '<div class="loading"></span> 测试中...';
+
+    fetch('/api/test/connection')
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showResult('连接成功', data.message, true);
+        } else {
+            showResult('连接失败', data.message, false);
+        }
+    })
+    .catch(err => {
+        showResult('请求失败', err.message, false);
+    });
+}
+
+function testExtract() {
+    const text = document.getElementById('extractTestInput').value;
+    const resultDiv = document.getElementById('testResult');
+    resultDiv.innerHTML = '<div class="loading"></div> 提取中...';
+
+    fetch('/api/words/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showResult('提取成功', `共提取 ${data.count} 个单词:\n${data.words.join(', ')}`, true);
+        } else {
+            showResult('提取失败', data.message, false);
+        }
+    })
+    .catch(err => {
+        showResult('请求失败', err.message, false);
+    });
+}
+
+function testHint() {
+    const word = document.getElementById('hintTestInput').value.trim();
+    if (!word) {
+        showToast('请输入测试单词', 'error');
+        return;
+    }
+
+    const resultDiv = document.getElementById('testResult');
+    resultDiv.innerHTML = '<div class="loading"></div> 生成中...';
+
+    // 直接调用检查API（用一个模拟的word_id来触发提示生成）
+    // 实际上我们需要通过dictation/check接口来获得提示
+    // 这里我们临时创建一个单词来获得提示
+    fetch('/api/words/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ words: [word] })
+    })
+    .then(r => r.json())
+    .then(data => {
+        // 获取刚添加的单词ID
+        return fetch('/api/words')
+        .then(r => r.json())
+        .then(wordData => {
+            const wordObj = wordData.words.find(w => w.word === word.toLowerCase());
+            if (!wordObj) throw new Error('无法找到单词');
+
+            // 故意输入错误来触发提示
+            return fetch('/api/dictation/check', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    word_id: wordObj.id,
+                    user_input: 'wrong_answer'
+                })
+            });
+        });
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success && data.hint) {
+            const hint = data.hint;
+            const hintText = `翻译: ${hint.translation || 'N/A'}\n\n例句: ${hint.example || 'N/A'}\n${hint.example_translation || ''}\n\n记忆方法: ${hint.memory_tip || 'N/A'}`;
+            showResult('提示生成成功', hintText, true);
+        } else {
+            showResult('提示生成失败', data.message || '未知错误', false);
+        }
+    })
+    .catch(err => {
+        showResult('请求失败', err.message, false);
+    });
+}
+</script>
+{% endblock %}

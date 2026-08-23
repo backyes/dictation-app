@@ -1,0 +1,471 @@
+{% extends "base.html" %}
+{% block title %}系统可观测性 - 英语听写练习{% endblock %}
+
+{% block extra_css %}
+<style>
+    .obs-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .obs-full { grid-column: 1 / -1; }
+    .obs-card { background: var(--white); border-radius: var(--radius-md); padding: 20px; border: 1px solid var(--border-light); }
+    .obs-card h3 { color: var(--green-deep); margin-bottom: 12px; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+
+    /* 日志控制台 */
+    .log-console {
+        background: #1a1a2e;
+        border-radius: var(--radius-sm);
+        padding: 12px;
+        height: 400px;
+        overflow-y: auto;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78rem;
+        line-height: 1.6;
+    }
+    .log-line { display: flex; gap: 8px; padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .log-time { color: #6b7280; flex-shrink: 0; }
+    .log-level { flex-shrink: 0; width: 45px; font-weight: 600; }
+    .log-level-info { color: #3b82f6; }
+    .log-level-error { color: #ef4444; }
+    .log-level-warn { color: #f59e0b; }
+    .log-level-debug { color: #8b5cf6; }
+    .log-module { color: #06b6d4; flex-shrink: 0; }
+    .log-message { color: #e5e7eb; flex: 1; word-break: break-all; }
+    .log-data { margin-left: 20px; color: #9ca3af; }
+    .log-data summary { cursor: pointer; }
+    .log-data pre { background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; overflow-x: auto; margin-top: 4px; }
+
+    .log-filters { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .log-filters select, .log-filters button { padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; }
+    .log-filters select { background: var(--bg-warm); border: 1px solid var(--border); }
+
+    /* 数据库探索器 */
+    .db-query-box { display: flex; gap: 8px; margin-bottom: 12px; }
+    .db-query-box input { flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+    .db-results { overflow-x: auto; max-height: 350px; overflow-y: auto; }
+    .db-results table { font-size: 0.78rem; width: 100%; }
+    .db-results th { background: var(--green-light); color: var(--green-deep); padding: 6px 10px; white-space: nowrap; }
+    .db-results td { padding: 5px 10px; border-bottom: 1px solid var(--border-light); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .db-results tr:hover td { background: var(--bg-warm); }
+
+    /* LLM 追踪 */
+    .llm-trace-item { padding: 10px; border-bottom: 1px solid var(--border-light); cursor: pointer; transition: background 0.2s; }
+    .llm-trace-item:hover { background: var(--bg-warm); }
+    .llm-trace-header { display: flex; justify-content: space-between; align-items: center; }
+    .llm-trace-time { font-size: 0.75rem; color: var(--text-muted); }
+    .llm-trace-status { padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 600; }
+    .llm-trace-status-success { background: var(--success-soft); color: var(--success); }
+    .llm-trace-status-error { background: var(--danger-soft); color: var(--danger); }
+    .llm-trace-detail { margin-top: 8px; padding: 10px; background: var(--bg-warm); border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; white-space: pre-wrap; word-break: break-all; max-height: 200px; overflow-y: auto; }
+
+    /* 系统状态 */
+    .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+    .status-item { text-align: center; padding: 12px; background: var(--bg-warm); border-radius: var(--radius-sm); }
+    .status-value { font-size: 1.5rem; font-weight: 700; color: var(--green); }
+    .status-label { font-size: 0.75rem; color: var(--text-light); margin-top: 4px; }
+
+    /* 快速操作 */
+    .quick-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    @media (max-width: 768px) {
+        .obs-container { grid-template-columns: 1fr; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 style="color: var(--green-deep); margin-bottom: 20px; font-family: 'Libre Baskerville', serif;">
+    🔍 系统可观测性中心
+</h2>
+
+<div class="obs-container">
+    <!-- 系统状态 -->
+    <div class="obs-card">
+        <h3>📊 系统状态</h3>
+        <div id="systemStatus" class="status-grid">
+            <div class="status-item">
+                <div class="status-value" id="statTotal">-</div>
+                <div class="stat-label">总单词</div>
+            </div>
+            <div class="status-item">
+                <div class="status-value" id="statRight">-</div>
+                <div class="stat-label">已掌握</div>
+            </div>
+            <div class="status-item">
+                <div class="status-value" id="statWrong">-</div>
+                <div class="stat-label">有错误</div>
+            </div>
+            <div class="status-item">
+                <div class="status-value" id="statAccuracy">-</div>
+                <div class="stat-label">正确率</div>
+            </div>
+        </div>
+        <div style="margin-top: 12px;">
+            <h4 style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px;">LLM 提供商</h4>
+            <div id="providerInfo" style="font-size: 0.82rem;">加载中...</div>
+        </div>
+        <div class="quick-actions" style="margin-top: 12px;">
+            <button class="btn btn-primary btn-sm" onclick="testConnection()">🔌 测试连接</button>
+            <button class="btn btn-outline btn-sm" onclick="refreshStatus()">🔄 刷新</button>
+        </div>
+        <div id="connectionResult" style="margin-top: 8px; font-size: 0.82rem;"></div>
+    </div>
+
+    <!-- 快速操作 -->
+    <div class="obs-card">
+        <h3>⚡ 快速操作</h3>
+        <div class="quick-actions">
+            <button class="btn btn-primary btn-sm" onclick="generateMeanings()">✨ 生成全部释义</button>
+            <button class="btn btn-warning btn-sm" onclick="clearAllWords()">🗑️ 清空词库</button>
+            <button class="btn btn-outline btn-sm" onclick="exportData()">📥 导出数据</button>
+            <button class="btn btn-outline btn-sm" onclick="clearLogs()">🧹 清空日志</button>
+        </div>
+        <div id="operationResult" style="margin-top: 12px; font-size: 0.82rem;"></div>
+    </div>
+
+    <!-- 日志控制台 -->
+    <div class="obs-card obs-full">
+        <h3>📋 系统日志</h3>
+        <div class="log-filters">
+            <select id="logLevelFilter" onchange="filterLogs()">
+                <option value="all">所有级别</option>
+                <option value="info">INFO</option>
+                <option value="error">ERROR</option>
+                <option value="warn">WARN</option>
+                <option value="debug">DEBUG</option>
+            </select>
+            <select id="logModuleFilter" onchange="filterLogs()">
+                <option value="all">所有模块</option>
+                <option value="llm_service">LLM 服务</option>
+                <option value="database">数据库</option>
+                <option value="api">API</option>
+                <option value="system">系统</option>
+            </select>
+            <button class="btn btn-outline btn-sm" onclick="refreshLogs()">🔄 刷新</button>
+            <button class="btn btn-outline btn-sm" onclick="logConsole.clear()">🧹 清空</button>
+        </div>
+        <div id="logConsole" class="log-console">
+            <div class="log-line"><span class="log-message" style="color: #6b7280;">等待日志...</span></div>
+        </div>
+    </div>
+
+    <!-- 数据库探索器 -->
+    <div class="obs-card">
+        <h3>🗄️ 数据库查询</h3>
+        <div class="db-query-box">
+            <input type="text" id="dbQuery" placeholder="输入 SQL 查询，如: SELECT * FROM dictation_words_library LIMIT 10"
+                onkeypress="if(event.key==='Enter')executeQuery()">
+            <button class="btn btn-primary btn-sm" onclick="executeQuery()">执行</button>
+        </div>
+        <div style="display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-sm" onclick="quickQuery('all_words')">📚 全部单词</button>
+            <button class="btn btn-outline btn-sm" onclick="quickQuery('wrong_words')">❌ 错误单词</button>
+            <button class="btn btn-outline btn-sm" onclick="quickQuery('recent_history')">🕐 最近记录</button>
+            <button class="btn btn-outline btn-sm" onclick="quickQuery('providers')">🔧 提供商</button>
+        </div>
+        <div id="dbResults" class="db-results">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">输入 SQL 或点击快捷按钮查询</p>
+        </div>
+    </div>
+
+    <!-- LLM 请求追踪 -->
+    <div class="obs-card">
+        <h3>🤖 LLM 请求追踪</h3>
+        <div style="margin-bottom: 8px;">
+            <button class="btn btn-outline btn-sm" onclick="refreshTraces()">🔄 刷新追踪</button>
+        </div>
+        <div id="llmTraces" style="max-height: 350px; overflow-y: auto;">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">暂无追踪记录</p>
+        </div>
+    </div>
+
+    <!-- API 测试 -->
+    <div class="obs-card obs-full">
+        <h3>🔧 API 测试工具</h3>
+        <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-sm" onclick="testApi('GET', '/api/statistics')">统计</button>
+            <button class="btn btn-outline btn-sm" onclick="testApi('GET', '/api/words')">单词列表</button>
+            <button class="btn btn-outline btn-sm" onclick="testApi('GET', '/api/providers')">提供商</button>
+            <button class="btn btn-outline btn-sm" onclick="testApi('GET', '/api/dictation/session')">听写会话</button>
+            <button class="btn btn-outline btn-sm" onclick="testApi('GET', '/api/history')">历史记录</button>
+        </div>
+        <div class="db-query-box">
+            <input type="text" id="apiPath" placeholder="API 路径，如: /api/words">
+            <select id="apiMethod" style="width: 80px; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-sm);">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+            </select>
+            <button class="btn btn-primary btn-sm" onclick="testCustomApi()">发送</button>
+        </div>
+        <div id="apiResult" style="margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; background: var(--bg-warm); padding: 12px; border-radius: var(--radius-sm); max-height: 200px; overflow-y: auto; display: none;"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/observability.js') }}"></script>
+<script>
+// 初始化
+document.addEventListener('DOMContentLoaded', function() {
+    refreshStatus();
+    refreshLogs();
+    refreshTraces();
+});
+
+// ==================== 系统状态 ====================
+async function refreshStatus() {
+    logConsole.addLog('info', 'system', '刷新系统状态...');
+
+    try {
+        const stats = await systemMonitor.getStatus();
+        if (stats.success) {
+            document.getElementById('statTotal').textContent = stats.stats.total;
+            document.getElementById('statRight').textContent = stats.stats.right;
+            document.getElementById('statWrong').textContent = stats.stats.wrong;
+            document.getElementById('statAccuracy').textContent = stats.stats.accuracy + '%';
+        }
+
+        const providers = await systemMonitor.getActiveProvider();
+        if (providers.success) {
+            const active = providers.providers.find(p => p.is_active);
+            document.getElementById('providerInfo').innerHTML = active
+                ? `<strong style="color: var(--green);">✅ ${active.name}</strong> (${active.model})`
+                : '<span style="color: var(--danger);">⚠️ 无激活提供商</span>';
+        }
+
+        logConsole.addLog('info', 'system', '系统状态已刷新');
+    } catch (e) {
+        logConsole.addLog('error', 'system', '刷新失败: ' + e.message);
+    }
+}
+
+async function testConnection() {
+    const resultDiv = document.getElementById('connectionResult');
+    resultDiv.innerHTML = '<span style="color: var(--warning);">测试中...</span>';
+    logConsole.addLog('info', 'llm_service', '测试 LLM 连接...');
+
+    const result = await systemMonitor.testConnection();
+    if (result.success) {
+        resultDiv.innerHTML = `<span style="color: var(--success);">✅ ${result.message} (${result.elapsed}ms)</span>`;
+        logConsole.addLog('info', 'llm_service', `连接成功: ${result.message}`, { elapsed: result.elapsed });
+    } else {
+        resultDiv.innerHTML = `<span style="color: var(--danger);">❌ ${result.message} (${result.elapsed}ms)</span>`;
+        logConsole.addLog('error', 'llm_service', `连接失败: ${result.message}`, { elapsed: result.elapsed });
+    }
+}
+
+// ==================== 快速操作 ====================
+async function generateMeanings() {
+    logConsole.addLog('info', 'system', '开始批量生成释义...');
+    try {
+        const r = await fetch('/api/words/generate-meanings', { method: 'POST' });
+        const data = await r.json();
+        if (data.success) {
+            showOperationResult(`释义生成完成: 成功 ${data.success}, 失败 ${data.failed}`);
+            logConsole.addLog('info', 'llm_service', `批量生成完成: 成功 ${data.success}, 失败 ${data.failed}`);
+        } else {
+            showOperationResult('生成失败: ' + data.message);
+            logConsole.addLog('error', 'llm_service', '批量生成失败: ' + data.message);
+        }
+    } catch (e) {
+        logConsole.addLog('error', 'system', '请求失败: ' + e.message);
+    }
+}
+
+async function clearAllWords() {
+    if (!confirm('确定要清空所有单词吗？')) return;
+    logConsole.addLog('warn', 'system', '清空词库...');
+    try {
+        const r = await fetch('/api/words/clear', { method: 'POST' });
+        const data = await r.json();
+        if (data.success) {
+            showOperationResult('词库已清空');
+            logConsole.addLog('warn', 'database', '词库已清空');
+            refreshStatus();
+        }
+    } catch (e) {
+        logConsole.addLog('error', 'system', '清空失败: ' + e.message);
+    }
+}
+
+function exportData() {
+    fetch('/api/words').then(r => r.json()).then(data => {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'words_export_' + new Date().toISOString().slice(0, 10) + '.json';
+        a.click();
+        logConsole.addLog('info', 'system', '数据已导出');
+    });
+}
+
+function clearLogs() {
+    logConsole.clear();
+}
+
+function showOperationResult(msg) {
+    document.getElementById('operationResult').innerHTML = `<span style="color: var(--green);">${msg}</span>`;
+    setTimeout(() => { document.getElementById('operationResult').innerHTML = ''; }, 5000);
+}
+
+// ==================== 日志 ====================
+async function refreshLogs() {
+    try {
+        const r = await fetch('/api/admin/logs');
+        const data = await r.json();
+        if (data.success) {
+            logConsole.clear();
+            data.logs.forEach(log => {
+                logConsole.addLog(log.level, log.module, log.message, log.data);
+            });
+        }
+    } catch (e) {
+        logConsole.addLog('error', 'system', '获取日志失败: ' + e.message);
+    }
+}
+
+function filterLogs() {
+    const level = document.getElementById('logLevelFilter').value;
+    const module = document.getElementById('logModuleFilter').value;
+    logConsole.setFilter(level, module);
+}
+
+// ==================== 数据库查询 ====================
+async function executeQuery() {
+    const sql = document.getElementById('dbQuery').value.trim();
+    if (!sql) return;
+
+    logConsole.addLog('info', 'database', '执行查询: ' + sql);
+    const resultDiv = document.getElementById('dbResults');
+    resultDiv.innerHTML = '<p style="color: var(--warning);">查询中...</p>';
+
+    try {
+        const r = await fetch('/api/admin/query', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sql })
+        });
+        const data = await r.json();
+        if (data.success) {
+            renderQueryResults(data.results);
+            logConsole.addLog('info', 'database', `查询返回 ${data.results.length} 行`);
+        } else {
+            resultDiv.innerHTML = `<p style="color: var(--danger);">错误: ${data.message}</p>`;
+            logConsole.addLog('error', 'database', '查询失败: ' + data.message);
+        }
+    } catch (e) {
+        resultDiv.innerHTML = `<p style="color: var(--danger);">请求失败: ${e.message}</p>`;
+    }
+}
+
+function renderQueryResults(rows) {
+    const resultDiv = document.getElementById('dbResults');
+    if (!rows || rows.length === 0) {
+        resultDiv.innerHTML = '<p style="color: var(--text-muted);">无结果</p>';
+        return;
+    }
+
+    const headers = Object.keys(rows[0]);
+    let html = '<table><thead><tr>';
+    headers.forEach(h => { html += `<th>${h}</th>`; });
+    html += '</tr></thead><tbody>';
+
+    rows.forEach(row => {
+        html += '<tr>';
+        headers.forEach(h => {
+            const val = row[h] !== null ? String(row[h]) : '<em style="color:#ccc;">NULL</em>';
+            html += `<td title="${val.replace(/"/g, '&quot;')}')}>${val.length > 50 ? val.slice(0, 50) + '...' : val}</td>`;
+        });
+        html += '</tr>';
+    });
+    html += '</tbody></table>';
+    resultDiv.innerHTML = html;
+}
+
+function quickQuery(type) {
+    const queries = {
+        all_words: 'SELECT id, word, meaning, phonetic, status, error_count FROM dictation_words_library',
+        wrong_words: 'SELECT id, word, meaning, error_count FROM dictation_words_library WHERE error_count > 0 ORDER BY error_count DESC',
+        recent_history: 'SELECT h.*, w.word FROM dictation_history h JOIN dictation_words_library w ON h.word_id = w.id ORDER BY h.created_at DESC LIMIT 20',
+        providers: 'SELECT id, name, provider_type, model, base_url, is_active FROM llm_providers'
+    };
+    document.getElementById('dbQuery').value = queries[type];
+    executeQuery();
+}
+
+// ==================== LLM 追踪 ====================
+async function refreshTraces() {
+    try {
+        const r = await fetch('/api/admin/llm-traces');
+        const data = await r.json();
+        const container = document.getElementById('llmTraces');
+
+        if (data.success && data.traces.length > 0) {
+            container.innerHTML = data.traces.map(t => `
+                <div class="llm-trace-item" onclick="toggleTraceDetail('${t.id}')">
+                    <div class="llm-trace-header">
+                        <span>
+                            <span class="llm-trace-status ${t.success ? 'llm-trace-status-success' : 'llm-trace-status-error'}">
+                                ${t.success ? '✅' : '❌'}
+                            </span>
+                            <strong>${t.operation}</strong>
+                            <span style="color: var(--text-muted); margin-left: 8px;">${t.model}</span>
+                        </span>
+                        <span class="llm-trace-time">${t.timestamp} (${t.elapsed}ms)</span>
+                    </div>
+                    <div style="color: var(--text-light); font-size: 0.8rem; margin-top: 4px;">
+                        ${t.message}
+                    </div>
+                    <div id="trace-${t.id}" class="llm-trace-detail" style="display: none;"></div>
+                </div>
+            `).join('');
+        } else {
+            container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">暂无追踪记录</p>';
+        }
+    } catch (e) {
+        logConsole.addLog('error', 'system', '获取追踪失败: ' + e.message);
+    }
+}
+
+async function toggleTraceDetail(traceId) {
+    const detail = document.getElementById(`trace-${traceId}`);
+    if (detail.style.display === 'none') {
+        try {
+            const r = await fetch(`/api/admin/llm-traces/${traceId}`);
+            const data = await r.json();
+            if (data.success) {
+                detail.textContent = JSON.stringify(data.trace, null, 2);
+                detail.style.display = 'block';
+            }
+        } catch (e) {
+            detail.textContent = '加载失败: ' + e.message;
+            detail.style.display = 'block';
+        }
+    } else {
+        detail.style.display = 'none';
+    }
+}
+
+// ==================== API 测试 ====================
+async function testApi(method, path) {
+    logConsole.addLog('info', 'api', `测试 API: ${method} ${path}`);
+    const resultDiv = document.getElementById('apiResult');
+    resultDiv.style.display = 'block';
+    resultDiv.textContent = '请求中...';
+
+    try {
+        const r = await fetch(path, { method });
+        const data = await r.json();
+        resultDiv.textContent = `Status: ${r.status}\n\n${JSON.stringify(data, null, 2)}`;
+        logConsole.addLog('info', 'api', `API 响应: ${r.status}`, { path, status: r.status });
+    } catch (e) {
+        resultDiv.textContent = `Error: ${e.message}`;
+    }
+}
+
+async function testCustomApi() {
+    const path = document.getElementById('apiPath').value.trim();
+    const method = document.getElementById('apiMethod').value;
+    if (!path) return;
+    testApi(method, path);
+}
+</script>
+{% endblock %}

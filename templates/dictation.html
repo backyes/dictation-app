@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+{% block title %}听写{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dictation-page {
+        max-width: 600px;
+        margin: 0 auto;
+        min-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .dictation-clue {
+        font-size: 3.5rem;
+        font-weight: 600;
+        color: var(--text);
+        margin: 28px 0;
+        font-family: 'SF Mono', 'Monaco', monospace;
+        letter-spacing: 6px;
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+
+    .dictation-clue .blank {
+        color: #d1d5db;
+    }
+
+    .dictation-phonetic {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 12px;
+    }
+
+    .dictation-meaning {
+        font-size: 1.3rem;
+        color: var(--text);
+        margin-bottom: 20px;
+    }
+
+    .dictation-example {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 40px;
+        font-style: italic;
+    }
+
+    .dictation-example .blank {
+        color: var(--text);
+        font-weight: 600;
+        border-bottom: 1px solid var(--text);
+        padding: 0 2px;
+    }
+
+    .dictation-input {
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        font-size: 1.4rem;
+        padding: 14px 20px;
+        border: none;
+        border-bottom: 1px solid var(--border);
+        background: transparent;
+        font-family: 'SF Mono', 'Monaco', monospace;
+        letter-spacing: 3px;
+        transition: border-color 0.15s;
+    }
+
+    .dictation-input:focus {
+        outline: none;
+        border-bottom-color: var(--text);
+    }
+
+    .dictation-input::placeholder {
+        color: var(--text-muted);
+    }
+
+    .dictation-input:disabled {
+        color: var(--text-muted);
+    }
+
+    .dictation-feedback {
+        margin: 24px auto;
+        min-height: 32px;
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    .dictation-feedback.correct {
+        color: var(--accent);
+    }
+
+    .dictation-feedback.incorrect {
+        color: var(--danger);
+    }
+
+    .dictation-tip {
+        margin-top: 16px;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .dictation-progress {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 28px;
+    }
+
+    .dictation-completed {
+        text-align: center;
+    }
+
+    .dictation-completed .icon {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .dictation-completed h3 {
+        color: var(--text);
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
+    .dictation-completed p {
+        color: var(--text-secondary);
+        font-size: 1rem;
+    }
+
+    .dictation-completed .actions {
+        margin-top: 28px;
+    }
+
+    .dictation-loading {
+        text-align: center;
+        color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+        .dictation-page { min-height: 60vh; padding: 20px 16px; }
+        .dictation-clue { font-size: 2.5rem; letter-spacing: 4px; white-space: nowrap; }
+        .dictation-meaning { font-size: 1.1rem; }
+        .dictation-example { font-size: 1rem; }
+        .dictation-input { font-size: 1.2rem; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dictation-page">
+    <!-- 加载状态 -->
+    <div id="startSection" class="dictation-loading">
+        <div class="loading" style="width: 28px; height: 28px; border-width: 2px;"></div>
+    </div>
+
+    <!-- 听写区域 -->
+    <div id="dictationSection" style="display: none;">
+        <div id="clueDisplay" class="dictation-clue"></div>
+        <div id="phoneticDisplay" class="dictation-phonetic"></div>
+        <div id="meaningDisplay" class="dictation-meaning"></div>
+        <div id="exampleDisplay" class="dictation-example"></div>
+
+        <input type="text" id="answerInput" class="dictation-input"
+            placeholder="输入单词" autocomplete="off" autofocus>
+
+        <div id="feedbackArea" class="dictation-feedback"></div>
+        <div id="hintArea" class="dictation-tip"></div>
+
+        <div class="dictation-progress">
+            <span id="progressText">0 / 0</span>
+        </div>
+    </div>
+
+    <!-- 完成界面 -->
+    <div id="completeSection" style="display: none;">
+        <div class="dictation-completed">
+            <div class="icon">✓</div>
+            <h3>本轮完成</h3>
+            <div id="sessionSummary"></div>
+            <div class="actions">
+                <button class="btn btn-primary btn-sm" onclick="startNewSession()">继续</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentSession = [];
+let currentIndex = 0;
+let sessionStats = { correct: 0, wrong: 0, total: 0 };
+
+document.addEventListener('DOMContentLoaded', function() {
+    startNewSession();
+});
+
+function startNewSession() {
+    document.getElementById('startSection').style.display = 'block';
+    document.getElementById('completeSection').style.display = 'none';
+    document.getElementById('dictationSection').style.display = 'none';
+
+    fetch('/api/dictation/session')
+    .then(r => r.json())
+    .then(data => {
+        if (!data.success) {
+            showToast(data.message, 'error');
+            return;
+        }
+
+        currentSession = data.session;
+        currentIndex = 0;
+        sessionStats = { correct: 0, wrong: 0, total: data.total };
+
+        if (data.total === 0) {
+            showComplete();
+            return;
+        }
+
+        document.getElementById('startSection').style.display = 'none';
+        document.getElementById('dictationSection').style.display = 'block';
+        showCurrentWord();
+    })
+    .catch(err => {
+        showToast('获取听写会话失败: ' + err.message, 'error');
+    });
+}
+
+function showCurrentWord() {
+    if (currentIndex >= currentSession.length) {
+        showComplete();
+        return;
+    }
+
+    const word = currentSession[currentIndex];
+    document.getElementById('progressText').textContent = `${currentIndex + 1} / ${currentSession.length}`;
+    document.getElementById('answerInput').value = '';
+    document.getElementById('answerInput').disabled = false;
+    document.getElementById('answerInput').focus();
+    document.getElementById('feedbackArea').innerHTML = '';
+    document.getElementById('hintArea').innerHTML = '';
+
+    // 填空线索：显示首尾字母，中间用下划线
+    const clueEl = document.getElementById('clueDisplay');
+    if (word.word && word.word.length > 2) {
+        const w = word.word;
+        let clue = w[0];
+        for (let i = 1; i < w.length - 1; i++) {
+            clue += '<span class="blank"> _ </span>';
+        }
+        clue += w[w.length - 1];
+        clueEl.innerHTML = clue;
+        clueEl.style.display = 'block';
+    } else if (word.word) {
+        clueEl.textContent = word.word[0] + ' _ '.repeat(word.word.length - 1);
+        clueEl.style.display = 'block';
+    } else {
+        clueEl.style.display = 'none';
+    }
+
+    // 音标
+    const phoneticEl = document.getElementById('phoneticDisplay');
+    if (word.phonetic) {
+        phoneticEl.textContent = word.phonetic;
+        phoneticEl.style.display = 'block';
+    } else {
+        phoneticEl.style.display = 'none';
+    }
+
+    // 释义
+    const meaningEl = document.getElementById('meaningDisplay');
+    if (word.meaning) {
+        meaningEl.textContent = word.meaning;
+        meaningEl.style.display = 'block';
+    } else {
+        meaningEl.style.display = 'none';
+    }
+
+    // 例句（单词用下划线替代）
+    const exampleEl = document.getElementById('exampleDisplay');
+    if (word.example) {
+        let displayExample = word.example;
+        if (displayExample.includes('______')) {
+            displayExample = displayExample.replace(/______/g, '<span class="blank">______</span>');
+        } else if (word.word) {
+            const wordPattern = new RegExp('\\b' + word.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+            displayExample = displayExample.replace(wordPattern, '<span class="blank">______</span>');
+        }
+        exampleEl.innerHTML = displayExample;
+        exampleEl.style.display = 'block';
+    } else {
+        exampleEl.style.display = 'none';
+    }
+}
+
+function submitAnswer() {
+    const input = document.getElementById('answerInput');
+    const userAnswer = input.value.trim();
+
+    if (!userAnswer) return;
+
+    const word = currentSession[currentIndex];
+    console.log('[Dictation] submit:', userAnswer, 'for word:', word.word);
+
+    fetch('/api/dictation/check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            word_id: word.id,
+            user_input: userAnswer
+        })
+    })
+    .then(r => {
+        console.log('[Dictation] response status:', r.status);
+        return r.json();
+    })
+    .then(data => {
+        console.log('[Dictation] result:', data);
+        if (data.success) {
+            if (data.is_correct) {
+                sessionStats.correct++;
+                document.getElementById('feedbackArea').innerHTML = '<span>✓</span>';
+                document.getElementById('feedbackArea').className = 'dictation-feedback correct';
+                input.disabled = true;
+                setTimeout(() => nextWord(), 800);
+            } else {
+                sessionStats.wrong++;
+                document.getElementById('feedbackArea').innerHTML = `<span>✗ ${data.correct_word}</span>`;
+                document.getElementById('feedbackArea').className = 'dictation-feedback incorrect';
+                input.disabled = true;
+
+                // 显示记忆提示
+                if (data.hint && data.hint.memory_tip) {
+                    document.getElementById('hintArea').textContent = data.hint.memory_tip;
+                }
+
+                setTimeout(() => nextWord(), 2500);
+            }
+        } else {
+            console.error('[Dictation] API error:', data.message);
+            showToast(data.message, 'error');
+            input.disabled = false;
+        }
+    })
+    .catch(err => {
+        console.error('[Dictation] fetch error:', err);
+        showToast('提交失败: ' + err.message, 'error');
+        input.disabled = false;
+    });
+}
+
+function nextWord() {
+    currentIndex++;
+    showCurrentWord();
+}
+
+function showComplete() {
+    document.getElementById('dictationSection').style.display = 'none';
+    document.getElementById('completeSection').style.display = 'block';
+
+    const accuracy = sessionStats.total > 0
+        ? Math.round(sessionStats.correct / sessionStats.total * 100)
+        : 0;
+
+    document.getElementById('sessionSummary').innerHTML = `
+        <span>${sessionStats.total} 词</span>
+        <span style="color: var(--accent); margin-left: 12px;">正确 ${sessionStats.correct}</span>
+        <span style="color: var(--danger); margin-left: 12px;">错误 ${sessionStats.wrong}</span>
+        <span style="margin-left: 12px;">${accuracy}%</span>
+    `;
+}
+
+// 回车提交
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        const section = document.getElementById('dictationSection');
+        if (section.style.display !== 'none') {
+            const feedback = document.getElementById('feedbackArea');
+            const input = document.getElementById('answerInput');
+
+            // 如果已经给出反馈，进入下一题
+            if (feedback.innerHTML.includes('✓') || feedback.innerHTML.includes('✗')) {
+                nextWord();
+            } else if (!input.disabled && input.value.trim()) {
+                // 如果有输入且未禁用，提交答案
+                e.preventDefault();
+                submitAnswer();
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
