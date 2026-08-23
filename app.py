@@ -627,13 +627,14 @@ def api_admin_status():
     stats = get_statistics()
     providers = get_all_providers()
     active = get_active_provider()
+    logs = get_logs(limit=1)
     return jsonify({
         'success': True,
         'stats': stats,
         'providers': providers,
         'active_provider': active['name'] if active else None,
-        'log_count': len(system_logs),
-        'trace_count': len(llm_traces)
+        'log_count': len(logs),
+        'trace_count': len(get_traces())
     })
 
 
@@ -644,30 +645,24 @@ def api_admin_logs():
     module = request.args.get('module', 'all')
     limit = int(request.args.get('limit', 200))
 
-    filtered = list(system_logs)
-    if level != 'all':
-        filtered = [l for l in filtered if l['level'] == level]
-    if module != 'all':
-        filtered = [l for l in filtered if l['module'] == module]
-    filtered = filtered[-limit:]
+    filtered = get_logs(level=level, module=module, limit=limit)
 
-    return jsonify({'success': True, 'logs': filtered, 'total': len(system_logs)})
+    return jsonify({'success': True, 'logs': filtered, 'total': len(filtered)})
 
 
 @app.route('/api/admin/llm-traces', methods=['GET'])
 def api_admin_llm_traces():
     """获取 LLM 请求追踪列表"""
-    traces = list(llm_traces)[-50:]
-    traces.reverse()
+    traces = get_traces(limit=50)
     return jsonify({'success': True, 'traces': traces})
 
 
 @app.route('/api/admin/llm-traces/<trace_id>', methods=['GET'])
 def api_admin_llm_trace_detail(trace_id):
     """获取单条 LLM 追踪详情"""
-    for trace in llm_traces:
-        if trace['id'] == trace_id:
-            return jsonify({'success': True, 'trace': trace})
+    trace = get_trace_detail(trace_id)
+    if trace:
+        return jsonify({'success': True, 'trace': trace})
     return jsonify({'success': False, 'message': '追踪记录不存在'})
 
 
