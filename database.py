@@ -185,10 +185,10 @@ def get_wrong_words() -> list:
 
 
 def mark_word_correct(word_id: int):
-    """标记单词为正确"""
+    """标记单词为正确，错误次数归零"""
     conn = get_db()
     conn.execute(
-        "UPDATE dictation_words_library SET status = 'right', updated_at = ? WHERE id = ?",
+        "UPDATE dictation_words_library SET status = 'right', error_count = 0, updated_at = ? WHERE id = ?",
         (datetime.now().isoformat(), word_id)
     )
     conn.commit()

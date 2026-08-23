@@ -512,13 +512,8 @@ def api_dictation_check():
 
     if is_correct:
         record_correct_answer(word_id, user_input)
-        # 如果之前是错误状态，现在对了，检查是否要标记为right
-        if word_row['status'] == 'wrong':
-            # 需要连续正确2次才标记为right（增加鲁棒性）
-            mark_word_correct(word_id)
-        elif word_row['error_count'] == 0:
-            # 从未错过，直接标记为right
-            mark_word_correct(word_id)
+        # 一次性答对：错误次数归零，标记为right，降低听写频率
+        mark_word_correct(word_id)
     else:
         mark_word_wrong(word_id, user_input)
 
