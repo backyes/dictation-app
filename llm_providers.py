@@ -146,18 +146,10 @@ class AnthropicProvider(BaseLLMProvider):
 
         return client_kwargs
 
-    def _setup_auth_header(self, client):
-        """手动设置 Authorization 头（LongCat 兼容）"""
-        auth_token = self.config.get('auth_token', '')
-        if auth_token:
-            client._client.headers['Authorization'] = f'Bearer {auth_token}'
-            client._client.headers['anthropic-version'] = '2023-06-01'
-
     def chat(self, messages: list, **kwargs) -> str:
         import anthropic
 
         client = anthropic.Anthropic(**self._get_client_kwargs())
-        self._setup_auth_header(client)
 
         # 转换消息格式（提取 system 消息）
         system_msg = ''
@@ -204,7 +196,6 @@ class AnthropicProvider(BaseLLMProvider):
         try:
             import anthropic
             client = anthropic.Anthropic(**self._get_client_kwargs())
-            self._setup_auth_header(client)
             response = client.messages.create(
                 model=self.config.get('model', 'claude-sonnet-4-20250514'),
                 max_tokens=50,
