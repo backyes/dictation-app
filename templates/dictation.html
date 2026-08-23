@@ -246,19 +246,36 @@ function showCurrentWord() {
     document.getElementById('feedbackArea').innerHTML = '';
     document.getElementById('hintArea').innerHTML = '';
 
-    // 填空线索：显示首尾字母，中间用下划线
+    // 填空线索：显示超过50%的字母（随机选择位置）
     const clueEl = document.getElementById('clueDisplay');
-    if (word.word && word.word.length > 2) {
+    if (word.word && word.word.length > 1) {
         const w = word.word;
-        let clue = w[0];
-        for (let i = 1; i < w.length - 1; i++) {
-            clue += '<span class="blank"> _ </span>';
+        const len = w.length;
+        // 计算需要显示的字母数量（至少60%，向上取整）
+        const showCount = Math.ceil(len * 0.6);
+        // 随机选择要显示的位置
+        const positions = Array.from({length: len}, (_, i) => i);
+        // 始终显示首字母
+        const showPositions = new Set([0]);
+        // 随机选择剩余位置
+        const remaining = positions.slice(1);
+        for (let i = remaining.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [remaining[i], remaining[j]] = [remaining[j], remaining[i]];
         }
-        clue += w[w.length - 1];
+        for (let i = 0; i < showCount - 1 && i < remaining.length; i++) {
+            showPositions.add(remaining[i]);
+        }
+        // 构建线索字符串
+        let clue = '';
+        for (let i = 0; i < len; i++) {
+            if (showPositions.has(i)) {
+                clue += w[i];
+            } else {
+                clue += '<span class="blank">_</span>';
+            }
+        }
         clueEl.innerHTML = clue;
-        clueEl.style.display = 'block';
-    } else if (word.word) {
-        clueEl.textContent = word.word[0] + ' _ '.repeat(word.word.length - 1);
         clueEl.style.display = 'block';
     } else {
         clueEl.style.display = 'none';
