@@ -1,0 +1,24 @@
+# Render.com 部署配置
+# 文档: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: dictation-app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.15"
+      - key: ANTHROPIC_AUTH_TOKEN
+        sync: false
+      - key: ANTHROPIC_BASE_URL
+        value: "https://api.longcat.chat/anthropic"
+      - key: LLM_MODEL
+        value: "LongCat-2.0"
+      - key: SECRET_KEY
+        generateValue: true
+    disk:
+      name: data
+      mountPath: /opt/render/project/src/instance
+      sizeGB: 1
