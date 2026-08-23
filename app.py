@@ -12,47 +12,7 @@ import re
 from config import Config
 
 # ==================== 系统日志和追踪 ====================
-# 内存日志缓冲区（最近 500 条）
-system_logs = deque(maxlen=500)
-# LLM 请求追踪（最近 100 条）
-llm_traces = deque(maxlen=100)
-
-def add_log(level, module, message, data=None):
-    """添加系统日志"""
-    log_entry = {
-        'id': f"{time.time()}_{random.randint(1000, 9999)}",
-        'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
-        'level': level,
-        'module': module,
-        'message': message,
-        'data': data
-    }
-    system_logs.append(log_entry)
-    # 同时输出到标准日志
-    logger = logging.getLogger(module)
-    if level == 'error':
-        logger.error(message)
-    elif level == 'warn':
-        logger.warn(message)
-    elif level == 'debug':
-        logger.debug(message)
-    else:
-        logger.info(message)
-
-def add_llm_trace(operation, model, success, message, request_data=None, response_data=None, elapsed=None):
-    """添加 LLM 请求追踪"""
-    trace = {
-        'id': f"llm_{time.time()}_{random.randint(1000, 9999)}",
-        'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
-        'operation': operation,
-        'model': model,
-        'success': success,
-        'message': message,
-        'elapsed': elapsed,
-        'request': request_data,
-        'response': response_data
-    }
-    llm_traces.append(trace)
+from logger import add_log, add_llm_trace, get_logs, get_traces, get_trace_detail, clear_logs, clear_traces
 from database import (
     init_db, add_words, get_all_words, get_pending_words,
     get_right_words, get_wrong_words, mark_word_correct,
