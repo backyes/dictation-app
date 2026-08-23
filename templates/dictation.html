@@ -357,7 +357,7 @@ function submitAnswer() {
                     document.getElementById('hintArea').textContent = data.hint.memory_tip;
                 }
 
-                setTimeout(() => nextWord(), 2500);
+                setTimeout(() => nextWord(), 5000);
             }
         } else {
             console.error('[Dictation] API error:', data.message);
