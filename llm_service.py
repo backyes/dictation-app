@@ -12,17 +12,14 @@ import time
 from datetime import datetime
 from database import get_active_provider, update_word_meaning, get_words_without_meanings
 from llm_providers import create_provider
+from logger import add_log, add_llm_trace
 
 logger = logging.getLogger(__name__)
 
 
 def _trace_llm_request(operation, model, success, message, request_data=None, response_data=None, elapsed=None):
     """记录 LLM 请求追踪"""
-    try:
-        from app import add_llm_trace
-        add_llm_trace(operation, model, success, message, request_data, response_data, elapsed)
-    except ImportError:
-        pass  # 避免循环导入
+    add_llm_trace(operation, model, success, message, request_data, response_data, elapsed)
 
 
 def get_active_client():
@@ -52,7 +49,7 @@ def extract_words_from_text(text: str) -> list:
     # 记录 prompt
     prompt_preview = text[:100] + '...' if len(text) > 100 else text
     logger.info(f"LLM Prompt (extract_words): {prompt_preview}")
-    add_log('llm_service', f'提取单词 Prompt: {prompt_preview}')
+    add_log('info', 'llm_service', f'提取单词 Prompt: {prompt_preview}')
 
     try:
         words = client.extract_words(text)
@@ -84,7 +81,7 @@ def generate_hint_for_word(word: str) -> dict:
 
     # 记录 prompt
     logger.info(f"LLM Prompt (generate_hint): word={word}")
-    add_log('llm_service', f'生成提示 Prompt: word={word}')
+    add_log('info', 'llm_service', f'生成提示 Prompt: word={word}')
 
     try:
         hint = client.generate_hint(word)
@@ -119,6 +116,9 @@ def generate_meaning_for_word(word: str) -> dict:
 2. 一个简短的英文例句（适合中学生水平），并将目标单词替换为 "______"（6个下划线）
 3. 例句的中文翻译
 4. 国际音标（IPA）
+
+    # 记录 prompt
+    add_log('info', 'llm_service', f'生成释义 Prompt: word={word}')
 
 请严格按照以下JSON格式返回，不要包含任何其他内容：
 {{
@@ -311,7 +311,7 @@ def generate_passage(words: list, difficulty: str = 'intermediate', custom_promp
 
     # 记录完整 prompt 到日志
     logger.info(f"LLM Prompt (generate_passage):\n{prompt}")
-    add_log('llm_service', f'生成短文 Prompt: {len(prompt)} 字符, 单词: {word_list[:100]}...', {'prompt_length': len(prompt), 'words': selected_words[:5]})
+    add_log('info', 'llm_service', f'生成短文 Prompt: {len(prompt)} 字符, 单词: {word_list[:100]}...', {'prompt_length': len(prompt), 'words': selected_words[:5]})
 
     try:
         response = client.chat([{"role": "user", "content": prompt}], temperature=0.8)
