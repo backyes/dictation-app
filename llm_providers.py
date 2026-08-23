@@ -128,10 +128,18 @@ class AnthropicProvider(BaseLLMProvider):
         client_kwargs = {}
 
         api_key = self.config.get('api_key', '')
+        auth_token = self.config.get('auth_token', '')
         base_url = self.config.get('base_url', '')
 
         if api_key:
             client_kwargs['api_key'] = api_key
+        elif auth_token:
+            # LongCat: 使用 auth_token 作为 api_key 传递
+            client_kwargs['api_key'] = auth_token
+        else:
+            raise ValueError(
+                "未配置 API 认证信息。请设置 api_key 或 auth_token。"
+            )
 
         if base_url:
             client_kwargs['base_url'] = base_url

@@ -45,6 +45,31 @@ def init_db():
         )
     ''')
 
+    # 系统配置表（存储 API Key 等敏感信息）
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS system_settings (
+            key TEXT PRIMARY KEY,
+            value TEXT DEFAULT '',
+            description TEXT DEFAULT '',
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+
+    # 初始化默认配置
+    default_settings = [
+        ('api_key', '', 'Anthropic API Key'),
+        ('auth_token', '', 'Anthropic Auth Token (LongCat)'),
+        ('base_url', 'https://api.longcat.chat/anthropic', 'API Base URL'),
+        ('model', 'LongCat-2.0', 'LLM 模型名称'),
+        ('max_tokens', '1024', '最大 Token 数'),
+        ('temperature', '0.7', '温度参数'),
+    ]
+    for key, value, desc in default_settings:
+        cursor.execute(
+            'INSERT OR IGNORE INTO system_settings (key, value, description) VALUES (?, ?, ?)',
+            (key, value, desc)
+        )
+
     # LLM 提供商配置表（支持多提供商）
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS llm_providers (
@@ -75,14 +100,14 @@ def init_db():
         )
     ''')
 
-    # 初始化默认提供商（仅在表为空时）
+    # 初始化默认提供商（仅在表为空时，不依赖环境变量）
     cursor.execute('SELECT COUNT(*) FROM llm_providers')
     if cursor.fetchone()[0] == 0:
         default_providers = [
-            ('Anthropic Claude', 'anthropic', Config.ANTHROPIC_API_KEY,
+            ('Anthropic Claude', 'anthropic', '',
              'https://api.anthropic.com', 'claude-sonnet-4-20250514', 1024, 0.7, 0),
-            ('LongCat', 'openai', Config.ANTHROPIC_API_KEY,
-             'https://api.longcat.chat/openai/v1', 'LongCat-2.0[1m]', 1024, 0.7, 1),
+            ('LongCat', 'anthropic', '',
+             'https://api.longcat.chat/anthropic', 'LongCat-2.0', 1024, 0.7, 1),
         ]
         for p in default_providers:
             cursor.execute('''
@@ -453,6 +478,7 @@ def update_llm_setting(key: str, value: str):
         return
     field_map = {
         'api_key': 'api_key',
+        'auth_token': 'auth_token',
         'model': 'model',
         'max_tokens': 'max_tokens',
         'temperature': 'temperature',

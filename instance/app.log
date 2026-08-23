@@ -9339,3 +9339,39 @@ licence, customer, waiter, glad, accident, garlic, until, metre, mail
 2026-08-23 19:54:52,320 [INFO] werkzeug: 192.168.50.174 - - [23/Aug/2026 19:54:52] "POST /api/dictation/check HTTP/1.1" 200 -
 2026-08-23 19:54:52,325 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 19:54:52] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
 2026-08-23 19:54:52,326 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 19:54:52] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-23 22:11:38,928 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-23 22:11:38,929 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-23 22:11:38,930 [INFO] werkzeug:  * Restarting with stat
+2026-08-23 22:11:39,181 [WARNING] werkzeug:  * Debugger is active!
+2026-08-23 22:11:39,191 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-23 22:11:46,091 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:46] "GET / HTTP/1.1" 200 -
+2026-08-23 22:11:46,190 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:46] "GET /static/js/app.js HTTP/1.1" 200 -
+2026-08-23 22:11:46,191 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:46] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-08-23 22:11:46,526 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:46] "GET /api/words HTTP/1.1" 200 -
+2026-08-23 22:11:48,607 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:48] "GET /dashboard HTTP/1.1" 200 -
+2026-08-23 22:11:48,636 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-23 22:11:48,639 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:48] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-23 22:11:49,168 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:49] "GET /settings HTTP/1.1" 200 -
+2026-08-23 22:11:49,194 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:49] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-23 22:11:49,195 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-23 22:11:51,304 [INFO] llm_service: 测试 LLM 连接: LongCat (model=LongCat-2.0)
+2026-08-23 22:11:54,485 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-23 22:11:54,524 [INFO] llm_service: 连接测试成功: 连接成功！模型回复: OK
+2026-08-23 22:11:54,524 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:11:54] "GET /api/test/connection HTTP/1.1" 200 -
+2026-08-23 22:12:14,412 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:12:14] "GET /dashboard HTTP/1.1" 200 -
+2026-08-23 22:12:14,446 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:12:14] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-23 22:12:14,446 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:12:14] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-23 22:12:15,139 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:12:15] "GET /settings HTTP/1.1" 200 -
+2026-08-23 22:12:15,193 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:12:15] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-23 22:12:15,195 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:12:15] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-23 22:12:17,603 [INFO] llm_service: 测试 LLM 连接: LongCat (model=LongCat-2.0)
+2026-08-23 22:12:20,458 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-23 22:12:20,462 [INFO] llm_service: 连接测试成功: 连接成功！模型回复: OK
+2026-08-23 22:12:20,463 [INFO] werkzeug: 192.168.50.154 - - [23/Aug/2026 22:12:20] "GET /api/test/connection HTTP/1.1" 200 -
+2026-08-23 22:14:30,363 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_providers.py', reloading
+2026-08-23 22:14:30,473 [INFO] werkzeug:  * Restarting with stat
+2026-08-23 22:14:30,816 [WARNING] werkzeug:  * Debugger is active!
+2026-08-23 22:14:30,824 [INFO] werkzeug:  * Debugger PIN: 735-645-679
