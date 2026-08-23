@@ -100,14 +100,14 @@ def init_db():
         )
     ''')
 
-    # 初始化默认提供商（仅在表为空时）
+    # 初始化默认提供商（仅在表为空时，不依赖环境变量）
     cursor.execute('SELECT COUNT(*) FROM llm_providers')
     if cursor.fetchone()[0] == 0:
         default_providers = [
-            ('Anthropic Claude', 'anthropic', Config.ANTHROPIC_API_KEY,
+            ('Anthropic Claude', 'anthropic', '',
              'https://api.anthropic.com', 'claude-sonnet-4-20250514', 1024, 0.7, 0),
-            ('LongCat', 'openai', Config.ANTHROPIC_API_KEY,
-             'https://api.longcat.chat/openai/v1', 'LongCat-2.0[1m]', 1024, 0.7, 1),
+            ('LongCat', 'anthropic', '',
+             'https://api.longcat.chat/anthropic', 'LongCat-2.0', 1024, 0.7, 1),
         ]
         for p in default_providers:
             cursor.execute('''
