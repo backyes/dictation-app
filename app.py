@@ -766,12 +766,20 @@ def auto_generate_meanings_on_startup():
 # ==================== 启动 ====================
 
 if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser(description='英语听写练习 Web 应用')
+    parser.add_argument('-p', '--port', type=int, default=5002, help='服务端口号 (默认: 5002)')
+    parser.add_argument('--host', type=str, default='0.0.0.0', help='服务主机地址 (默认: 0.0.0.0)')
+    parser.add_argument('--no-debug', action='store_true', help='关闭调试模式')
+    args = parser.parse_args()
+
     print("=" * 50)
     print("英语听写练习应用已启动")
-    print("访问: http://localhost:5002")
+    print(f"访问: http://localhost:{args.port}")
     print("=" * 50)
 
     # 启动时自动检查并生成释义
     auto_generate_meanings_on_startup()
 
-    app.run(debug=True, host='0.0.0.0', port=5002)
+    app.run(debug=not args.no_debug, host=args.host, port=args.port)
