@@ -229,6 +229,102 @@
     color: var(--text);
   }
 
+  /* --- debug panel --- */
+  .debug-panel {
+    position: fixed;
+    bottom: 80px;
+    right: 28px;
+    width: 500px;
+    max-height: 60vh;
+    background: #1a1a1a;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    z-index: 150;
+    display: none;
+    overflow: hidden;
+    font-family: 'SF Mono', 'Monaco', monospace;
+    font-size: 0.75rem;
+  }
+
+  .debug-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #2a2a2a;
+    color: #e5e7eb;
+    border-bottom: 1px solid #3a3a3a;
+  }
+
+  .debug-header button {
+    background: none;
+    border: 1px solid #4b5563;
+    color: #9ca3af;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7rem;
+  }
+
+  .debug-header button:hover {
+    background: #3a3a3a;
+    color: #e5e7eb;
+  }
+
+  .debug-body {
+    padding: 12px;
+    overflow-y: auto;
+    max-height: calc(60vh - 50px);
+  }
+
+  .debug-item {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #3a3a3a;
+  }
+
+  .debug-item:last-child {
+    border-bottom: none;
+  }
+
+  .debug-item-header {
+    color: #f59e0b;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .debug-item details {
+    margin-bottom: 6px;
+  }
+
+  .debug-item summary {
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+
+  .debug-item summary:hover {
+    color: #e5e7eb;
+  }
+
+  .debug-item pre {
+    background: #0d0d0d;
+    padding: 10px;
+    border-radius: 4px;
+    color: #d1d5db;
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 6px 0;
+  }
+
+  .debug-meta {
+    color: #6b7280;
+    font-size: 0.65rem;
+    margin-top: 6px;
+  }
+
   /* --- details modal --- */
   .details-overlay {
     display: none;
@@ -561,6 +657,46 @@ function showPassage(data, theme) {
       ${generateIllustration(theme.label)}
     </div>
   `;
+
+  // 显示调试信息
+  if (data.debug_info && data.debug_info.length > 0) {
+    showDebugInfo(data.debug_info);
+  }
+}
+
+// ==================== debug panel ====================
+function showDebugInfo(debugInfo) {
+  let debugPanel = document.getElementById('debugPanel');
+  if (!debugPanel) {
+    debugPanel = document.createElement('div');
+    debugPanel.id = 'debugPanel';
+    debugPanel.className = 'debug-panel';
+    document.body.appendChild(debugPanel);
+  }
+  
+  let html = '<div class="debug-header"><span>🔍 调试信息</span><button onclick="toggleDebug()">收起/展开</button></div>';
+  html += '<div class="debug-body" id="debugBody">';
+  
+  debugInfo.forEach((info, i) => {
+    html += `<div class="debug-item">
+      <div class="debug-item-header">第 ${i + 1} 次调用 ${info.attempt > 1 ? `(重试 ${info.attempt})` : ''}</div>
+      ${info.thinking ? `<details><summary>💭 Thinking (${info.thinking.length} 字符)</summary><pre>${escapeHtml(info.thinking)}</pre></details>` : ''}
+      <details><summary>📤 Prompt (${info.prompt.length} 字符)</summary><pre>${escapeHtml(info.prompt)}</pre></details>
+      <details open><summary>📥 响应 (${info.content.length} 字符, ${info.tokens} tokens)</summary><pre>${escapeHtml(info.content)}</pre></details>
+      <div class="debug-meta">模型: ${info.model} | Tokens: ${info.tokens}</div>
+    </div>`;
+  });
+  
+  html += '</div>';
+  debugPanel.innerHTML = html;
+  debugPanel.style.display = 'block';
+}
+
+function toggleDebug() {
+  const body = document.getElementById('debugBody');
+  if (body) {
+    body.style.display = body.style.display === 'none' ? 'block' : 'none';
+  }
 }
 
 // ==================== illustration (simple SVG line art) ====================

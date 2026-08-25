@@ -7,37 +7,51 @@ import json
 import re
 import requests
 from abc import ABC, abstractmethod
+from typing import Optional, Any
+
+
+class LLMResponse:
+    """统一的 LLM 响应对象"""
+    
+    def __init__(self, content: str, thinking: str = '', prompt: str = '',
+                 raw_response: Any = None, model: str = '', tokens: int = 0):
+        self.content = content  # 最终文本内容
+        self.thinking = thinking  # thinking 内容（如果有）
+        self.prompt = prompt  # 输入 prompt
+        self.raw_response = raw_response  # 原始响应对象
+        self.model = model  # 使用的模型
+        self.tokens = tokens  # token 数量
+    
+    def to_dict(self) -> dict:
+        """转换为字典"""
+        return {
+            'content': self.content,
+            'thinking': self.thinking,
+            'prompt': self.prompt,
+            'model': self.model,
+            'tokens': self.tokens,
+        }
 
 
 class BaseLLMProvider(ABC):
     """LLM 提供商抽象基类"""
-
+    
     def __init__(self, config: dict):
-        """
-        config 包含:
-        - api_key: API 密钥
-        - model: 模型名称
-        - max_tokens: 最大 token 数
-        - temperature: 温度
-        - base_url: API 地址
-        - provider: 提供商类型
-        """
         self.config = config
-
+    
     @abstractmethod
-    def chat(self, messages: list, **kwargs) -> str:
+    def chat(self, messages: list, **kwargs) -> LLMResponse:
         """
         统一对话接口
-        messages: [{"role": "user"|"system"|"assistant", "content": "..."}]
-        返回: 模型生成的文本
+        返回: LLMResponse 对象
         """
         pass
-
+    
     @abstractmethod
     def test_connection(self) -> dict:
         """测试连接是否可用"""
         pass
-
+    
     def extract_words(self, text: str) -> list:
         """从文本中提取单词清单"""
         prompt = f"""请从以下文本中提取出所有要默写的英语单词清单。
@@ -57,10 +71,10 @@ class BaseLLMProvider(ABC):
 
         try:
             response = self.chat([{"role": "user", "content": prompt}], temperature=0.1)
-            return self._parse_words_response(response)
+            return self._parse_words_response(response.content)
         except Exception as e:
             raise Exception(f"提取单词失败: {str(e)}")
-
+    
     def generate_hint(self, word: str) -> dict:
         """为单词生成例句和记忆方法"""
         prompt = f"""请为英语单词 "{word}" 生成学习辅助内容，帮助中学生记忆这个单词。
@@ -80,10 +94,10 @@ class BaseLLMProvider(ABC):
 
         try:
             response = self.chat([{"role": "user", "content": prompt}])
-            return self._parse_hint_response(response)
+            return self._parse_hint_response(response.content)
         except Exception as e:
             raise Exception(f"生成提示失败: {str(e)}")
-
+    
     def _parse_words_response(self, text: str) -> list:
         """解析单词提取响应"""
         try:
@@ -96,7 +110,7 @@ class BaseLLMProvider(ABC):
                 words = result.get('words', [])
             else:
                 words = re.findall(r'[a-zA-Z]{2,}', text)
-
+        
         cleaned = []
         seen = set()
         for w in words:
@@ -105,7 +119,7 @@ class BaseLLMProvider(ABC):
                 cleaned.append(w)
                 seen.add(w)
         return cleaned
-
+    
     def _parse_hint_response(self, text: str) -> dict:
         """解析提示生成响应"""
         default = {'translation': '', 'example': '', 'example_translation': '', 'memory_tip': ''}
@@ -122,45 +136,34 @@ class BaseLLMProvider(ABC):
 
 class AnthropicProvider(BaseLLMProvider):
     """Anthropic Claude 原生 API（支持 api_key 和 auth_token 两种认证）"""
-
+    
     def _get_client_kwargs(self) -> dict:
-        """
-        构建客户端参数。
-
-        关键: Anthropic SDK 支持两种认证:
-        - api_key → 发送 x-api-key 头 (Anthropic 官方)
-        - auth_token → 发送 Authorization: Bearer 头 (LongCat 等兼容网关)
-
-        LongCat 的 /anthropic 端点要求 Bearer 认证，因此有 auth_token 时优先使用它。
-        """
+        """构建客户端参数"""
         client_kwargs = {}
-
+        
         api_key = self.config.get('api_key', '')
         auth_token = self.config.get('auth_token', '')
         base_url = self.config.get('base_url', '')
-
+        
         if auth_token:
-            # Bearer 认证 (LongCat 等网关需要)
             client_kwargs['auth_token'] = auth_token
         elif api_key:
-            # 标准 x-api-key 认证 (Anthropic 官方)
             client_kwargs['api_key'] = api_key
         else:
-            raise ValueError(
-                "未配置 API 认证信息。请设置 api_key 或 auth_token。"
-            )
-
+            raise ValueError("未配置 API 认证信息。请设置 api_key 或 auth_token。")
+        
         if base_url:
             client_kwargs['base_url'] = base_url
-
+        
         return client_kwargs
-
-    def chat(self, messages: list, **kwargs) -> str:
+    
+    def chat(self, messages: list, **kwargs) -> LLMResponse:
+        """调用 Anthropic API"""
         import anthropic
-
+        
         client = anthropic.Anthropic(**self._get_client_kwargs())
-
-        # 转换消息格式（提取 system 消息）
+        
+        # 转换消息格式
         system_msg = ''
         anthropic_messages = []
         for msg in messages:
@@ -168,39 +171,56 @@ class AnthropicProvider(BaseLLMProvider):
                 system_msg = msg['content']
             else:
                 anthropic_messages.append(msg)
-
+        
+        # 构建 prompt 字符串（用于 debug）
+        prompt_str = '\n'.join([f"[{m['role']}]: {m['content']}" for m in messages])
+        
         create_kwargs = {
             'model': self.config.get('model', 'claude-sonnet-4-20250514'),
-            'max_tokens': int(self.config.get('max_tokens', 4096)),
-            'messages': anthropic_messages
+            'max_tokens': int(kwargs.get('max_tokens', self.config.get('max_tokens', 4096))),
+            'messages': anthropic_messages,
+            'temperature': float(kwargs.get('temperature', 0.7)),
         }
         if system_msg:
             create_kwargs['system'] = system_msg
-
+        
         response = client.messages.create(**create_kwargs)
-
-        # 处理响应内容（支持 text 和 thinking 类型）
+        
+        # 处理响应内容
         content = response.content
+        thinking_text = ''
+        final_text = ''
+        
         if not content:
-            return ''
-
-        # 优先获取 text 类型内容
+            return LLMResponse(content='', thinking='', prompt=prompt_str,
+                              raw_response=response, model=self.config.get('model', ''))
+        
+        # 提取 thinking 和 text
         for block in content:
-            if getattr(block, 'type', '') == 'text' and block.text:
-                return block.text
-
-        # 如果没有 text 类型，获取 thinking 类型
-        for block in content:
-            if getattr(block, 'type', '') == 'thinking' and block.thinking:
-                return block.thinking
-
-        # 最后尝试任何有 text 属性的块
-        for block in content:
-            if hasattr(block, 'text') and block.text:
-                return block.text
-
-        return str(content[0]) if content else ''
-
+            block_type = getattr(block, 'type', '')
+            if block_type == 'thinking' and hasattr(block, 'thinking'):
+                thinking_text += block.thinking
+            elif block_type == 'text' and hasattr(block, 'text'):
+                final_text += block.text
+        
+        # 如果没有 text，尝试获取 thinking
+        if not final_text and thinking_text:
+            final_text = thinking_text
+        
+        # 获取 token 使用量
+        tokens = 0
+        if hasattr(response, 'usage'):
+            tokens = getattr(response.usage, 'output_tokens', 0)
+        
+        return LLMResponse(
+            content=final_text,
+            thinking=thinking_text,
+            prompt=prompt_str,
+            raw_response=response,
+            model=self.config.get('model', ''),
+            tokens=tokens
+        )
+    
     def test_connection(self) -> dict:
         try:
             import anthropic
@@ -210,7 +230,6 @@ class AnthropicProvider(BaseLLMProvider):
                 max_tokens=50,
                 messages=[{"role": "user", "content": "Reply with OK."}]
             )
-            # 提取回复文本（处理 thinking + text 混合响应）
             reply_text = ''
             for block in response.content:
                 if getattr(block, 'type', '') == 'text' and block.text:
@@ -232,39 +251,50 @@ class AnthropicProvider(BaseLLMProvider):
 
 class OpenAIProvider(BaseLLMProvider):
     """OpenAI 兼容 API（OpenAI、OpenRouter、DeepSeek、Ollama、LongCat 等）"""
-
-    def chat(self, messages: list, **kwargs) -> str:
-        import requests
-
+    
+    def chat(self, messages: list, **kwargs) -> LLMResponse:
+        """调用 OpenAI 兼容 API"""
         base_url = self.config.get('base_url', 'https://api.openai.com/v1')
-        # 确保 base_url 以 /chat/completions 结尾或拼接
         if not base_url.endswith('/chat/completions'):
             url = f"{base_url.rstrip('/')}/chat/completions"
         else:
             url = base_url
-
+        
         headers = {
             'Authorization': f'Bearer {self.config.get("api_key", "")}',
             'Content-Type': 'application/json'
         }
-
+        
+        prompt_str = '\n'.join([f"[{m['role']}]: {m['content']}" for m in messages])
+        
         payload = {
             'model': self.config.get('model', 'gpt-4o-mini'),
             'messages': messages,
-            'max_tokens': int(self.config.get('max_tokens', 1024)),
+            'max_tokens': int(kwargs.get('max_tokens', self.config.get('max_tokens', 4096))),
             'temperature': float(kwargs.get('temperature', self.config.get('temperature', 0.7)))
         }
-
-        response = requests.post(url, headers=headers, json=payload, timeout=60)
+        
+        response = requests.post(url, headers=headers, json=payload, timeout=120)
         response.raise_for_status()
         result = response.json()
-        return result['choices'][0]['message']['content']
-
+        
+        content = result['choices'][0]['message']['content']
+        tokens = result.get('usage', {}).get('total_tokens', 0)
+        
+        return LLMResponse(
+            content=content,
+            thinking='',  # OpenAI 兼容 API 通常没有 thinking
+            prompt=prompt_str,
+            raw_response=result,
+            model=self.config.get('model', ''),
+            tokens=tokens
+        )
+    
     def test_connection(self) -> dict:
         try:
             base_url = self.config.get('base_url', 'https://api.openai.com/v1')
             url = f"{base_url.rstrip('/')}/chat/completions"
-
+            
             headers = {
                 'Authorization': f'Bearer {self.config.get("api_key", "")}',
                 'Content-Type': 'application/json'
@@ -309,7 +339,7 @@ PROVIDER_PRESETS = {
         'name': 'OpenRouter',
         'default_base_url': 'https://openrouter.ai/api/v1',
         'default_model': 'anthropic/claude-sonnet-3.5',
-        'provider_type': 'openai',  # OpenRouter 使用 OpenAI 兼容格式
+        'provider_type': 'openai',
         'docs': 'https://openrouter.ai/'
     },
     'deepseek': {
@@ -344,12 +374,9 @@ PROVIDER_PRESETS = {
 
 
 def create_provider(config: dict) -> BaseLLMProvider:
-    """
-    根据配置创建对应的 LLM 提供商实例
-    config 必须包含 provider_type: 'anthropic' | 'openai'
-    """
+    """根据配置创建对应的 LLM 提供商实例"""
     provider_type = config.get('provider_type', 'openai')
-
+    
     if provider_type == 'anthropic':
         return AnthropicProvider(config)
     elif provider_type == 'openai':
