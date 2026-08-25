@@ -1,9 +1,6 @@
 """
-短文生成服务 - 鲁棒性重构 v5
-核心改进：
-1. 集成 LLMResponse 对象，收集 thinking/prompt/tokens 等信息
-2. 彻底过滤规划性内容
-3. 降低单词密度
+短文生成服务 - 鲁棒性重构 v6
+核心改进：通过prompt约束让LLM直接输出可用内容，简化后端处理
 """
 import logging
 import time
@@ -20,55 +17,9 @@ class PassageGenerationError(Exception):
 
 
 class OutputCleaner:
-    """输出清洗器"""
+    """输出清洗器 - 简化版，主要做兜底处理"""
     
     ANNOTATION_PATTERN = r'\(\d+\)|\([A-Z]\)'
-    
-    @classmethod
-    def is_planning(cls, text: str) -> bool:
-        """判断是否为规划性内容"""
-        # 编号列表
-        if re.match(r'^\d+\.\s+[A-Z]', text):
-            return True
-        
-        # 词频统计
-        if re.search(r'\*\s*\*[^*]+\*\s*\(\d+\s+(?:times?|mandatory|important)\)', text):
-            return True
-        
-        if re.search(r'[a-z]+\s*\(\d+\s+(?:mandatory|important)\s*\+', text):
-            return True
-        
-        # 小节标题
-        if re.search(r'(?:Deconstruct|Brainstorm|Plot|Character|Idea|Revised|Adjust|Plot details)', text, re.IGNORECASE):
-            return True
-        
-        # 规划关键词
-        if re.search(r'(?:mandatory|important|requirement|at least \d+ times|'
-                      r'frequency count|word count|times? each|use \d+ times|'
-                      r'let\'s make|let\'s adjust|let\'s use|let\'s do|'
-                      r'wait,?\s+need|I need to make sure|I\'ll make sure|'
-                      r'I\'ll incorporate|I\'ll ensure|I\'ll need to|'
-                      r'I\'ll have to|I should|Let me think|I\'m thinking|'
-                      r'let me see|let\'s see|Okay,|So I|First,)', text, re.IGNORECASE):
-            return True
-        
-        # 角色规划
-        if re.match(r'^[A-Z][a-z]+:\s+(?:An?|The|His|My)', text):
-            return True
-        
-        # 对话内的规划
-        if re.search(r'(?:wait,?\s+need|need\s+\w+|let\'s\s+make)', text, re.IGNORECASE):
-            return True
-        
-        # 纯列表项
-        if re.match(r'^[-*]\s+\w+:', text):
-            return True
-        
-        # 包含 times 和数字的短行
-        if re.search(r'\d+\s+times?', text) and len(text) < 100:
-            return True
-        
-        return False
     
     @classmethod
     def clean_annotations(cls, text: str) -> str:
@@ -77,21 +28,28 @@ class OutputCleaner:
     
     @classmethod
     def extract_story(cls, response: str) -> str:
-        """从响应中提取故事内容"""
+        """从响应中提取故事内容 - 简化版"""
         paragraphs = [p.strip() for p in re.split(r'\n\n+', response) if p.strip()]
         
         if not paragraphs:
             return response
         
+        # 简单过滤明显的规划内容
         story_parts = []
         for p in paragraphs:
-            if cls.is_planning(p):
-                continue
+            # 跳过太短的段落
             if len(p) < 20:
+                continue
+            # 跳过编号列表开头
+            if re.match(r'^\d+\.\s+[A-Z]', p):
+                continue
+            # 跳过 Step-by-Step 等标题
+            if re.match(r'^(?:Step|Drafting|Brainstorm|Deconstruct|Plot|Character|Outline|Plan)\b', p, re.IGNORECASE):
                 continue
             story_parts.append(p)
         
         if not story_parts:
+            # Fallback: 取最长的段落
             filtered = [p for p in paragraphs if len(p) > 100]
             if filtered:
                 story_parts = [max(filtered, key=len)]
@@ -109,7 +67,7 @@ class PassageGenerator:
     def __init__(self):
         self.client = None
         self.model = None
-        self.debug_info = []  # 存储调试信息
+        self.debug_info = []
     
     def _get_client(self):
         if not self.client:
@@ -121,7 +79,7 @@ class PassageGenerator:
         return self.client
     
     def _select_words(self, words: list, wrong_words: list) -> list:
-        """选择单词"""
+        """选择单词 - 控制在8-10个"""
         max_words = 10
         if wrong_words and len(wrong_words) > 0:
             min_wrong = max(3, int(max_words * 0.3))
@@ -133,18 +91,28 @@ class PassageGenerator:
         return words[:max_words] if len(words) > max_words else words
     
     def _build_story_prompt(self, theme_label: str, word_list: str, wrong_list: str) -> str:
-        """构建故事生成 prompt"""
+        """构建故事生成 prompt - 添加严格约束"""
         return f"""Write a short English story (200-300 words) about "{theme_label}" for KET-level learners.
 
 Words to include: {word_list}
 Important words (use at least 3 times each): {wrong_list}
 
-Requirements:
-- Write a real story with characters, dialogue, and descriptions
-- Use the words naturally in sentences (not in lists or notes)
-- Bold each target word like **word**
-- Do NOT include any planning, thinking, or explanations
-- Output ONLY the story text"""
+STRICT OUTPUT REQUIREMENTS:
+1. Output MUST be a readable story with characters, dialogue, and descriptions
+2. Start DIRECTLY with the story - first word must be a character name or "Once" or "One day"
+3. Do NOT include ANY of the following:
+   - Planning or thinking (e.g., "Let me plan...", "I need to include...")
+   - Word frequency counts (e.g., "quarter: 3 times", "diary (2 uses)")
+   - Annotations or markers (e.g., "(1)", "(2)", "(M)")
+   - Numbered lists (e.g., "1. ", "2. ", "3. ")
+   - Section headers (e.g., "Step-by-Step", "Drafting", "Brainstorming")
+   - Character planning (e.g., "Tom: An old explorer")
+   - Bullet points (e.g., "- quarter: ...")
+4. The output should be directly readable and suitable for web display
+5. Bold each target word like **word**
+6. End naturally with the story conclusion
+
+Output ONLY the story text, nothing else."""
     
     def _build_translation_prompt(self, story_text: str) -> str:
         """构建翻译 prompt"""
@@ -165,7 +133,6 @@ Requirements:
                     max_tokens=max_tokens
                 )
                 if response and len(response.content) > 50:
-                    # 存储调试信息
                     self.debug_info.append({
                         'attempt': attempt + 1,
                         'prompt': response.prompt[:500] if response.prompt else '',
@@ -186,7 +153,7 @@ Requirements:
     def generate(self, words: list, wrong_words: list, theme_label: str) -> dict:
         """生成短文的完整流程"""
         start_time = time.time()
-        self.debug_info = []  # 清空调试信息
+        self.debug_info = []
         
         # 1. 选择单词
         selected_words = self._select_words(words, wrong_words)
@@ -201,7 +168,7 @@ Requirements:
         
         logger.debug(f"原始响应:\n{raw_response.content}")
         
-        # 3. 提取和清洗故事内容
+        # 3. 提取和清洗故事内容（简化版）
         story_text = OutputCleaner.extract_story(raw_response.content)
         story_text = OutputCleaner.clean_annotations(story_text)
         
@@ -222,7 +189,7 @@ Requirements:
             'content': formatted_story,
             'translation': translation,
             'words_used': words_used,
-            'debug_info': self.debug_info,  # 返回调试信息
+            'debug_info': self.debug_info,
         }
     
     def _format_story(self, story_text: str, words: list) -> str:
@@ -242,17 +209,6 @@ Requirements:
             response = self._generate_with_retry(prompt, temperature=0.3, max_tokens=1500)
             
             translation = response.content.strip()
-            
-            # 清洗翻译
-            paragraphs = [p.strip() for p in re.split(r'\n\n+', translation) if p.strip()]
-            clean_paragraphs = []
-            for p in paragraphs:
-                if not OutputCleaner.is_planning(p):
-                    clean_paragraphs.append(p)
-            
-            if clean_paragraphs:
-                translation = '\n\n'.join(clean_paragraphs)
-            
             translation = OutputCleaner.clean_annotations(translation)
             
             return translation
