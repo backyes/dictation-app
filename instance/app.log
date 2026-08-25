@@ -10230,3 +10230,58 @@ Format:
 2026-08-25 18:55:28,831 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
 2026-08-25 18:55:28,834 [INFO] llm_service: 短文生成完成: 1465 字符, 13 单词
 2026-08-25 18:55:28,844 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:55:28] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 20:08:31,344 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 20:08:31,344 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 20:08:31,345 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 20:08:31,495 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 20:08:31,504 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 20:08:33,371 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:33] "GET / HTTP/1.1" 200 -
+2026-08-25 20:08:33,403 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:33] "GET /static/js/app.js HTTP/1.1" 200 -
+2026-08-25 20:08:33,404 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:33] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-08-25 20:08:33,431 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:33] "GET /api/words HTTP/1.1" 200 -
+2026-08-25 20:08:34,253 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:34] "GET / HTTP/1.1" 200 -
+2026-08-25 20:08:34,271 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:34] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:08:34,273 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:34] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:08:34,287 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:34] "GET /api/words HTTP/1.1" 200 -
+2026-08-25 20:08:34,857 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:34] "GET / HTTP/1.1" 200 -
+2026-08-25 20:08:34,873 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:34] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:08:34,873 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:34] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:08:34,887 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:34] "GET /api/words HTTP/1.1" 200 -
+2026-08-25 20:08:42,065 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 20:08:42,065 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 20:08:42,065 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 20:08:42,212 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 20:08:42,218 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 20:08:44,940 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:44] "GET / HTTP/1.1" 200 -
+2026-08-25 20:08:45,000 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:45] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:08:45,001 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:45] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:08:45,024 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:45] "GET /api/words HTTP/1.1" 200 -
+2026-08-25 20:08:45,702 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:45] "GET / HTTP/1.1" 200 -
+2026-08-25 20:08:45,724 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:45] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:08:45,724 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:45] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:08:45,734 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:45] "GET /api/words HTTP/1.1" 200 -
+2026-08-25 20:08:47,329 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:47] "GET /settings HTTP/1.1" 200 -
+2026-08-25 20:08:47,379 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:08:47,380 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:47] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:08:51,386 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:51] "POST /api/settings HTTP/1.1" 200 -
+2026-08-25 20:08:52,001 [INFO] llm_service: 测试 LLM 连接: LongCat (model=LongCat-2.0)
+2026-08-25 20:08:55,013 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:08:55,016 [INFO] llm_service: 连接测试成功: 连接成功！模型回复: OK
+2026-08-25 20:08:55,017 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:55] "GET /api/test/connection HTTP/1.1" 200 -
+2026-08-25 20:08:59,113 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:59] "GET /passages HTTP/1.1" 200 -
+2026-08-25 20:08:59,156 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:59] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:08:59,160 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:59] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:08:59,169 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:08:59] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 20:08:59,176 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 购物消费
+2026-08-25 20:08:59,177 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 20:08:59,177 [INFO] llm_service: 生成短文 Prompt: 580 字符
+2026-08-25 20:09:33,817 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:10:01,332 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:10:01,338 [INFO] llm_service: 短文生成完成: 912 字符, 9 单词
+2026-08-25 20:10:01,346 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:10:01] "POST /api/passages/generate HTTP/1.1" 200 -
