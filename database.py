@@ -41,6 +41,7 @@ def init_db():
             content TEXT NOT NULL,
             words_used TEXT DEFAULT '',
             difficulty TEXT DEFAULT 'intermediate',
+            theme TEXT DEFAULT '',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
@@ -118,6 +119,14 @@ def init_db():
             ''', p)
 
     conn.commit()
+
+    # Migration: add theme column if it doesn't exist
+    cursor.execute("PRAGMA table_info(passages)")
+    columns = [row[1] for row in cursor.fetchall()]
+    if 'theme' not in columns:
+        cursor.execute("ALTER TABLE passages ADD COLUMN theme TEXT DEFAULT ''")
+        conn.commit()
+
     conn.close()
 
 
@@ -288,13 +297,13 @@ def clear_all_words():
 
 # ==================== 短文操作 ====================
 
-def add_passage(title: str, content: str, words_used: list, difficulty: str = 'intermediate') -> int:
+def add_passage(title: str, content: str, words_used: list, difficulty: str = 'intermediate', theme: str = '') -> int:
     """添加短文到数据库"""
     import re
     conn = get_db()
     cursor = conn.execute(
-        'INSERT INTO passages (title, content, words_used, difficulty) VALUES (?, ?, ?, ?)',
-        (title, content, ','.join(words_used), difficulty)
+        'INSERT INTO passages (title, content, words_used, difficulty, theme) VALUES (?, ?, ?, ?, ?)',
+        (title, content, ','.join(words_used), difficulty, theme)
     )
     passage_id = cursor.lastrowid
     conn.commit()

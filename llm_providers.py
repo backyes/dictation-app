@@ -172,7 +172,8 @@ class AnthropicProvider(BaseLLMProvider):
         create_kwargs = {
             'model': self.config.get('model', 'claude-sonnet-4-20250514'),
             'max_tokens': int(self.config.get('max_tokens', 1024)),
-            'messages': anthropic_messages
+            'messages': anthropic_messages,
+            'thinking': {'type': 'disabled'}  # 禁用 extended thinking
         }
         if system_msg:
             create_kwargs['system'] = system_msg

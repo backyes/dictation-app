@@ -230,13 +230,15 @@ def test_connection(provider_config: dict = None) -> dict:
         return {'success': False, 'message': f'连接失败: {str(e)}', 'model': provider_config.get('model', '')}
 
 
-def generate_passage(words: list, difficulty: str = 'intermediate', custom_prompt: str = None, wrong_words: list = None) -> dict:
+def generate_passage(words: list, difficulty: str = 'intermediate', custom_prompt: str = None, wrong_words: list = None, theme: str = '', theme_label: str = '') -> dict:
     """
     基于词库单词生成短文，帮助学生记忆单词
     - words: 所有可用单词
     - wrong_words: 高频错误词汇（至少30%的单词会从这里选取）
+    - theme: KET主题类型ID
+    - theme_label: KET主题类型标签
     """
-    logger.info(f"生成短文，使用 {len(words)} 个单词")
+    logger.info(f"生成短文，使用 {len(words)} 个单词，主题: {theme_label}")
     start = time.time()
     client = get_active_client()
     model = client.config.get('model', 'unknown') if hasattr(client, 'config') else 'unknown'
@@ -261,64 +263,44 @@ def generate_passage(words: list, difficulty: str = 'intermediate', custom_promp
 
     if custom_prompt:
         prompt = custom_prompt.replace('{words}', word_list).replace('{difficulty}', difficulty).replace('{wrong_words}', wrong_list)
+        # Also replace theme if the prompt has the placeholder
+        prompt = prompt.replace('{theme}', theme_label or theme)
     else:
-        prompt = f"""# Role
-你是一位精通英语教学与故事创作的资深语言专家，擅长通过高联想度、具象化且富有戏剧性的情境短文（Contextual Storytelling），帮助学生高效记忆英语单词。
+        prompt = f"""Write a short English story (300-400 words) for KET-level learners.
 
-# Objective
-请根据我提供的【目标单词列表】和【高频错误词汇列表】，创作一篇连贯、有趣且逻辑顺畅的英语阅读短文，将所有目标单词自然融入故事中，帮助学生结合语境深化记忆。
+Theme: {theme_label}
+Words to include (bold each with **word**): {word_list}
+High-frequency error words (use at least 3 times each): {wrong_list}
 
-# Target Words (必须全部使用)
-{word_list}
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
 
-# 高频错误词汇（请在文中多次复现，加深记忆）
-{wrong_list}
-
-# Article Requirements
-1. **词汇融入 (100% Coverage & Highlight)**：
-   - 必须涵盖"目标单词"列表中的**每一个单词**，不得遗漏或随意替换词形。
-   - 高频错误词汇请在文中**多次出现**（至少3次），加深记忆。
-   - 文章中出现目标单词时，请使用 **加粗**（**word**）显眼标注。
-2. **词汇比例要求**：
-   - 高频错误词汇占比至少 **30%**。
-   - 每篇短文包含 **15-20 个**目标单词。
-3. **篇幅限制 (Length)**：
-   - 短文总字数严格控制在 **300 - 400 个英文单词** 之间，保证情节丰富、细节充分。
-4. **内容与趣味性 (Storyline & Fun)**：
-   - **主题自定/情境匹配**：请观察单词列表的核心主题（如"校园侦探"、"荒岛求生"、"科幻冒险"、"日常奇遇"等），围绕词汇的核心语义设计契合的情景。
-   - **戏剧冲突**：情节要生动有趣、有转折或幽默感，避免流水账和为了堆砌词汇而生硬造句。
-5. **语言难度 (Language Level)**：
-   - 语法结构清晰、自然流畅，适应中初级至中高级英语学习者的阅读水平。
-
-# Output Format
-请严格按照以下格式输出，必须包含英文短文和中文翻译：
-
-### 📖 阅读短文 (Story)
+Format:
 
 **English:**
-[300-400词的英文短文，目标单词用**加粗**标记，分段书写]
+[story here]
 
 **Chinese:**
-[与英文逐句对应的中文翻译，必须完整翻译整篇文章]
-
-### 📝 重点词汇对照表 (Word Check)
-[按单词在文中出现的顺序列出：**单词** - 词性 - 中文释义]
-
-**重要提醒：**
-- English 部分必须是纯英文短文
-- Chinese 部分必须是与英文对应的中文翻译（逐段对照）
-- 不要在中英文部分混入其他语言"""
+[translation here]"""
 
     # 记录完整 prompt 到日志
     logger.info(f"LLM Prompt (generate_passage):\n{prompt}")
     add_log('info', 'llm_service', f'生成短文 Prompt: {len(prompt)} 字符, 单词: {word_list[:100]}...', {'prompt_length': len(prompt), 'words': selected_words[:5]})
 
     try:
-        response = client.chat([{"role": "user", "content": prompt}], temperature=0.8)
+        response = client.chat([
+            {"role": "system", "content": "You are a story writer. You NEVER output thinking, reasoning, or planning. You ONLY output the story and translation. Start directly with **English:**"},
+            {"role": "user", "content": prompt}
+        ], temperature=0.7)
         import json
         import re
 
         logger.debug(f"LLM 响应长度: {len(response)} 字符")
+        logger.debug(f"LLM 响应内容:\n{response}")
 
         result = {
             'title': '',
@@ -328,30 +310,78 @@ def generate_passage(words: list, difficulty: str = 'intermediate', custom_promp
             'words_used': []
         }
 
-        # 提取短文内容 - 查找 "阅读短文" 或 "Story" 后的内容
+        # 提取短文内容 - 查找 "English:" 后的内容
         content_patterns = [
+            r'\*\*English:\*\*\s*\n([\s\S]*?)(?=\n\s*\*\*Chinese:\*\*|$)',
+            r'English:\s*\n([\s\S]*?)(?=\n\s*Chinese:\s*\n|$)',
             r'(?:📖\s*阅读短文|Story)[^\n]*\n([\s\S]*?)(?=💡|Chinese|中文|📝|Word Check|$)',
-            r'#{1,3}[^\n]*(?:Story|阅读)[^\n]*\n([\s\S]*?)(?=#{1,3}|$)',
         ]
         for pattern in content_patterns:
             content_match = re.search(pattern, response, re.IGNORECASE)
             if content_match:
                 content = content_match.group(1).strip()
-                if len(content) > 100:
+                # 清理 markdown 标记
+                content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', content)
+                if len(content) > 50:
                     result['content'] = content
                     break
 
-        # 如果没有匹配到，尝试取最长的段落
+        # 如果没有匹配到，尝试提取最长的包含 <strong> 的段落
+        if not result['content']:
+            # 找到所有包含 <strong> 的段落（这些是故事内容）
+            strong_paragraphs = re.findall(r'(?:^|\n\n)([^\n]*<strong>.*?</strong>(?:\n(?!\n)[^\n]*)*)', response, re.DOTALL)
+            if strong_paragraphs:
+                # 取最长的段落
+                longest = max(strong_paragraphs, key=len)
+                content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', longest.strip())
+                if len(content) > 50:
+                    result['content'] = content
+
+        # 如果还是没有，取最长的段落（排除明显的 thinking 部分）
         if not result['content']:
             paragraphs = re.split(r'\n\s*\n', response)
-            longest = max(paragraphs, key=len, default='')
-            if len(longest) > 100:
-                result['content'] = longest.strip()
+            # 过滤掉太短的段落和包含 reasoning 关键词的段落
+            filtered = []
+            for p in paragraphs:
+                p = p.strip()
+                if len(p) < 100:
+                    continue
+                # 跳过包含 reasoning 关键词的段落
+                if re.search(r'(?:reasoning|thinking|planning|deconstruct|brainstorm|let me|I need to|step \d+|mandatory|error words|I\'ll craft|I\'ll write|I\'ll make|I\'ll ensure|I\'ll count|I\'ll incorporate|I\'ll plan|I\'ll create|I\'ll need|I\'ve|Here\'s|Now I|Let\'s|I will)', p, re.IGNORECASE):
+                    continue
+                filtered.append(p)
+            if filtered:
+                longest = max(filtered, key=len)
+                content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', longest.strip())
+                result['content'] = content
 
-        # 提取中文翻译
-        trans_match = re.search(r'(?:💡\s*故事中文大意|Chinese\s*Summary|中文梗概)[^\n]*\n([\s\S]*?)(?=📝|Word Check|$)', response, re.IGNORECASE)
-        if trans_match:
-            result['translation'] = trans_match.group(1).strip()
+        # 提取中文翻译 - 更宽松的匹配
+        trans_patterns = [
+            r'\*\*Chinese:\*\*\s*\n([\s\S]*?)(?=\n\s*\*\*|\n\s*Word Check|$)',
+            r'Chinese:\s*\n([\s\S]*?)(?=\n\s*\*\*|\n\s*Word Check|$)',
+            r'(?:💡\s*故事中文大意|中文梗概)[^\n]*\n([\s\S]*?)(?=📝|Word Check|$)',
+        ]
+        for pattern in trans_patterns:
+            trans_match = re.search(pattern, response, re.IGNORECASE)
+            if trans_match:
+                translation = trans_match.group(1).strip()
+                # 清理 markdown 标记：**bold** → 纯文本
+                translation = re.sub(r'\*\*(.*?)\*\*', r'\1', translation)
+                result['translation'] = translation
+                break
+
+        # 如果中文翻译为空，尝试在 content 之后查找
+        if not result['translation'] and result['content']:
+            # 在完整响应中查找 content 之后是否有中文段落
+            content_end = response.find(result['content'][-50:]) if len(result['content']) > 50 else -1
+            if content_end > 0:
+                after_content = response[content_end + 50:]
+                # 查找中文字符开头的段落
+                chinese_para = re.search(r'[\u4e00-\u9fff][^\n\u4e00-\u9fff]*', after_content)
+                if chinese_para:
+                    translation = re.sub(r'\*\*(.*?)\*\*', r'\1', chinese_para.group(0).strip())
+                    if len(translation) > 20:
+                        result['translation'] = translation
 
         # 提取实际使用的单词
         if result['content']:
@@ -363,6 +393,11 @@ def generate_passage(words: list, difficulty: str = 'intermediate', custom_promp
             result['content'] = response
             content_lower = response.lower()
             result['words_used'] = [w for w in selected_words if w.lower() in content_lower]
+
+        # 提取标题
+        title_match = re.search(r'(?:Title|标题)[：:]\s*(.+)', response)
+        if title_match:
+            result['title'] = title_match.group(1).strip()
 
         elapsed = int((time.time() - start) * 1000)
         logger.info(f"短文生成完成: {len(result['content'])} 字符, {len(result['words_used'])} 单词")

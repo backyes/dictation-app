@@ -3,791 +3,872 @@
 
 {% block extra_css %}
 <style>
-    .passages-container {
-        max-width: 750px;
-        margin: 0 auto;
-        padding: 40px 20px;
-    }
+  /* ==================== OpenAI-style minimal ==================== */
+  .passage-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 120px;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+  }
 
-    .passages-header {
-        text-align: center;
-        margin-bottom: 28px;
-    }
+  /* --- center stage --- */
+  .passage-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .passages-header h2 {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: var(--text);
-        margin-bottom: 4px;
-    }
+  .passage-placeholder {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1rem;
+    padding: 80px 20px;
+  }
 
-    .passages-header p {
-        color: var(--text-secondary);
-        font-size: 0.85rem;
-    }
+  .passage-placeholder .spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
 
-    /* 暖纸风格卡片 */
-    .passage-card {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-md);
-        padding: 28px;
-        margin-bottom: 20px;
-        border: 1px solid var(--border-light);
-        transition: all 0.15s;
-    }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
 
-    .passage-card:hover {
-        box-shadow: var(--shadow-lg);
-        transform: translateY(-1px);
-    }
+  /* --- passage card --- */
+  .passage-card {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.3s ease;
+  }
 
-    /* 生成区域 */
-    .generate-section {
-        background: var(--bg-secondary);
-        border-radius: var(--radius-lg);
-        padding: 20px;
-        margin-bottom: 24px;
-    }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-    .generate-section summary {
-        cursor: pointer;
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-        font-weight: 500;
-        user-select: none;
-    }
+  .passage-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
 
-    .generate-section summary:hover {
-        color: var(--text);
-    }
+  .passage-card-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
 
-    .prompt-editor {
-        margin-top: 16px;
-    }
+  .passage-text {
+    font-size: 1rem;
+    line-height: 2;
+    color: var(--text);
+  }
 
-    .prompt-editor textarea {
-        width: 100%;
-        min-height: 120px;
-        padding: 12px;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        font-size: 0.8rem;
-        font-family: 'SF Mono', monospace;
-        line-height: 1.5;
-        resize: vertical;
-        background: var(--bg);
-    }
+  .passage-text .word-unknown {
+    font-weight: 700;
+    color: var(--text);
+    border-bottom: 2px solid var(--accent);
+    padding: 0 1px;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+  }
 
-    .prompt-editor textarea:focus {
-        outline: none;
-        border-color: var(--text);
-    }
+  .passage-text .word-unknown:hover {
+    background: var(--accent-light);
+    border-radius: 3px;
+  }
 
-    .prompt-actions {
-        display: flex;
-        gap: 8px;
-        margin-top: 12px;
-        flex-wrap: wrap;
-    }
+  .passage-text .word-unknown .tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 400;
+    white-space: nowrap;
+    z-index: 10;
+    margin-bottom: 6px;
+  }
 
-    /* 状态指示器 */
-    .status-bar {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 16px;
-        background: var(--bg-secondary);
-        border-radius: var(--radius);
-        margin-bottom: 16px;
-        font-size: 0.82rem;
-    }
+  .passage-text .word-unknown:hover .tooltip {
+    display: block;
+  }
 
-    .status-bar .status-icon {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--text-muted);
-    }
+  .passage-divider {
+    border: none;
+    border-top: 1px solid var(--border-light);
+    margin: 28px 0;
+  }
 
-    .status-bar .status-icon.loading {
-        background: var(--warning);
-        animation: pulse 1s infinite;
-    }
+  .passage-translation {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--text-secondary);
+  }
 
-    .status-bar .status-icon.success {
-        background: var(--accent);
-    }
+  /* --- illustration --- */
+  .passage-illustration {
+    margin-top: 24px;
+    text-align: center;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+  }
 
-    .status-bar .status-icon.error {
-        background: var(--danger);
-    }
+  .passage-illustration svg {
+    max-width: 100%;
+    height: auto;
+  }
 
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.4; }
-    }
+  /* --- prompt area (always visible) --- */
+  .prompt-section {
+    margin-top: 48px;
+    border-top: 1px solid var(--border-light);
+    padding-top: 24px;
+  }
 
-    .status-bar .status-text {
-        color: var(--text-secondary);
-        flex: 1;
-    }
+  .prompt-label {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
 
-    .status-bar .status-time {
-        color: var(--text-muted);
-        font-size: 0.75rem;
-    }
+  .prompt-editor textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    font-family: 'SF Mono', 'Monaco', monospace;
+    line-height: 1.6;
+    resize: vertical;
+    background: var(--bg-secondary);
+    color: var(--text);
+  }
 
-    /* 生成按钮 */
-    .generate-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 16px;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        cursor: pointer;
-        transition: all 0.15s;
-        color: var(--text-secondary);
-        font-size: 0.85rem;
-        margin-bottom: 16px;
-        gap: 8px;
-    }
+  .prompt-editor textarea:focus {
+    outline: none;
+    border-color: var(--text-muted);
+    background: var(--bg);
+  }
 
-    .generate-btn:hover {
-        border-color: var(--text);
-        color: var(--text);
-    }
+  .prompt-hint {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
 
-    .generate-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
+  /* --- details (bottom-right) --- */
+  .details-fab {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 50;
+  }
 
-    /* 短文卡片 */
-    .passage-card {
-        border: 1px solid var(--border-light);
-        border-radius: var(--radius-lg);
-        padding: 24px;
-        margin-bottom: 16px;
-        cursor: pointer;
-        transition: all 0.15s;
-    }
+  .details-fab .hint-bubble {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: 0;
+    background: #1a1a1a;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
 
-    .passage-card:hover {
-        border-color: var(--border);
-    }
+  .details-fab:hover .hint-bubble {
+    opacity: 1;
+  }
 
-    .passage-card-title {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--text);
-        margin-bottom: 8px;
-    }
+  .details-fab button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .passage-card-words {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4px;
-    }
+  .details-fab button:hover {
+    background: var(--bg-secondary);
+    border-color: var(--text-muted);
+    color: var(--text);
+  }
 
-    .passage-word-tag {
-        font-size: 0.7rem;
-        padding: 2px 8px;
-        background: var(--accent-light);
-        color: var(--accent);
-        border-radius: 10px;
-        font-weight: 500;
-    }
+  /* --- details modal --- */
+  .details-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .passage-word-tag.wrong {
-        background: var(--warning-light);
-        color: var(--warning);
-    }
+  .details-overlay.open {
+    display: flex;
+  }
 
-    /* 短文内容 - 中英对照 */
-    .passage-content {
-        display: none;
-        padding: 40px 60px;
-        max-width: 100%;
-        margin: 0 auto;
-    }
+  .details-panel {
+    background: var(--bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    width: 560px;
+    max-width: 90vw;
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
 
-    .passage-content.active {
-        display: block;
-    }
+  .details-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-light);
+  }
 
-    .passage-content h3 {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: var(--text);
-        margin-bottom: 24px;
-        text-align: center;
-    }
+  .details-header h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+  }
 
-    .passage-reading {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 48px;
-        margin-bottom: 24px;
-    }
+  .details-header .close-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
 
-    .passage-reading-column h4 {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 16px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid var(--border-light);
-    }
+  .details-header .close-btn:hover {
+    background: var(--bg-secondary);
+    color: var(--text);
+  }
 
-    .passage-reading-column .text {
-        font-size: 1rem;
-        line-height: 2.2;
-        color: var(--text);
-    }
+  .details-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    flex: 1;
+  }
 
-    .passage-reading-column .text strong {
-        color: var(--accent);
-        font-weight: 600;
-    }
+  .details-empty {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 40px 0;
+  }
 
-    .passage-reading-column .text.translation {
-        color: var(--text-secondary);
-    }
+  .details-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: color 0.15s;
+  }
 
-    .passage-actions {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
-    }
+  .details-item:last-child {
+    border-bottom: none;
+  }
 
-    /* 数据库短文列表 */
-    .saved-section {
-        margin-top: 32px;
-        border-top: 1px solid var(--border-light);
-        padding-top: 24px;
-    }
+  .details-item-content {
+    flex: 1;
+    min-width: 0;
+  }
 
-    .saved-section h4 {
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-        margin-bottom: 16px;
-        font-weight: 500;
-    }
+  .details-item:hover .details-item-title {
+    color: var(--accent);
+  }
 
-    .saved-card {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 16px;
-        border: 1px solid var(--border-light);
-        border-radius: var(--radius);
-        margin-bottom: 8px;
-        cursor: pointer;
-        transition: all 0.15s;
-    }
+  .details-item-title {
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    transition: color 0.15s;
+  }
 
-    .saved-card:hover {
-        border-color: var(--border);
-        background: var(--bg-secondary);
-    }
+  .details-item-meta {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
 
-    .saved-card-title {
-        font-size: 0.85rem;
-        color: var(--text);
-        font-weight: 500;
-    }
+  .details-item-delete {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+    flex-shrink: 0;
+  }
 
-    .saved-card-meta {
-        font-size: 0.72rem;
-        color: var(--text-muted);
-    }
+  .details-item-delete:hover {
+    background: var(--danger-light);
+    color: var(--danger);
+  }
 
-    .empty-state {
-        text-align: center;
-        padding: 40px;
-        color: var(--text-muted);
-        font-size: 0.85rem;
-    }
+  /* --- responsive --- */
+  @media (max-width: 640px) {
+    .passage-page { padding: 32px 16px 100px; }
+    .passage-card { padding: 24px 20px; }
+  }
 
-    @media (max-width: 768px) {
-        .passages-container { padding: 24px 16px; }
-        .passage-card { padding: 16px; }
-        .passage-content { padding: 20px 16px; }
-        .passage-reading { grid-template-columns: 1fr; gap: 20px; }
-    }
+  /* --- error state --- */
+  .error-card {
+    border: 1px solid var(--danger-light);
+    background: var(--danger-light);
+  }
+
+  .error-card .passage-card-title {
+    color: var(--danger);
+  }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="passages-container" id="passagesList">
-    <div class="passages-header">
-        <h2>短文阅读</h2>
-        <p>通过短文阅读巩固单词记忆，优先复现高频错误词汇</p>
+<div class="passage-page" id="passagePage">
+
+  <!-- center stage -->
+  <div class="passage-stage" id="passageStage">
+    <div class="passage-placeholder">
+      <div class="spinner"></div>
+      <div>正在生成短文...</div>
     </div>
+  </div>
 
-    <!-- 提示词编辑 -->
-    <details class="generate-section">
-        <summary>⚙️ 提示词设置</summary>
-        <div class="prompt-editor">
-            <textarea id="promptTemplate"># Role
-你是一位精通英语教学与故事创作的资深语言专家，擅长通过高联想度、具象化且富有戏剧性的情境短文（Contextual Storytelling），帮助学生高效记忆英语单词。
-
-# Objective
-请根据我提供的【目标单词列表】和【高频错误词汇列表】，创作一篇连贯、有趣且逻辑顺畅的英语阅读短文，将所有目标单词自然融入故事中，帮助学生结合语境深化记忆。
-
-# Target Words (必须全部使用)
-{words}
-
-# 高频错误词汇（请在文中多次复现，加深记忆）
-{wrong_words}
-
-# Article Requirements
-1. **词汇融入 (100% Coverage & Highlight)**：
-   - 必须涵盖"目标单词"列表中的**每一个单词**，不得遗漏或随意替换词形。
-   - 高频错误词汇请在文中**多次出现**（至少3次），加深记忆。
-   - 文章中出现目标单词时，请使用 **加粗**（**word**）显眼标注。
-2. **词汇比例要求**：
-   - 高频错误词汇占比至少 **30%**。
-   - 每篇短文包含 **15-20 个**目标单词。
-3. **篇幅限制 (Length)**：
-   - 短文总字数严格控制在 **500 - 800 个英文单词** 之间，保证情节丰富、细节充分。
-4. **内容与趣味性 (Storyline & Fun)**：
-   - **主题自定/情境匹配**：请观察单词列表的核心主题（如"校园侦探"、"荒岛求生"、"科幻冒险"、"日常奇遇"等），围绕词汇的核心语义设计契合的情景。
-   - **戏剧冲突**：情节要生动有趣、有转折或幽默感，避免流水账和为了堆砌词汇而生硬造句。
-5. **语言难度 (Language Level)**：
-   - 语法结构清晰、自然流畅，适应中初级至中高级英语学习者的阅读水平。
-
-# Output Format
-请严格按照以下格式输出，必须包含英文短文和中文翻译：
-
-### 📖 阅读短文 (Story)
-
-**English:**
-[300-400词的英文短文，目标单词用**加粗**标记，分段书写]
-
-**Chinese:**
-[与英文逐句对应的中文翻译，必须完整翻译整篇文章]
-
-### 📝 重点词汇对照表 (Word Check)
-[按单词在文中出现的顺序列出：**单词** - 词性 - 中文释义]
-
-**重要提醒：**
-- English 部分必须是纯英文短文
-- Chinese 部分必须是与英文对应的中文翻译（逐段对照）
-- 不要在中英文部分混入其他语言</textarea>
-            <div class="prompt-actions">
-                <button class="btn btn-primary btn-sm" onclick="generatePassage()">生成短文</button>
-                <button class="btn btn-outline btn-sm" onclick="resetPrompt()">重置默认</button>
-                <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-secondary); margin-left: auto; cursor: pointer;">
-                    <input type="checkbox" id="diagnosticSwitch" onchange="toggleDiagnostic()">
-                    🔍 诊断模式
-                </label>
-            </div>
-            <!-- 诊断面板：显示展开后的完整提示词 -->
-            <div id="diagnosticPanel" style="display: none; margin-top: 16px; padding: 16px; background: #1a1a2e; border-radius: var(--radius); text-align: left;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                    <span style="color: #9ca3af; font-size: 0.75rem; font-family: monospace;">展开后的完整提示词</span>
-                    <button onclick="copyDiagnostic()" style="background: none; border: 1px solid #4b5563; color: #9ca3af; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;">复制</button>
-                </div>
-                <pre id="diagnosticContent" style="color: #e5e7eb; font-size: 0.75rem; line-height: 1.6; white-space: pre-wrap; word-break: break-all; max-height: 400px; overflow-y: auto;"></pre>
-            </div>
-        </div>
-    </details>
-
-    <!-- 状态栏 -->
-    <div class="status-bar" id="statusBar" style="display: none;">
-        <div class="status-icon" id="statusIcon"></div>
-        <span class="status-text" id="statusText">准备中...</span>
-        <span class="status-time" id="statusTime"></span>
+  <!-- prompt area (always visible) -->
+  <div class="prompt-section">
+    <div class="prompt-label">提示词设置</div>
+    <div class="prompt-editor">
+      <textarea id="promptTemplate" spellcheck="false"></textarea>
+      <div class="prompt-hint">刷新页面或点击右下角 📚 查看已保存短文</div>
     </div>
+  </div>
 
-    <!-- 生成按钮 -->
-    <div class="generate-btn" onclick="generatePassage()" id="generateBtn">
-        <span>+</span> 生成新短文
+  <!-- details FAB (bottom-right) -->
+  <div class="details-fab" id="detailsFab" style="display:none;">
+    <span class="hint-bubble">查看已保存短文 →</span>
+    <button onclick="openDetails()" title="详情">📚</button>
+  </div>
+
+  <!-- details modal -->
+  <div class="details-overlay" id="detailsOverlay" onclick="closeDetails(event)">
+    <div class="details-panel" onclick="event.stopPropagation()">
+      <div class="details-header">
+        <h3>已保存短文</h3>
+        <button class="close-btn" onclick="closeDetails()">×</button>
+      </div>
+      <div class="details-body" id="detailsBody">
+        <div class="details-empty">暂无保存的短文</div>
+      </div>
     </div>
+  </div>
 
-    <!-- 操作栏 -->
-    <div style="display: flex; gap: 8px; margin-bottom: 16px;">
-        <button class="btn btn-outline btn-sm" onclick="loadPassages()">刷新</button>
-        <button class="btn btn-danger btn-sm" onclick="clearPassages()">清空全部</button>
-    </div>
-
-    <!-- 当前生成结果 -->
-    <div id="currentPassage"></div>
-
-    <!-- 数据库短文列表 -->
-    <div class="saved-section">
-        <h4>📚 已保存短文</h4>
-        <div id="savedPassages">
-            <div class="empty-state">暂无保存的短文</div>
-        </div>
-    </div>
 </div>
-
-<!-- 短文阅读 -->
-<div class="passage-content" id="passageContent"></div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-let passages = [];
+// ==================== state ====================
 let currentPassage = null;
-let startTime = null;
+let passages = [];
 
-const DEFAULT_PROMPT = `# Role
-你是一位精通英语教学与故事创作的资深语言专家，擅长通过高联想度、具象化且富有戏剧性的情境短文（Contextual Storytelling），帮助学生高效记忆英语单词。
+// ==================== KET themes ====================
+const KET_THEMES = [
+  { id: 'daily_routine', label: '日常生活' },
+  { id: 'shopping', label: '购物消费' },
+  { id: 'food_drink', label: '饮食' },
+  { id: 'health', label: '健康' },
+  { id: 'hobbies', label: '爱好休闲' },
+  { id: 'travel', label: '旅行度假' },
+  { id: 'clothes', label: '服饰穿搭' },
+  { id: 'school', label: '学校学习' },
+  { id: 'family', label: '家人朋友' },
+  { id: 'weather', label: '天气季节' },
+  { id: 'home', label: '家庭生活' },
+  { id: 'work', label: '工作职业' },
+  { id: 'nature', label: '自然世界' },
+  { id: 'sports', label: '体育运动' },
+  { id: 'entertainment', label: '娱乐活动' },
+  { id: 'transport', label: '交通出行' },
+  { id: 'animals', label: '动物植物' },
+  { id: 'technology', label: '通讯技术' }
+];
 
-# Objective
-请根据我提供的【目标单词列表】和【高频错误词汇列表】，创作一篇连贯、有趣且逻辑顺畅的英语阅读短文，将所有目标单词自然融入故事中，帮助学生结合语境深化记忆。
+const DEFAULT_PROMPT = `Write a short English story (300-400 words) for KET-level learners.
 
-# Target Words (必须全部使用)
-{words}
+Theme: {theme}
+Words to include (bold each with **word**): {words}
+High-frequency error words (use at least 3 times each): {wrong_words}
 
-# 高频错误词汇（请在文中多次复现，加深记忆）
-{wrong_words}
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
 
-# Article Requirements
-1. **词汇融入 (100% Coverage & Highlight)**：
-   - 必须涵盖"目标单词"列表中的**每一个单词**，不得遗漏或随意替换词形。
-   - 高频错误词汇请在文中**多次出现**（至少3次），加深记忆。
-   - 文章中出现目标单词时，请使用 **加粗**（**word**）显眼标注。
-2. **词汇比例要求**：
-   - 高频错误词汇占比至少 **30%**。
-   - 每篇短文包含 **15-20 个**目标单词。
-3. **篇幅限制 (Length)**：
-   - 短文总字数严格控制在 **500 - 800 个英文单词** 之间，保证情节丰富、细节充分。
-4. **内容与趣味性 (Storyline & Fun)**：
-   - **主题自定/情境匹配**：请观察单词列表的核心主题（如"校园侦探"、"荒岛求生"、"科幻冒险"、"日常奇遇"等），围绕词汇的核心语义设计契合的情景。
-   - **戏剧冲突**：情节要生动有趣、有转折或幽默感，避免流水账和为了堆砌词汇而生硬造句。
-5. **语言难度 (Language Level)**：
-   - 语法结构清晰、自然流畅，适应中初级至中高级英语学习者的阅读水平。
-
-# Output Format
-请严格按照以下格式输出，必须包含英文短文和中文翻译：
-
-### 📖 阅读短文 (Story)
+Format:
 
 **English:**
-[300-400词的英文短文，目标单词用**加粗**标记，分段书写]
+[story here]
 
 **Chinese:**
-[与英文逐句对应的中文翻译，必须完整翻译整篇文章]
+[translation here]`;
 
-### 📝 重点词汇对照表 (Word Check)
-[按单词在文中出现的顺序列出：**单词** - 词性 - 中文释义]
+// ==================== init ====================
+document.addEventListener('DOMContentLoaded', function() {
+  if (!document.getElementById('promptTemplate').value) {
+    document.getElementById('promptTemplate').value = DEFAULT_PROMPT;
+  }
+  loadPassages();
+  generatePassage();  // auto-generate on page load
+});
 
-**重要提醒：**
-- English 部分必须是纯英文短文
-- Chinese 部分必须是与英文对应的中文翻译（逐段对照）
-- 不要在中英文部分混入其他语言`;
+// ==================== generate passage ====================
+async function generatePassage() {
+  const stage = document.getElementById('passageStage');
+  const placeholder = document.getElementById('placeholder');
 
-// 诊断模式切换
-function toggleDiagnostic() {
-    const switchEl = document.getElementById('diagnosticSwitch');
-    const panel = document.getElementById('diagnosticPanel');
-    const content = document.getElementById('diagnosticContent');
+  // show loading
+  stage.innerHTML = '<div class="passage-placeholder"><div class="spinner"></div><div>正在生成短文...</div></div>';
+  document.getElementById('detailsFab').style.display = 'none';
 
-    if (switchEl.checked) {
-        // 获取当前提示词并展开变量
-        const prompt = document.getElementById('promptTemplate').value;
-        const expanded = expandPrompt(prompt);
-        content.textContent = expanded;
-        panel.style.display = 'block';
-    } else {
-        panel.style.display = 'none';
-    }
-}
+  // pick random KET theme
+  const theme = KET_THEMES[Math.floor(Math.random() * KET_THEMES.length)];
 
-// 展开提示词中的变量
-function expandPrompt(prompt) {
-    // 获取词库单词
-    const allWords = passages.length > 0
-        ? [...new Set(passages.flatMap(p => p.words_list || []))]
-        : ['apple', 'banana', 'cherry', 'elephant', 'forest', 'garden', 'happiness', 'important', 'knowledge', 'language'];
+  const prompt = document.getElementById('promptTemplate').value;
 
-    // 模拟高频错误词汇（前30%）
-    const wrongWords = allWords.slice(0, Math.ceil(allWords.length * 0.3));
-
-    return prompt
-        .replace(/{words}/g, allWords.slice(0, 20).join(', '))
-        .replace(/{wrong_words}/g, wrongWords.join(', '))
-        .replace(/{difficulty}/g, 'intermediate');
-}
-
-// 复制诊断内容
-function copyDiagnostic() {
-    const content = document.getElementById('diagnosticContent').textContent;
-    navigator.clipboard.writeText(content).then(() => {
-        showToast('已复制到剪贴板', 'success');
+  try {
+    const r = await fetch('/api/passages/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        difficulty: 'intermediate',
+        custom_prompt: prompt,
+        theme: theme.id,
+        theme_label: theme.label
+      })
     });
+    const data = await r.json();
+
+    if (data.success) {
+      currentPassage = { ...data, theme: theme.label };
+      showPassage(data, theme);
+      document.getElementById('detailsFab').style.display = 'block';
+    } else {
+      showError(data.message || '生成失败');
+    }
+  } catch (e) {
+    showError('请求失败: ' + e.message);
+  }
 }
 
-// 加载短文列表
-async function loadPassages() {
-    try {
-        const r = await fetch('/api/passages');
-        const data = await r.json();
-        if (data.success) {
-            passages = data.passages;
-            renderSavedPassages();
-        }
-    } catch (e) {
-        console.error('加载失败:', e);
+function showPassage(data, theme) {
+  const stage = document.getElementById('passageStage');
+
+  let englishText = '';
+  let chineseText = '';
+
+  if (data.content) {
+    const engMatch = data.content.match(/(?:English|英文)[：:]\s*([\s\S]*?)(?:Chinese|中文|$)/i);
+    const chnMatch = data.content.match(/(?:Chinese|中文)[：:]\s*([\s\S]*?)(?:📝|Word Check|$)/i);
+    if (engMatch && chnMatch) {
+      englishText = engMatch[1].trim();
+      chineseText = chnMatch[1].trim();
+    } else {
+      englishText = data.content;
+      chineseText = data.translation || '';
     }
+  }
+
+  // Process: bold unknown words + add tooltips
+  const formatEnglish = (text) => {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, function(m, word) {
+        const meaning = getWordMeaning(word);
+        return `<span class="word-unknown">${word}<span class="tooltip">${meaning}</span></span>`;
+      })
+      .replace(/\n/g, '<br>');
+  };
+
+  const formatChinese = (text) => {
+    // 清理 markdown 标记：**bold** → 纯文本
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/\n/g, '<br>');
+  };
+
+  stage.innerHTML = `
+    <div class="passage-card">
+      <div class="passage-card-title">${escapeHtml(data.title || '短文')}</div>
+      <div class="passage-card-meta">
+        ${theme.label} · ${(data.words_used || []).length} 个目标单词
+      </div>
+      <div class="passage-text">${formatEnglish(englishText)}</div>
+      <hr class="passage-divider">
+      <div class="passage-translation">${formatChinese(chineseText)}</div>
+    </div>
+    <div class="passage-illustration" id="passageIllustration">
+      ${generateIllustration(theme.label)}
+    </div>
+  `;
 }
 
-function renderSavedPassages() {
-    const container = document.getElementById('savedPassages');
-    if (passages.length === 0) {
-        container.innerHTML = '<div class="empty-state">暂无保存的短文</div>';
-        return;
-    }
+// ==================== illustration (simple SVG line art) ====================
+function generateIllustration(themeLabel) {
+  const illustrations = {
+    '日常生活': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <circle cx="320" cy="50" r="24" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity="0.6"/>
+      <rect x="140" y="100" width="120" height="80" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <polygon points="130,100 200,50 270,100" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <rect x="185" y="135" width="30" height="45" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <rect x="155" y="120" width="20" height="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="165" y1="120" x2="165" y2="140" stroke="var(--text)" stroke-width="1"/>
+      <line x1="155" y1="130" x2="175" y2="130" stroke="var(--text)" stroke-width="1"/>
+      <line x1="80" y1="180" x2="80" y2="120" stroke="var(--text)" stroke-width="2"/>
+      <circle cx="80" cy="105" r="20" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <path d="M 185 180 Q 200 190 215 180" fill="none" stroke="var(--text)" stroke-width="1" stroke-dasharray="4,3"/>
+      <path d="M 50 40 Q 55 35 60 40 Q 65 35 70 40" fill="none" stroke="var(--text)" stroke-width="1"/>
+      <path d="M 90 30 Q 93 27 96 30 Q 99 27 102 30" fill="none" stroke="var(--text)" stroke-width="1"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '购物消费': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <rect x="120" y="60" width="160" height="120" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <line x1="120" y1="100" x2="280" y2="100" stroke="var(--border)" stroke-width="1"/>
+      <rect x="140" y="110" width="40" height="50" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="2"/>
+      <rect x="220" y="110" width="40" height="50" fill="none" stroke="var(--accent)" stroke-width="1.5" rx="2"/>
+      <circle cx="160" cy="135" r="8" fill="none" stroke="var(--text)" stroke-width="1"/>
+      <circle cx="240" cy="135" r="8" fill="none" stroke="var(--text)" stroke-width="1"/>
+      <path d="M 310 80 L 330 80 L 340 100 L 330 160 L 310 160 Z" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <line x1="315" y1="90" x2="335" y2="90" stroke="var(--border)" stroke-width="1"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '饮食': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <ellipse cx="200" cy="140" rx="80" ry="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <ellipse cx="200" cy="100" rx="60" ry="15" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <ellipse cx="200" cy="120" rx="70" ry="18" fill="none" stroke="var(--border)" stroke-width="1"/>
+      <circle cx="180" cy="110" r="6" fill="var(--accent)" opacity="0.3"/>
+      <circle cx="210" cy="105" r="5" fill="var(--accent)" opacity="0.3"/>
+      <circle cx="195" cy="115" r="4" fill="var(--accent)" opacity="0.3"/>
+      <path d="M 100 80 Q 110 60 120 80" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 280 80 Q 290 60 300 80" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '健康': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <path d="M 200 60 C 180 40, 140 40, 140 80 C 140 120, 200 160, 200 160 C 200 160, 260 120, 260 80 C 260 40, 220 40, 200 60 Z" fill="none" stroke="var(--danger)" stroke-width="1.5"/>
+      <line x1="180" y1="100" x2="220" y2="100" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="200" y1="80" x2="200" y2="120" stroke="var(--text)" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="30" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="85" y1="100" x2="115" y2="100" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="100" y1="85" x2="100" y2="115" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '爱好休闲': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <rect x="140" y="80" width="120" height="80" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <circle cx="200" cy="110" r="25" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <circle cx="200" cy="110" r="10" fill="none" stroke="var(--text)" stroke-width="1"/>
+      <line x1="200" y1="85" x2="200" y2="95" stroke="var(--text)" stroke-width="1"/>
+      <line x1="200" y1="125" x2="200" y2="135" stroke="var(--text)" stroke-width="1"/>
+      <line x1="175" y1="110" x2="185" y2="110" stroke="var(--text)" stroke-width="1"/>
+      <line x1="215" y1="110" x2="225" y2="110" stroke="var(--text)" stroke-width="1"/>
+      <path d="M 80 120 Q 90 100 100 120 Q 110 100 120 120" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 280 120 Q 290 100 300 120 Q 310 100 320 120" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '旅行度假': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <circle cx="320" cy="50" r="24" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity="0.6"/>
+      <path d="M 50 160 L 150 80 L 250 160" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 180 160 L 230 100 L 280 160" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="150" y1="80" x2="155" y2="75" stroke="var(--text)" stroke-width="1"/>
+      <line x1="155" y1="75" x2="160" y2="80" stroke="var(--text)" stroke-width="1"/>
+      <rect x="180" y="130" width="40" height="30" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <rect x="190" y="115" width="20" height="15" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '服饰穿搭': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <path d="M 160 60 L 200 40 L 240 60 L 240 160 L 160 160 Z" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="200" y1="40" x2="200" y2="60" stroke="var(--text)" stroke-width="1"/>
+      <circle cx="200" cy="80" r="4" fill="var(--accent)"/>
+      <circle cx="200" cy="100" r="4" fill="var(--accent)"/>
+      <circle cx="200" cy="120" r="4" fill="var(--accent)"/>
+      <rect x="280" y="80" width="60" height="80" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <line x1="310" y1="80" x2="310" y2="160" stroke="var(--border)" stroke-width="1"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '学校学习': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <rect x="100" y="80" width="200" height="80" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <polygon points="90,80 200,40 310,80" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <rect x="180" y="120" width="40" height="40" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <rect x="120" y="100" width="25" height="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <rect x="255" y="100" width="25" height="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <circle cx="200" cy="60" r="8" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '家人朋友': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <circle cx="150" cy="80" r="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <circle cx="250" cy="80" r="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <circle cx="200" cy="120" r="25" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <path d="M 150 100 L 150 140" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 250 100 L 250 140" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 175 120 L 225 120" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '天气季节': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <circle cx="100" cy="60" r="20" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity="0.6"/>
+      <path d="M 180 80 Q 200 50 220 80 Q 240 50 260 80" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 280 100 Q 300 70 320 100 Q 340 70 360 100" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <circle cx="150" cy="140" r="4" fill="var(--text)"/>
+      <circle cx="200" cy="150" r="4" fill="var(--text)"/>
+      <circle cx="250" cy="135" r="4" fill="var(--text)"/>
+      <circle cx="300" cy="145" r="4" fill="var(--text)"/>
+      <circle cx="350" cy="130" r="4" fill="var(--text)"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '家庭生活': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <rect x="120" y="80" width="160" height="100" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <polygon points="110,80 200,40 290,80" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <rect x="180" y="130" width="40" height="50" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <rect x="140" y="100" width="25" height="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <rect x="235" y="100" width="25" height="20" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="152" y1="100" x2="152" y2="120" stroke="var(--text)" stroke-width="1"/>
+      <line x1="140" y1="110" x2="165" y2="110" stroke="var(--text)" stroke-width="1"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '工作职业': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <rect x="140" y="60" width="120" height="100" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <rect x="160" y="80" width="80" height="50" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <rect x="170" y="140" width="20" height="20" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <rect x="210" y="140" width="20" height="20" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <circle cx="200" cy="105" r="10" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '自然世界': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <circle cx="320" cy="50" r="24" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity="0.6"/>
+      <path d="M 50 160 Q 100 100 150 160" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 120 160 Q 170 80 220 160" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 200 160 Q 250 100 300 160" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="80" y1="160" x2="80" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <circle cx="80" cy="85" r="18" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="250" y1="160" x2="250" y2="110" stroke="var(--text)" stroke-width="2"/>
+      <circle cx="250" cy="95" r="15" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '体育运动': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <circle cx="200" cy="100" r="40" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 200 60 L 200 140" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 160 100 L 240 100" stroke="var(--text)" stroke-width="1.5"/>
+      <circle cx="200" cy="100" r="8" fill="var(--accent)" opacity="0.3"/>
+      <rect x="80" y="140" width="40" height="20" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <rect x="280" y="140" width="40" height="20" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '娱乐活动': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <rect x="120" y="60" width="160" height="100" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <polygon points="180,80 180,140 240,110" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="15" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <circle cx="300" cy="100" r="15" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '交通出行': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <rect x="100" y="80" width="200" height="60" fill="none" stroke="var(--text)" stroke-width="1.5" rx="8"/>
+      <rect x="120" y="90" width="60" height="40" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <rect x="220" y="90" width="60" height="40" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <circle cx="140" cy="160" r="15" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <circle cx="260" cy="160" r="15" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '动物植物': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <circle cx="150" cy="100" r="30" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <circle cx="140" cy="90" r="5" fill="var(--text)"/>
+      <circle cx="160" cy="90" r="5" fill="var(--text)"/>
+      <path d="M 140 110 Q 150 120 160 110" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 120 70 Q 110 50 120 40" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <path d="M 180 70 Q 190 50 180 40" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <line x1="280" y1="180" x2="280" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <circle cx="280" cy="65" r="20" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+      <circle cx="260" cy="75" r="12" fill="none" stroke="var(--accent)" stroke-width="1"/>
+      <circle cx="300" cy="75" r="12" fill="none" stroke="var(--accent)" stroke-width="1"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`,
+    '通讯技术': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+      <rect width="400" height="200" fill="var(--bg-secondary)" rx="8"/>
+      <rect x="140" y="60" width="120" height="80" fill="none" stroke="var(--text)" stroke-width="1.5" rx="8"/>
+      <rect x="155" y="75" width="90" height="50" fill="none" stroke="var(--text)" stroke-width="1.5" rx="4"/>
+      <rect x="185" y="125" width="30" height="15" fill="none" stroke="var(--text)" stroke-width="1.5" rx="2"/>
+      <circle cx="200" cy="100" r="8" fill="var(--accent)" opacity="0.3"/>
+      <path d="M 80 100 Q 60 80 80 60" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <path d="M 320 100 Q 340 80 320 60" fill="none" stroke="var(--text)" stroke-width="1.5"/>
+      <line x1="0" y1="180" x2="400" y2="180" stroke="var(--border)" stroke-width="1"/>
+    </svg>`
+  };
+  
+  return illustrations[themeLabel] || illustrations['日常生活'];
+}
 
-    container.innerHTML = passages.map((p, i) => `
-        <div class="saved-card" onclick="showSavedPassage(${i})">
-            <span class="saved-card-title">${p.title || '短文 #' + p.id}</span>
-            <span class="saved-card-meta">${(p.words_list || []).length} 词</span>
-        </div>
-    `).join('');
+function showError(msg) {
+  const stage = document.getElementById('passageStage');
+  stage.innerHTML = `
+    <div class="passage-card error-card">
+      <div class="passage-card-title">生成失败</div>
+      <div style="color:var(--danger);font-size:0.9rem;">${escapeHtml(msg)}</div>
+    </div>
+  `;
+}
+
+// ==================== details (saved passages) ====================
+function openDetails() {
+  document.getElementById('detailsOverlay').classList.add('open');
+  renderDetails();
+}
+
+function closeDetails(e) {
+  if (!e || e.target === document.getElementById('detailsOverlay')) {
+    document.getElementById('detailsOverlay').classList.remove('open');
+  }
+}
+
+function renderDetails() {
+  const body = document.getElementById('detailsBody');
+  if (passages.length === 0) {
+    body.innerHTML = '<div class="details-empty">暂无保存的短文</div>';
+    return;
+  }
+  body.innerHTML = passages.map((p, i) => `
+    <div class="details-item">
+      <div class="details-item-content" onclick="showSavedPassage(${i})">
+        <div class="details-item-title">${escapeHtml(p.title || '短文')}</div>
+        <div class="details-item-meta">${p.theme || '—'} · ${(p.words_list || []).length} 词</div>
+      </div>
+      <button class="details-item-delete" onclick="deletePassageById(${p.id}, event)">×</button>
+    </div>
+  `).join('');
+}
+
+async function deletePassageById(id, event) {
+  event.stopPropagation();
+  try {
+    const r = await fetch(`/api/passages/${id}`, { method: 'DELETE' });
+    const data = await r.json();
+    if (data.success) {
+      showToast('已删除', 'success');
+      loadPassages();
+    } else {
+      showToast('删除失败', 'error');
+    }
+  } catch (e) {
+    showToast('删除失败', 'error');
+  }
 }
 
 function showSavedPassage(index) {
-    currentPassage = passages[index];
-    showPassageDetail(currentPassage);
+  const p = passages[index];
+  if (!p) return;
+  closeDetails();
+  currentPassage = p;
+  const stage = document.getElementById('passageStage');
+  const formatEnglish = (text) => text.replace(/\*\*(.*?)\*\*/g, function(m, w) {
+    return `<span class="word-unknown">${w}<span class="tooltip">${getWordMeaning(w)}</span></span>`;
+  }).replace(/\n/g, '<br>');
+
+  stage.innerHTML = `
+    <div class="passage-card">
+      <div class="passage-card-title">${escapeHtml(p.title || '短文')}</div>
+      <div class="passage-card-meta">${p.theme || '—'} · ${(p.words_list || []).length} 词</div>
+      <div class="passage-text">${formatEnglish(p.content || '')}</div>
+      ${p.translation ? `<hr class="passage-divider"><div class="passage-translation">${p.translation.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\n/g, '<br>')}</div>` : ''}
+    </div>
+  `;
 }
 
-function showPassageDetail(p) {
-    const content = document.getElementById('passageContent');
-    const list = document.getElementById('passagesList');
-
-    // 解析中英文内容
-    let englishText = '';
-    let chineseText = '';
-
-    if (p.content) {
-        // 尝试按 "English:" 和 "Chinese:" 分割
-        const engMatch = p.content.match(/(?:English|英文)[：:]\s*([\s\S]*?)(?:Chinese|中文|$)/i);
-        const chnMatch = p.content.match(/(?:Chinese|中文)[：:]\s*([\s\S]*?)(?:📝|Word Check|$)/i);
-
-        if (engMatch && chnMatch) {
-            englishText = engMatch[1].trim();
-            chineseText = chnMatch[1].trim();
-        } else {
-            // 如果没有明确标记，使用 content 和 translation
-            englishText = p.content;
-            chineseText = p.translation || '';
-        }
+async function loadPassages() {
+  try {
+    const r = await fetch('/api/passages');
+    const data = await r.json();
+    if (data.success) {
+      passages = data.passages;
     }
-
-    // 格式化：加粗标记 + 换行
-    const formatText = (text) => {
-        return text
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\n/g, '<br>');
-    };
-
-    content.innerHTML = `
-        <h3>${p.title || '短文 #' + p.id}</h3>
-        <div class="passage-reading">
-            <div class="passage-reading-column">
-                <h4>English</h4>
-                <div class="text">${formatText(englishText)}</div>
-            </div>
-            <div class="passage-reading-column">
-                <h4>中文</h4>
-                <div class="text translation">${formatText(chineseText)}</div>
-            </div>
-        </div>
-        <div class="passage-actions">
-            <button class="btn btn-outline btn-sm" onclick="backToList()">← 返回</button>
-            <button class="btn btn-danger btn-sm" onclick="deletePassage(${p.id})">删除</button>
-        </div>
-    `;
-
-    list.style.display = 'none';
-    content.classList.add('active');
+  } catch (e) {
+    console.error('加载失败:', e);
+  }
 }
 
-function backToList() {
-    document.getElementById('passagesList').style.display = 'block';
-    document.getElementById('passageContent').classList.remove('active');
-    currentPassage = null;
+// ==================== helpers ====================
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// 状态更新
-function updateStatus(status, message) {
-    const bar = document.getElementById('statusBar');
-    const icon = document.getElementById('statusIcon');
-    const text = document.getElementById('statusText');
-    const time = document.getElementById('statusTime');
-
-    bar.style.display = 'flex';
-    text.textContent = message;
-
-    icon.className = 'status-icon ' + status;
-
-    if (status === 'loading') {
-        startTime = Date.now();
-        updateTimer();
-    } else if (status === 'success' || status === 'error') {
-        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-        time.textContent = elapsed + 's';
-    }
+// Word meaning lookup
+const WORD_MEANINGS = {};
+function getWordMeaning(word) {
+  return WORD_MEANINGS[word.toLowerCase()] || '';
 }
-
-function updateTimer() {
-    if (!startTime) return;
-    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-    document.getElementById('statusTime').textContent = elapsed + 's';
-    if (document.getElementById('statusIcon').classList.contains('loading')) {
-        setTimeout(updateTimer, 100);
-    }
-}
-
-async function generatePassage() {
-    const btn = document.getElementById('generateBtn');
-    const prompt = document.getElementById('promptTemplate').value;
-
-    btn.disabled = true;
-    btn.innerHTML = '<span class="loading" style="width: 14px; height: 14px; border-width: 2px;"></span> 生成中...';
-
-    updateStatus('loading', '正在调用大模型生成短文...');
-
-    try {
-        const r = await fetch('/api/passages/generate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ difficulty: 'intermediate', custom_prompt: prompt })
-        });
-        const data = await r.json();
-
-        if (data.success) {
-            updateStatus('success', `生成成功！使用 ${data.words_used?.length || 0} 个单词`);
-            currentPassage = data;
-            showGeneratedPassage(data);
-            loadPassages();
-        } else {
-            updateStatus('error', data.message || '生成失败');
-        }
-    } catch (e) {
-        updateStatus('error', '请求失败: ' + e.message);
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<span>+</span> 生成新短文';
-    }
-}
-
-function showGeneratedPassage(data) {
-    const container = document.getElementById('currentPassage');
-
-    // 解析中英文内容
-    let englishText = '';
-    let chineseText = '';
-
-    if (data.content) {
-        const engMatch = data.content.match(/(?:English|英文)[：:]\s*([\s\S]*?)(?:Chinese|中文|$)/i);
-        const chnMatch = data.content.match(/(?:Chinese|中文)[：:]\s*([\s\S]*?)(?:📝|Word Check|$)/i);
-
-        if (engMatch && chnMatch) {
-            englishText = engMatch[1].trim();
-            chineseText = chnMatch[1].trim();
-        } else {
-            englishText = data.content;
-            chineseText = data.translation || '';
-        }
-    }
-
-    const formatText = (text) => {
-        return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-    };
-
-    container.innerHTML = `
-        <div class="passage-card" style="margin-bottom: 24px;">
-            <div class="passage-card-title">${data.title || '新短文'}</div>
-            <div class="passage-reading" style="margin-top: 16px;">
-                <div class="passage-reading-column">
-                    <h4>English</h4>
-                    <div class="text">${formatText(englishText)}</div>
-                </div>
-                <div class="passage-reading-column">
-                    <h4>中文</h4>
-                    <div class="text translation">${formatText(chineseText)}</div>
-                </div>
-            </div>
-            <div class="passage-actions" style="margin-top: 16px;">
-                <button class="btn btn-primary btn-sm" onclick="saveNewPassage()">保存到数据库</button>
-            </div>
-        </div>
-    `;
-}
-
-async function saveNewPassage() {
-    if (!currentPassage || !currentPassage.content) return;
-
-    try {
-        const r = await fetch('/api/passages/save', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title: currentPassage.title || '短文',
-                content: currentPassage.content,
-                words_used: currentPassage.words_used || [],
-                translation: currentPassage.translation || ''
-            })
-        });
-        const data = await r.json();
-        if (data.success) {
-            showToast('保存成功！', 'success');
-            loadPassages();
-        }
-    } catch (e) {
-        showToast('保存失败', 'error');
-    }
-}
-
-async function deletePassage(id) {
-    if (!confirm('确定删除？')) return;
-    try {
-        const r = await fetch(`/api/passages/${id}`, { method: 'DELETE' });
-        const data = await r.json();
-        if (data.success) {
-            showToast('已删除', 'success');
-            backToList();
-            loadPassages();
-        }
-    } catch (e) {
-        showToast('删除失败', 'error');
-    }
-}
-
-async function clearPassages() {
-    if (!confirm('确定清空所有短文？')) return;
-    try {
-        const r = await fetch('/api/passages/clear', { method: 'POST' });
-        const data = await r.json();
-        if (data.success) {
-            showToast('已清空', 'success');
-            loadPassages();
-        }
-    } catch (e) {
-        showToast('清空失败', 'error');
-    }
-}
-
-function resetPrompt() {
-    document.getElementById('promptTemplate').value = DEFAULT_PROMPT;
-}
-
-// 页面加载
-document.addEventListener('DOMContentLoaded', function() {
-    loadPassages();
-    if (!document.getElementById('promptTemplate').value) {
-        document.getElementById('promptTemplate').value = DEFAULT_PROMPT;
-    }
-});
 </script>
 {% endblock %}

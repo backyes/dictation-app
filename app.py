@@ -245,6 +245,8 @@ def api_generate_passage():
     data = request.json or {}
     difficulty = data.get('difficulty', 'intermediate')
     custom_prompt = data.get('custom_prompt')
+    theme = data.get('theme', '')
+    theme_label = data.get('theme_label', '')
 
     # 获取词库中的单词
     all_words = get_all_words()
@@ -257,15 +259,16 @@ def api_generate_passage():
     if len(words) < 3:
         return jsonify({'success': False, 'message': '词库单词不足，请先添加至少3个单词'}), 400
 
-    add_log('info', 'api', f'生成短文请求，使用 {len(words)} 个单词，其中高频错误词汇 {len(wrong_words)} 个')
+    add_log('info', 'api', f'生成短文请求，使用 {len(words)} 个单词，其中高频错误词汇 {len(wrong_words)} 个，主题: {theme_label}')
 
     try:
-        result = generate_passage(words, difficulty, custom_prompt, wrong_words)
+        result = generate_passage(words, difficulty, custom_prompt, wrong_words, theme, theme_label)
         passage_id = add_passage(
             title=result['title'],
             content=result['content'],
             words_used=result['words_used'],
-            difficulty=difficulty
+            difficulty=difficulty,
+            theme=theme_label
         )
         add_log('info', 'api', f'短文生成完成: {result["title"]}')
 
@@ -307,7 +310,8 @@ def api_save_passage():
             title=data.get('title', '短文'),
             content=data.get('content', ''),
             words_used=data.get('words_used', []),
-            difficulty=data.get('difficulty', 'intermediate')
+            difficulty=data.get('difficulty', 'intermediate'),
+            theme=data.get('theme', '')
         )
         add_log('info', 'api', f'保存短文: {passage_id}')
         return jsonify({'success': True, 'id': passage_id})
