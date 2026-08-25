@@ -443,27 +443,26 @@ const KET_THEMES = [
 
 const DEFAULT_PROMPT = `Write a short English story (300-400 words) for KET-level learners.
 
-Theme: {theme}
-Words to include (bold each with **word**): {words}
-High-frequency error words (use at least 3 times each): {wrong_words}
+Words to include (bold with **word**): {words}
+Error words (use ≥3 times each): {wrong_words}
 
-Requirements:
-- Use ALL words from the list above
-- Bold each target word like **word**
-- Error words must appear at least 3 times
-- Simple grammar, fun storyline
-- After the story, add a Chinese translation
-- Do NOT include any thinking, reasoning, planning, or explanation in your response
-- Do NOT include any meta-commentary about the task
-- Just output the story and translation, nothing else
+CRITICAL RULES:
+1. Start DIRECTLY with the story - first word should be a character name or "Once" or "One day"
+2. NO thinking, NO planning, NO reasoning, NO explanation before or after the story
+3. NO word frequency counts, NO usage notes, NO annotations like (1) (2) (M)
+4. NO bullet points, NO lists, NO meta-commentary
+5. Fun and simple grammar suitable for KET-level learners
+6. Output ONLY the story text, nothing else
 
-Format:
+Example of CORRECT output:
+"Once upon a time, there was a young girl named Sarah. She worked as a waitress..."
 
-**English:**
-[story here]
+Example of WRONG output:
+"Let me plan this story first. I need to include these words..."
+"- quarter: I will use this 3 times"
+"Lucy is a waitress (1) at a restaurant"
 
-**Chinese:**
-[translation here]`;
+Now write the story:`;
 
 // ==================== init ====================
 document.addEventListener('DOMContentLoaded', function() {
