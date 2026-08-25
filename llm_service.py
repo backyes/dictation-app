@@ -233,10 +233,6 @@ def test_connection(provider_config: dict = None) -> dict:
 def generate_passage(words: list, difficulty: str = 'intermediate', custom_prompt: str = None, wrong_words: list = None, theme: str = '', theme_label: str = '') -> dict:
     """
     基于词库单词生成短文，帮助学生记忆单词
-    - words: 所有可用单词
-    - wrong_words: 高频错误词汇（至少30%的单词会从这里选取）
-    - theme: KET主题类型ID
-    - theme_label: KET主题类型标签
     """
     logger.info(f"生成短文，使用 {len(words)} 个单词，主题: {theme_label}")
     start = time.time()
@@ -246,11 +242,8 @@ def generate_passage(words: list, difficulty: str = 'intermediate', custom_promp
     # 选择单词：确保至少30%来自高频错误词汇，总共15-20个单词
     max_words = 20
     if wrong_words and len(wrong_words) > 0:
-        # 计算至少需要多少个错误词汇（30%）
         min_wrong = max(3, int(max_words * 0.3))
-        # 从错误词汇中选取
-        selected_wrong = wrong_words[:min_wrong + 2]  # 多选一些备用
-        # 从所有词汇中补充剩余
+        selected_wrong = wrong_words[:min_wrong + 2]
         remaining = [w for w in words if w not in selected_wrong]
         needed_regular = max_words - len(selected_wrong)
         selected_regular = remaining[:needed_regular] if needed_regular > 0 else []
@@ -261,143 +254,101 @@ def generate_passage(words: list, difficulty: str = 'intermediate', custom_promp
     word_list = ', '.join(selected_words)
     wrong_list = ', '.join(wrong_words[:10]) if wrong_words else ''
 
-    if custom_prompt:
-        prompt = custom_prompt.replace('{words}', word_list).replace('{difficulty}', difficulty).replace('{wrong_words}', wrong_list)
-        # Also replace theme if the prompt has the placeholder
-        prompt = prompt.replace('{theme}', theme_label or theme)
-    else:
-        prompt = f"""Write a short English story (300-400 words) for KET-level learners.
-
-Theme: {theme_label}
-Words to include (bold each with **word**): {word_list}
-High-frequency error words (use at least 3 times each): {wrong_list}
-
-Requirements:
-- Use ALL words from the list above
-- Bold each target word like **word**
-- Error words must appear at least 3 times
-- Simple grammar, fun storyline
-- After the story, add a Chinese translation
-
-Format:
-
-**English:**
-[story here]
-
-**Chinese:**
-[translation here]"""
-
-    # 记录完整 prompt 到日志
-    logger.info(f"LLM Prompt (generate_passage):\n{prompt}")
-    add_log('info', 'llm_service', f'生成短文 Prompt: {len(prompt)} 字符, 单词: {word_list[:100]}...', {'prompt_length': len(prompt), 'words': selected_words[:5]})
+    result = {
+        'title': '',
+        'title_cn': '',
+        'content': '',
+        'translation': '',
+        'words_used': []
+    }
 
     try:
-        response = client.chat([
-            {"role": "system", "content": "You are a story writer. You NEVER output thinking, reasoning, or planning. You ONLY output the story and translation. Start directly with **English:**"},
-            {"role": "user", "content": prompt}
-        ], temperature=0.7)
-        import json
         import re
+        
+        # Step 1: 生成英文短文
+        story_prompt = f"""Write a short English story (300-400 words) about "{theme_label}" for KET-level learners.
+
+Words to include (bold with **word**): {word_list}
+Error words (use ≥3 times each): {wrong_list}
+
+RULES:
+- Start DIRECTLY with the story
+- NO thinking, NO planning, NO reasoning, NO explanation
+- Fun and simple grammar
+- Output ONLY the story, nothing else"""
+
+        logger.info(f"生成短文 Prompt: {len(story_prompt)} 字符")
+        
+        response = client.chat([
+            {"role": "user", "content": story_prompt}
+        ], temperature=0.7)
 
         logger.debug(f"LLM 响应长度: {len(response)} 字符")
         logger.debug(f"LLM 响应内容:\n{response}")
 
-        result = {
-            'title': '',
-            'title_cn': '',
-            'content': '',
-            'translation': '',
-            'words_used': []
-        }
-
-        # 提取短文内容 - 查找 "English:" 后的内容
-        content_patterns = [
-            r'\*\*English:\*\*\s*\n([\s\S]*?)(?=\n\s*\*\*Chinese:\*\*|$)',
-            r'English:\s*\n([\s\S]*?)(?=\n\s*Chinese:\s*\n|$)',
-            r'(?:📖\s*阅读短文|Story)[^\n]*\n([\s\S]*?)(?=💡|Chinese|中文|📝|Word Check|$)',
-        ]
-        for pattern in content_patterns:
-            content_match = re.search(pattern, response, re.IGNORECASE)
-            if content_match:
-                content = content_match.group(1).strip()
-                # 清理 markdown 标记
-                content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', content)
-                if len(content) > 50:
-                    result['content'] = content
-                    break
-
-        # 如果没有匹配到，尝试提取最长的包含 <strong> 的段落
-        if not result['content']:
-            # 找到所有包含 <strong> 的段落（这些是故事内容）
-            strong_paragraphs = re.findall(r'(?:^|\n\n)([^\n]*<strong>.*?</strong>(?:\n(?!\n)[^\n]*)*)', response, re.DOTALL)
-            if strong_paragraphs:
-                # 取最长的段落
-                longest = max(strong_paragraphs, key=len)
-                content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', longest.strip())
-                if len(content) > 50:
-                    result['content'] = content
-
-        # 如果还是没有，取最长的段落（排除明显的 thinking 部分）
-        if not result['content']:
-            paragraphs = re.split(r'\n\s*\n', response)
-            # 过滤掉太短的段落和包含 reasoning 关键词的段落
-            filtered = []
-            for p in paragraphs:
-                p = p.strip()
-                if len(p) < 100:
-                    continue
-                # 跳过包含 reasoning 关键词的段落
-                if re.search(r'(?:reasoning|thinking|planning|deconstruct|brainstorm|let me|I need to|step \d+|mandatory|error words|I\'ll craft|I\'ll write|I\'ll make|I\'ll ensure|I\'ll count|I\'ll incorporate|I\'ll plan|I\'ll create|I\'ll need|I\'ve|Here\'s|Now I|Let\'s|I will)', p, re.IGNORECASE):
-                    continue
-                filtered.append(p)
+        # 提取故事内容（排除 thinking）
+        paragraphs = re.split(r'\n\n+', response)
+        story_parts = []
+        story_started = False
+        
+        for p in paragraphs:
+            p = p.strip()
+            if len(p) < 30:
+                continue
+            
+            # 检测 thinking 模式
+            is_thinking = bool(re.match(r'^(I need|I\'ll|I will|I\'ve|I\'m going to|Let me|Okay|So I|First|The theme|The error|I should|I can|This is|Word count|I\'ll make|I\'ll write|I\'ll create|I\'ll ensure|I\'ll need|I\'ll incorporate|I\'ll use|I\'ll count|I\'ll craft|I\'ll plan|I\'ve crafted|I\'ll need to|I\'ll have to|I should|Let\'s)', p, re.IGNORECASE))
+            is_thinking = is_thinking or bool(re.search(r'(?:must include|error words|at least 3 times|theme is|simple narrative|incorporating all|weave them|fun and simple|word count|KET level)', p, re.IGNORECASE))
+            
+            if is_thinking:
+                continue
+            
+            # 检测实际故事开始
+            if not story_started:
+                if re.match(r'^[A-Z][a-z]+(?:\s+[a-z]+)*\s+(?:was|is|had|found|went|saw|said|looked|opened|read|walked|ran|asked|told|gave|made|took|came|started|began|decided|wanted|liked|loved|helped|visited|worked|lived|played|talked|thought|remembered|wrote|received|bought|sold|cooked|ate|drank|wore|brought|carried|held|kept|left|returned|moved|changed|grew|built|cleaned|washed|baked|planted|picked|pulled|pushed|turned|closed|showed|explained|described|answered|replied|laughed|smiled|cried|shouted|whispered|danced|sang|listened|watched|waited|stopped|tried|continued|finished|completed|prepared|organized|arranged|collected|gathered|joined|attended|enjoyed|celebrated|welcomed|thanked|apologized|invited|allowed|encouraged|supported|recommended|suggested|promised|agreed|refused|accepted|believed|hoped|wished|dreamed|imagined|wondered|discovered|learned|understood|realized|noticed|recognized|forgot|guessed|predicted|expected|surprised|worried|feared|hated|disliked|embarrassed|confused|frustrated|disappointed|excited|interested|bored|tired|sick|healthy|strong|weak|happy|sad|angry|scared|proud|jealous|grateful|lonely|comfortable|patient|polite|friendly|kind|generous|honest|brave|clever|smart|foolish|careful|careless|curious|creative|energetic|gentle|responsible|serious|silly|strict|thoughtful|understanding|wise)\b', p):
+                    story_started = True
+                elif re.match(r'^"[^"]*"', p):
+                    story_started = True
+                elif re.match(r'^(?:Once|One day|That day|Yesterday|Today|Last|Next|In the|At the|On a|There was|It was|Every|This|My)', p, re.IGNORECASE):
+                    story_started = True
+            
+            if story_started:
+                story_parts.append(p)
+        
+        if not story_parts:
+            # Fallback: 取最长的段落
+            filtered = [p for p in paragraphs if len(p.strip()) > 100]
             if filtered:
-                longest = max(filtered, key=len)
-                content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', longest.strip())
-                result['content'] = content
+                story_parts = [max(filtered, key=len)]
+        
+        content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', '\n\n'.join(story_parts)) if story_parts else response
+        result['content'] = content
 
-        # 提取中文翻译 - 更宽松的匹配
-        trans_patterns = [
-            r'\*\*Chinese:\*\*\s*\n([\s\S]*?)(?=\n\s*\*\*|\n\s*Word Check|$)',
-            r'Chinese:\s*\n([\s\S]*?)(?=\n\s*\*\*|\n\s*Word Check|$)',
-            r'(?:💡\s*故事中文大意|中文梗概)[^\n]*\n([\s\S]*?)(?=📝|Word Check|$)',
-        ]
-        for pattern in trans_patterns:
-            trans_match = re.search(pattern, response, re.IGNORECASE)
-            if trans_match:
-                translation = trans_match.group(1).strip()
-                # 清理 markdown 标记：**bold** → 纯文本
-                translation = re.sub(r'\*\*(.*?)\*\*', r'\1', translation)
-                result['translation'] = translation
-                break
-
-        # 如果中文翻译为空，尝试在 content 之后查找
-        if not result['translation'] and result['content']:
-            # 在完整响应中查找 content 之后是否有中文段落
-            content_end = response.find(result['content'][-50:]) if len(result['content']) > 50 else -1
-            if content_end > 0:
-                after_content = response[content_end + 50:]
-                # 查找中文字符开头的段落
-                chinese_para = re.search(r'[\u4e00-\u9fff][^\n\u4e00-\u9fff]*', after_content)
-                if chinese_para:
-                    translation = re.sub(r'\*\*(.*?)\*\*', r'\1', chinese_para.group(0).strip())
-                    if len(translation) > 20:
-                        result['translation'] = translation
+        # Step 2: 生成中文翻译
+        if content:
+            plain_text = re.sub(r'<[^>]+>', '', content)
+            try:
+                trans_response = client.chat([
+                    {"role": "user", "content": f"Translate this English story to Chinese. Output ONLY the translation:\n\n{plain_text}"}
+                ], temperature=0.3)
+                
+                trans_text = trans_response.strip()
+                # 移除可能的 thinking
+                trans_paragraphs = re.split(r'\n\n+', trans_text)
+                trans_parts = []
+                for tp in trans_paragraphs:
+                    tp = tp.strip()
+                    if tp and not re.match(r'^(I need|I\'ll|I will|I\'ve|Let me|Okay|So I|I should|I can|I\'ll translate|I\'ll provide|The translation)', tp, re.IGNORECASE):
+                        trans_parts.append(tp)
+                
+                result['translation'] = '\n\n'.join(trans_parts) if trans_parts else trans_text
+            except Exception as e:
+                logger.error(f"翻译失败: {e}")
 
         # 提取实际使用的单词
         if result['content']:
             content_lower = result['content'].lower()
             result['words_used'] = [w for w in selected_words if w.lower() in content_lower]
-
-        # 如果没有提取到内容，把整个响应当作内容
-        if not result['content']:
-            result['content'] = response
-            content_lower = response.lower()
-            result['words_used'] = [w for w in selected_words if w.lower() in content_lower]
-
-        # 提取标题
-        title_match = re.search(r'(?:Title|标题)[：:]\s*(.+)', response)
-        if title_match:
-            result['title'] = title_match.group(1).strip()
 
         elapsed = int((time.time() - start) * 1000)
         logger.info(f"短文生成完成: {len(result['content'])} 字符, {len(result['words_used'])} 单词")
