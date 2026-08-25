@@ -171,7 +171,7 @@ class AnthropicProvider(BaseLLMProvider):
 
         create_kwargs = {
             'model': self.config.get('model', 'claude-sonnet-4-20250514'),
-            'max_tokens': int(self.config.get('max_tokens', 1024)),
+            'max_tokens': int(self.config.get('max_tokens', 4096)),
             'messages': anthropic_messages
         }
         if system_msg:

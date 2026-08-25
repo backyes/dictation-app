@@ -9375,3 +9375,858 @@ licence, customer, waiter, glad, accident, garlic, until, metre, mail
 2026-08-23 22:14:30,473 [INFO] werkzeug:  * Restarting with stat
 2026-08-23 22:14:30,816 [WARNING] werkzeug:  * Debugger is active!
 2026-08-23 22:14:30,824 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-24 08:44:07,725 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://7.249.243.180:5002
+2026-08-24 08:44:07,725 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-24 08:44:07,726 [INFO] werkzeug:  * Restarting with stat
+2026-08-24 08:44:07,975 [WARNING] werkzeug:  * Debugger is active!
+2026-08-24 08:44:07,987 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-24 08:44:15,751 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:15] "GET / HTTP/1.1" 200 -
+2026-08-24 08:44:15,914 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:15] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-24 08:44:15,914 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:15] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-24 08:44:16,315 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:16] "GET /api/words HTTP/1.1" 200 -
+2026-08-24 08:44:38,901 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:38] "GET /dictation HTTP/1.1" 200 -
+2026-08-24 08:44:38,934 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:38] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-24 08:44:38,934 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:38] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-24 08:44:38,976 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:38] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-24 08:44:40,298 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:40] "GET / HTTP/1.1" 200 -
+2026-08-24 08:44:40,324 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:40] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-24 08:44:40,328 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:40] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-24 08:44:40,355 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:40] "GET /api/words HTTP/1.1" 200 -
+2026-08-24 08:44:41,696 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:41] "GET /dashboard HTTP/1.1" 200 -
+2026-08-24 08:44:41,724 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:41] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-24 08:44:41,724 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:41] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-24 08:44:47,592 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:47] "GET /dictation HTTP/1.1" 200 -
+2026-08-24 08:44:47,630 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-24 08:44:47,631 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:47] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-24 08:44:47,658 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:47] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-24 08:44:48,615 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:48] "GET / HTTP/1.1" 200 -
+2026-08-24 08:44:48,648 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-24 08:44:48,648 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:48] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-24 08:44:48,661 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:48] "GET /api/words HTTP/1.1" 200 -
+2026-08-24 08:44:52,973 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:52] "GET /dictation HTTP/1.1" 200 -
+2026-08-24 08:44:53,009 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:53] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-24 08:44:53,009 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:53] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-24 08:44:53,024 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:53] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-24 08:44:53,996 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:53] "GET / HTTP/1.1" 200 -
+2026-08-24 08:44:54,028 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:54] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-24 08:44:54,029 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:54] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-24 08:44:54,042 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:44:54] "GET /api/words HTTP/1.1" 200 -
+2026-08-24 08:45:08,499 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:45:08] "GET /settings HTTP/1.1" 200 -
+2026-08-24 08:45:08,534 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:45:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-24 08:45:08,542 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:45:08] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-24 08:45:45,309 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:45:45] "POST /api/settings HTTP/1.1" 200 -
+2026-08-24 08:45:46,078 [INFO] llm_service: 测试 LLM 连接: LongCat (model=LongCat-2.0)
+2026-08-24 08:45:49,190 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-24 08:45:49,232 [INFO] llm_service: 连接测试成功: 连接成功！模型回复: OK.
+2026-08-24 08:45:49,233 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:45:49] "GET /api/test/connection HTTP/1.1" 200 -
+2026-08-24 08:45:56,204 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:45:56] "POST /api/settings HTTP/1.1" 200 -
+2026-08-24 08:45:56,756 [INFO] llm_service: 测试 LLM 连接: LongCat (model=LongCat-2.0)
+2026-08-24 08:45:57,052 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 401 Unauthorized"
+2026-08-24 08:45:57,054 [ERROR] llm_service: 连接测试失败: 连接失败: Error code: 401 - {'error': {'code': 'invalid_api_key', 'message': '无效的AppId: ak_2ZW1Gm8Ql0fU1mE3yA1nf2aQ07t2', 'type': 'authentication_error'}}
+2026-08-24 08:45:57,054 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:45:57] "GET /api/test/connection HTTP/1.1" 200 -
+2026-08-24 08:46:01,685 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:46:01] "POST /api/settings HTTP/1.1" 200 -
+2026-08-24 08:46:02,061 [INFO] llm_service: 测试 LLM 连接: LongCat (model=LongCat-2.0)
+2026-08-24 08:46:08,528 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-24 08:46:08,531 [INFO] llm_service: 连接测试成功: 连接成功！模型回复: OK
+2026-08-24 08:46:08,532 [INFO] werkzeug: 127.0.0.1 - - [24/Aug/2026 08:46:08] "GET /api/test/connection HTTP/1.1" 200 -
+2026-08-25 09:55:03,131 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 09:55:03,132 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 09:55:28,485 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:55:28] "GET /passages HTTP/1.1" 200 -
+2026-08-25 09:55:28,569 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:55:28] "GET /static/js/app.js HTTP/1.1" 200 -
+2026-08-25 09:55:28,570 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:55:28] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-08-25 09:55:28,923 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:55:28] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 09:55:28,928 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 娱乐活动
+2026-08-25 09:55:28,929 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 09:55:28,929 [INFO] llm_service: LLM Prompt (generate_passage):
+# Role
+你是一位精通英语教学和故事创作的资深语言专家，擅长通过情境短文（Contextual Storytelling）帮助学生高效记忆英语单词。
+
+# Objective
+根据【目标单词列表】和【高频错误词汇列表】，创作一篇有趣且逻辑顺畅的英语短文中，将所有目标单词自然融入。
+
+# Target Words
+quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+
+# 高频错误词汇（请多次复现，至少3次）
+quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+# KET 主题类型
+娱乐活动
+
+# Requirements
+1. 必须涵盖目标单词列表中每一个单词，用 **加粗** 标注
+2. 高频错误词汇至少出现3次，占比≥30%
+3. 短文长度：300-400 英文单词
+4. 语法清晰流畅，适合中初级学习者
+5. 情节有趣，避免生硬堆砌
+
+# Output Format
+
+### 📖 阅读短文 (Story)
+
+**English:**
+[英文短文，目标单词**加粗**]
+
+**Chinese:**
+[对应中文翻译]
+
+### 📝 重点词汇 (Word Check)
+[按出现顺序：**单词** - 词性 - 中文释义]
+
+**重要提醒：**
+- English 必须是纯英文短文
+- Chinese 必须逐段对应
+- 不要混入其他语言
+2026-08-25 09:55:28,980 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:55:28] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-08-25 09:55:59,039 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 09:55:59,081 [INFO] llm_service: 短文生成完成: 282 字符, 4 单词
+2026-08-25 09:55:59,085 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:55:59] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 09:57:31,308 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 09:57:31,308 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 09:58:58,115 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 09:58:58,115 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 09:59:01,849 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:59:01] "GET /passages HTTP/1.1" 200 -
+2026-08-25 09:59:01,932 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:59:01] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 09:59:01,934 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:59:01] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 09:59:02,247 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:59:02] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 09:59:02,255 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 天气季节
+2026-08-25 09:59:02,256 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 09:59:02,256 [INFO] llm_service: LLM Prompt (generate_passage):
+# Role
+你是一位精通英语教学和故事创作的资深语言专家，擅长通过情境短文（Contextual Storytelling）帮助学生高效记忆英语单词。
+
+# Objective
+根据【目标单词列表】和【高频错误词汇列表】，创作一篇有趣且逻辑顺畅的英语短文中，将所有目标单词自然融入。
+
+# Target Words
+quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+
+# 高频错误词汇（请多次复现，至少3次）
+quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+# KET 主题类型
+天气季节
+
+# Requirements
+1. 必须涵盖目标单词列表中每一个单词，用 **加粗** 标注
+2. 高频错误词汇至少出现3次，占比≥30%
+3. 短文长度：300-400 英文单词
+4. 语法清晰流畅，适合中初级学习者
+5. 情节有趣，避免生硬堆砌
+
+# Output Format
+
+### 📖 阅读短文 (Story)
+
+**English:**
+[英文短文，目标单词**加粗**]
+
+**Chinese:**
+[对应中文翻译]
+
+### 📝 重点词汇 (Word Check)
+[按出现顺序：**单词** - 词性 - 中文释义]
+
+**重要提醒：**
+- English 必须是纯英文短文
+- Chinese 必须逐段对应
+- 不要混入其他语言
+2026-08-25 09:59:33,575 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 09:59:33,599 [INFO] llm_service: 短文生成完成: 12 字符, 0 单词
+2026-08-25 09:59:33,609 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 09:59:33] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 10:02:28,961 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 10:02:28,961 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 10:05:37,796 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:05:37] "GET /passages HTTP/1.1" 200 -
+2026-08-25 10:05:37,896 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:05:37] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 10:05:37,896 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:05:37] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 10:05:38,253 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:05:38] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 10:05:38,262 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 自然世界
+2026-08-25 10:05:38,263 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 10:05:38,263 [INFO] llm_service: LLM Prompt (generate_passage):
+# Role
+你是一位精通英语教学和故事创作的资深语言专家，擅长通过情境短文（Contextual Storytelling）帮助学生高效记忆英语单词。
+
+# Objective
+根据【目标单词列表】和【高频错误词汇列表】，创作一篇有趣且逻辑顺畅的英语短文，将所有目标单词自然融入。
+
+# Target Words
+quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+
+# 高频错误词汇（请多次复现，至少3次）
+quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+# KET 主题类型
+自然世界
+
+# Requirements
+1. 必须涵盖目标单词列表中每一个单词，用 **加粗** 标注
+2. 高频错误词汇至少出现3次，占比≥30%
+3. 短文长度：300-400 英文单词
+4. 语法清晰流畅，适合中初级学习者
+5. 情节有趣，避免生硬堆砌
+
+# Output Format
+
+### 📖 阅读短文 (Story)
+
+**English:**
+[英文短文，目标单词**加粗**]
+
+**Chinese:**
+[对应中文翻译]
+
+### 📝 重点词汇 (Word Check)
+[按出现顺序：**单词** - 词性 - 中文释义]
+
+**重要提醒：**
+- English 必须是纯英文短文
+- Chinese 必须逐段对应
+- 不要混入其他语言
+2026-08-25 10:06:07,858 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 10:06:07,886 [INFO] llm_service: 短文生成完成: 1453 字符, 20 单词
+2026-08-25 10:06:07,889 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:06:07] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 10:07:28,906 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:07:28] "GET /passages HTTP/1.1" 200 -
+2026-08-25 10:07:29,042 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:07:29] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 10:07:29,047 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:07:29] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 10:07:29,151 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:07:29] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 10:07:29,157 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 自然世界
+2026-08-25 10:07:29,157 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 10:07:29,157 [INFO] llm_service: LLM Prompt (generate_passage):
+# Role
+你是一位精通英语教学和故事创作的资深语言专家，擅长通过情境短文（Contextual Storytelling）帮助学生高效记忆英语单词。
+
+# Objective
+根据【目标单词列表】和【高频错误词汇列表】，创作一篇有趣且逻辑顺畅的英语短文，将所有目标单词自然融入。
+
+# Target Words
+quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+
+# 高频错误词汇（请多次复现，至少3次）
+quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+# KET 主题类型
+自然世界
+
+# Requirements
+1. 必须涵盖目标单词列表中每一个单词，用 **加粗** 标注
+2. 高频错误词汇至少出现3次，占比≥30%
+3. 短文长度：300-400 英文单词
+4. 语法清晰流畅，适合中初级学习者
+5. 情节有趣，避免生硬堆砌
+
+# Output Format
+
+### 📖 阅读短文 (Story)
+
+**English:**
+[英文短文，目标单词**加粗**]
+
+**Chinese:**
+[对应中文翻译]
+
+### 📝 重点词汇 (Word Check)
+[按出现顺序：**单词** - 词性 - 中文释义]
+
+**重要提醒：**
+- English 必须是纯英文短文
+- Chinese 必须逐段对应
+- 不要混入其他语言
+2026-08-25 10:08:24,579 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.428697 seconds
+2026-08-25 10:09:04,156 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 10:09:04,165 [INFO] llm_service: 短文生成完成: 1119 字符, 20 单词
+2026-08-25 10:09:04,170 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:09:04] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 10:13:01,149 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 10:13:01,149 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 10:16:10,627 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:16:10] "GET /passages HTTP/1.1" 200 -
+2026-08-25 10:16:10,702 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:16:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 10:16:10,711 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:16:10] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 10:16:11,062 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:16:11] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 10:16:11,066 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 学校学习
+2026-08-25 10:16:11,066 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 10:16:11,067 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 学校学习
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 10:16:36,568 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 10:16:36,626 [INFO] llm_service: 短文生成完成: 1575 字符, 20 单词
+2026-08-25 10:16:36,629 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:16:36] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 10:20:19,493 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 10:20:19,494 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 10:23:36,738 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:23:36] "GET /passages HTTP/1.1" 200 -
+2026-08-25 10:23:36,801 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:23:36] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 10:23:36,801 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:23:36] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 10:23:37,022 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:23:37] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 10:23:37,026 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 学校学习
+2026-08-25 10:23:37,026 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 10:23:37,026 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 学校学习
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 10:24:03,926 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 10:24:03,967 [INFO] llm_service: 短文生成完成: 3703 字符, 18 单词
+2026-08-25 10:24:03,971 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:24:03] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 10:25:46,732 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 10:25:46,732 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 10:28:59,074 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:28:59] "GET /passages HTTP/1.1" 200 -
+2026-08-25 10:28:59,148 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:28:59] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 10:28:59,154 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:28:59] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 10:28:59,514 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:28:59] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 10:28:59,517 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 动物植物
+2026-08-25 10:28:59,517 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 10:28:59,518 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 动物植物
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, or planning in your response
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 10:29:30,097 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 10:29:30,131 [INFO] llm_service: 短文生成完成: 3339 字符, 20 单词
+2026-08-25 10:29:30,135 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:29:30] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 10:35:17,989 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 10:35:17,990 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 10:38:30,052 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:38:30] "GET /passages HTTP/1.1" 200 -
+2026-08-25 10:38:30,123 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:38:30] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 10:38:30,124 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:38:30] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 10:38:30,589 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:38:30] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 10:38:30,597 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 服饰穿搭
+2026-08-25 10:38:30,598 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 10:38:30,598 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 服饰穿搭
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 10:38:59,147 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 10:38:59,169 [INFO] llm_service: 短文生成完成: 2448 字符, 20 单词
+2026-08-25 10:38:59,171 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 10:38:59] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 11:17:28,703 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://7.249.243.180:5002
+2026-08-25 11:17:28,703 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 11:17:28,704 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 11:17:28,848 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 11:17:28,854 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 11:17:35,113 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:17:35] "GET /passages HTTP/1.1" 200 -
+2026-08-25 11:17:35,161 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:17:35] "GET /static/js/app.js HTTP/1.1" 200 -
+2026-08-25 11:17:35,161 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:17:35] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-08-25 11:17:35,371 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:17:35] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 11:17:35,379 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 通讯技术
+2026-08-25 11:17:35,380 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 11:17:35,380 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 通讯技术
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 11:17:35,413 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:17:35] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-08-25 11:17:57,883 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 11:17:57,928 [INFO] llm_service: 短文生成完成: 2243 字符, 20 单词
+2026-08-25 11:17:57,930 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:17:57] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 11:23:56,779 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 11:23:56,780 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 11:27:10,110 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:27:10] "GET /passages HTTP/1.1" 200 -
+2026-08-25 11:27:10,190 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:27:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 11:27:10,206 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:27:10] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 11:27:10,552 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:27:10] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 11:27:10,555 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 家人朋友
+2026-08-25 11:27:10,556 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 11:27:10,556 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 家人朋友
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 11:27:40,617 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 11:27:40,635 [INFO] llm_service: 短文生成完成: 2049 字符, 20 单词
+2026-08-25 11:27:40,638 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:27:40] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 11:36:18,831 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://7.249.243.180:5002
+2026-08-25 11:36:18,832 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 11:36:18,832 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 11:36:18,985 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 11:36:18,991 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 11:36:36,241 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:36:36] "GET / HTTP/1.1" 200 -
+2026-08-25 11:36:36,271 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:36:36] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 11:36:36,274 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:36:36] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 11:36:36,440 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:36:36] "GET /api/words HTTP/1.1" 200 -
+2026-08-25 11:36:38,878 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:36:38] "GET /passages HTTP/1.1" 200 -
+2026-08-25 11:36:38,914 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:36:38] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 11:36:38,915 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:36:38] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 11:36:38,951 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:36:38] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 11:36:38,953 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 购物消费
+2026-08-25 11:36:38,953 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 11:36:38,953 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 购物消费
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 11:37:03,094 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 11:37:03,109 [INFO] llm_service: 短文生成完成: 2040 字符, 18 单词
+2026-08-25 11:37:03,111 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:37:03] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 11:37:18,251 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:37:18] "GET /passages HTTP/1.1" 200 -
+2026-08-25 11:37:18,275 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:37:18] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 11:37:18,276 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:37:18] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 11:37:18,292 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:37:18] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 11:37:18,297 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 家人朋友
+2026-08-25 11:37:18,305 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 11:37:18,305 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 家人朋友
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 11:37:41,741 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 11:37:41,742 [INFO] llm_service: 短文生成完成: 2073 字符, 18 单词
+2026-08-25 11:37:41,745 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:37:41] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 11:37:58,607 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:37:58] "GET / HTTP/1.1" 200 -
+2026-08-25 11:37:58,659 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:37:58] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 11:37:58,659 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:37:58] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 11:37:58,692 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 11:37:58] "GET /api/words HTTP/1.1" 200 -
+2026-08-25 14:14:14,502 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://7.249.243.180:5002
+2026-08-25 14:14:14,511 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 14:14:14,514 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 14:14:14,820 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 14:14:14,844 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 16:57:46,034 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:46] "GET / HTTP/1.1" 200 -
+2026-08-25 16:57:46,120 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:46] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 16:57:46,126 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 16:57:46,358 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:46] "GET /api/words HTTP/1.1" 200 -
+2026-08-25 16:57:47,311 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:47] "GET / HTTP/1.1" 200 -
+2026-08-25 16:57:47,347 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 16:57:47,350 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:47] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 16:57:47,365 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:47] "GET /api/words HTTP/1.1" 200 -
+2026-08-25 16:57:48,406 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:48] "GET /dashboard HTTP/1.1" 200 -
+2026-08-25 16:57:48,443 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:48] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 16:57:48,444 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 16:57:49,578 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:49] "GET /dictation HTTP/1.1" 200 -
+2026-08-25 16:57:49,604 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 16:57:49,604 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:49] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 16:57:49,642 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:49] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-25 16:57:50,538 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:50] "GET / HTTP/1.1" 200 -
+2026-08-25 16:57:50,554 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:50] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 16:57:50,555 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:50] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 16:57:50,590 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:50] "GET /api/words HTTP/1.1" 200 -
+2026-08-25 16:57:51,805 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:51] "GET /passages HTTP/1.1" 200 -
+2026-08-25 16:57:51,850 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 16:57:51,853 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:51] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 16:57:51,872 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:57:51] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 16:57:51,873 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 旅行度假
+2026-08-25 16:57:51,873 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 16:57:51,874 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 旅行度假
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 16:58:19,975 [INFO] httpx2: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 16:58:20,018 [INFO] llm_service: 短文生成完成: 2019 字符, 19 单词
+2026-08-25 16:58:20,023 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 16:58:20] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 17:04:33,159 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/database.py', reloading
+2026-08-25 17:04:33,448 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 17:04:33,771 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 17:04:33,778 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 17:04:39,634 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/database.py', reloading
+2026-08-25 17:04:39,674 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 17:04:40,116 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 17:04:40,146 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 18:12:13,754 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 18:12:13,754 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 18:15:26,544 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:15:26] "GET /passages HTTP/1.1" 200 -
+2026-08-25 18:15:26,609 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:15:26] "GET /static/js/app.js HTTP/1.1" 200 -
+2026-08-25 18:15:26,611 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:15:26] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-08-25 18:15:26,925 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:15:26] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 18:15:26,927 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 学校学习
+2026-08-25 18:15:26,927 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 18:15:26,928 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 学校学习
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 18:15:54,230 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 18:15:54,239 [INFO] llm_service: 短文生成完成: 2845 字符, 20 单词
+2026-08-25 18:15:54,244 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:15:54] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 18:19:32,207 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 18:19:32,207 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 18:22:47,108 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:22:47] "GET /passages HTTP/1.1" 200 -
+2026-08-25 18:22:47,231 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:22:47] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 18:22:47,233 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:22:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 18:22:47,638 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:22:47] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 18:22:47,641 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 饮食
+2026-08-25 18:22:47,641 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 18:22:47,641 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 饮食
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 18:23:15,490 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 18:23:15,510 [INFO] llm_service: 短文生成完成: 1152 字符, 20 单词
+2026-08-25 18:23:15,516 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:23:15] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 18:27:12,481 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 18:27:12,481 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 18:30:26,043 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:30:26] "GET /passages HTTP/1.1" 200 -
+2026-08-25 18:30:26,117 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:30:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 18:30:26,118 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:30:26] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 18:30:26,430 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:30:26] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 18:30:26,432 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 旅行度假
+2026-08-25 18:30:26,432 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 18:30:26,432 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 旅行度假
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 18:31:02,170 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 18:31:02,196 [INFO] llm_service: 短文生成完成: 1968 字符, 20 单词
+2026-08-25 18:31:02,211 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:31:02] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 18:32:53,645 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 18:32:53,645 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 18:36:06,233 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:36:06] "GET /passages HTTP/1.1" 200 -
+2026-08-25 18:36:06,301 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:36:06] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 18:36:06,302 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:36:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 18:36:06,637 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:36:06] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 18:36:06,640 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 学校学习
+2026-08-25 18:36:06,641 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 18:36:06,641 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 学校学习
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 18:36:44,519 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 18:36:44,532 [INFO] llm_service: 短文生成完成: 2171 字符, 17 单词
+2026-08-25 18:36:44,541 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:36:44] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 18:39:07,450 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 18:39:07,450 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 18:42:22,539 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:42:22] "GET /passages HTTP/1.1" 200 -
+2026-08-25 18:42:22,655 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:42:22] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 18:42:22,664 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:42:22] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 18:42:22,941 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:42:22] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 18:42:22,943 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 服饰穿搭
+2026-08-25 18:42:22,943 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 18:42:22,943 [INFO] llm_service: LLM Prompt (generate_passage):
+Write a short English story (300-400 words) for KET-level learners.
+
+Theme: 服饰穿搭
+Words to include (bold each with **word**): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, guest, colleague, neighbour, married, wife, niece, nephew, granddaughter, teenager, daughter, curtain, cupboard
+High-frequency error words (use at least 3 times each): quarter, diary, melon, possibly, stadium, cheque, explorer, waitress, manager, sauce
+
+Requirements:
+- Use ALL words from the list above
+- Bold each target word like **word**
+- Error words must appear at least 3 times
+- Simple grammar, fun storyline
+- After the story, add a Chinese translation
+- Do NOT include any thinking, reasoning, planning, or explanation in your response
+- Do NOT include any meta-commentary about the task
+- Just output the story and translation, nothing else
+
+Format:
+
+**English:**
+[story here]
+
+**Chinese:**
+[translation here]
+2026-08-25 18:42:48,182 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 18:42:48,191 [INFO] llm_service: 短文生成完成: 536 字符, 8 单词
+2026-08-25 18:42:48,194 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:42:48] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 18:51:37,478 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 18:51:37,478 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 18:54:50,941 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:54:50] "GET /passages HTTP/1.1" 200 -
+2026-08-25 18:54:51,063 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:54:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 18:54:51,063 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:54:51] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 18:54:51,421 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:54:51] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 18:54:51,423 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 购物消费
+2026-08-25 18:54:51,423 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 18:54:51,423 [INFO] llm_service: 生成短文 Prompt: 580 字符
+2026-08-25 18:55:19,589 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 18:55:28,831 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 18:55:28,834 [INFO] llm_service: 短文生成完成: 1465 字符, 13 单词
+2026-08-25 18:55:28,844 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 18:55:28] "POST /api/passages/generate HTTP/1.1" 200 -
