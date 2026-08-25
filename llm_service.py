@@ -300,7 +300,12 @@ RULES:
             is_thinking = bool(re.match(r'^(I need|I\'ll|I will|I\'ve|I\'m going to|Let me|Okay|So I|First|The theme|The error|I should|I can|This is|Word count|I\'ll make|I\'ll write|I\'ll create|I\'ll ensure|I\'ll need|I\'ll incorporate|I\'ll use|I\'ll count|I\'ll craft|I\'ll plan|I\'ve crafted|I\'ll need to|I\'ll have to|I should|Let\'s)', p, re.IGNORECASE))
             is_thinking = is_thinking or bool(re.search(r'(?:must include|error words|at least 3 times|theme is|simple narrative|incorporating all|weave them|fun and simple|word count|KET level)', p, re.IGNORECASE))
             
-            if is_thinking:
+            # 检测元评论/规划内容（不是故事本身）
+            is_meta = bool(re.match(r'^[-*]\s+\w+:', p))  #  bullet points like "- quarter:"
+            is_meta = is_meta or bool(re.search(r'\d+\s+uses?,?\s+need\s+\d+', p))  # "2 uses, need 3"
+            is_meta = is_meta or bool(re.search(r'(?:map out|frequency count|mentally|naturally fit)', p, re.IGNORECASE))
+            
+            if is_thinking or is_meta:
                 continue
             
             # 检测实际故事开始
