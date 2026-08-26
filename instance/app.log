@@ -10285,3 +10285,1096 @@ Format:
 2026-08-25 20:10:01,332 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
 2026-08-25 20:10:01,338 [INFO] llm_service: 短文生成完成: 912 字符, 9 单词
 2026-08-25 20:10:01,346 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:10:01] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 20:15:57,599 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 20:15:57,605 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 20:20:25,808 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 20:20:25,809 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 20:20:25,809 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 20:20:25,959 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 20:20:25,966 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 20:20:29,805 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:20:29] "GET /settings HTTP/1.1" 200 -
+2026-08-25 20:20:29,914 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:20:29] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:20:29,915 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:20:29] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:20:40,475 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:20:40] "POST /api/settings HTTP/1.1" 200 -
+2026-08-25 20:20:40,898 [INFO] llm_service: 测试 LLM 连接: LongCat (model=LongCat-2.0)
+2026-08-25 20:20:44,111 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:20:44,120 [INFO] llm_service: 连接测试成功: 连接成功！模型回复: OK
+2026-08-25 20:20:44,122 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:20:44] "GET /api/test/connection HTTP/1.1" 200 -
+2026-08-25 20:20:45,953 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:20:45] "GET /passages HTTP/1.1" 200 -
+2026-08-25 20:20:45,997 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:20:45] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:20:45,997 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:20:45] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:20:46,012 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:20:46] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 20:20:46,023 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 日常生活
+2026-08-25 20:20:46,025 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 20:20:46,026 [INFO] llm_service: 生成短文 Prompt: 580 字符
+2026-08-25 20:21:24,519 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:21:43,564 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:21:43,565 [INFO] llm_service: 短文生成完成: 170 字符, 3 单词
+2026-08-25 20:21:43,568 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:21:43] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 20:27:42,238 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:27:42] "GET /passages HTTP/1.1" 200 -
+2026-08-25 20:27:42,328 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:27:42] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:27:42,332 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:27:42] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:27:42,380 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:27:42] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 20:27:42,398 [INFO] llm_service: 生成短文，使用 284 个单词，主题: 工作职业
+2026-08-25 20:27:42,398 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 20:27:42,399 [INFO] llm_service: 生成短文 Prompt: 580 字符
+2026-08-25 20:28:13,998 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:28:34,570 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:28:34,580 [INFO] llm_service: 短文生成完成: 1977 字符, 17 单词
+2026-08-25 20:28:34,587 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:28:34] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 20:32:54,688 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 20:32:54,772 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 20:32:55,008 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 20:32:55,015 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 20:33:41,240 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 20:33:41,240 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 20:37:07,545 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:37:07] "GET /passages HTTP/1.1" 200 -
+2026-08-25 20:37:07,614 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:37:07] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:37:07,615 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:37:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:37:07,653 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:37:07] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 20:37:07,653 [INFO] llm_service: 使用自定义 prompt 生成短文，主题: 家人朋友
+2026-08-25 20:37:07,654 [INFO] llm_service: 使用 LLM 提供商: LongCat (model=LongCat-2.0)
+2026-08-25 20:37:33,734 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:37:58,096 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:37:58,099 [INFO] llm_service: 短文生成完成: 1062 字符, 19 单词
+2026-08-25 20:37:58,102 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:37:58] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 20:39:08,665 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 20:39:08,665 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 20:40:47,004 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 20:40:47,004 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 20:46:24,336 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 20:46:24,336 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 20:48:15,339 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 20:48:15,339 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 20:51:30,668 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:51:30] "GET /passages HTTP/1.1" 200 -
+2026-08-25 20:51:30,800 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:51:30] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:51:30,807 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:51:30] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:51:31,184 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:51:31] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 20:51:31,185 [INFO] llm_service: 开始生成短文，主题: 通讯技术, 单词数: 10
+2026-08-25 20:51:58,611 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:52:08,143 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:52:08,149 [INFO] llm_service: 短文生成完成: 2921 字符, 10 单词, 耗时: 36963ms
+2026-08-25 20:52:08,156 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:52:08] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 20:55:29,617 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 20:55:29,617 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 20:55:38,459 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:55:38] "GET /passages HTTP/1.1" 200 -
+2026-08-25 20:55:38,567 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:55:38] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 20:55:38,575 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:55:38] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 20:55:38,938 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:55:38] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 20:55:38,944 [INFO] llm_service: 开始生成短文，主题: 自然世界, 单词数: 10
+2026-08-25 20:56:05,250 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:56:25,104 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:56:25,105 [WARNING] llm_service: 生成响应太短，重试 1/3
+2026-08-25 20:56:48,238 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 20:56:48,249 [INFO] llm_service: 短文生成完成: 535 字符, 4 单词, 耗时: 69305ms
+2026-08-25 20:56:48,258 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 20:56:48] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 21:03:12,532 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 21:03:12,532 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 21:06:29,255 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 21:06:29] "GET /passages HTTP/1.1" 200 -
+2026-08-25 21:06:29,356 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 21:06:29] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 21:06:29,356 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 21:06:29] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 21:06:29,784 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 21:06:29] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 21:06:29,785 [INFO] llm_service: 开始生成短文，主题: 旅行度假, 单词数: 10
+2026-08-25 21:07:16,697 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 21:07:42,898 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 21:07:42,903 [INFO] llm_service: 短文生成完成: 3036 字符, 10 单词, 耗时: 73118ms
+2026-08-25 21:07:42,913 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 21:07:42] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 21:09:23,070 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 21:09:23,070 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 21:14:23,550 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://7.249.243.180:5003
+2026-08-25 21:14:23,550 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 22:07:58,925 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:07:58] "GET /passages HTTP/1.1" 200 -
+2026-08-25 22:07:59,001 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:07:59] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 22:07:59,002 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:07:59] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 22:07:59,414 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:07:59] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 22:07:59,416 [INFO] llm_service: 开始生成短文，主题: 家庭生活, 单词数: 10
+2026-08-25 22:08:42,170 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:09:26,533 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:09:26,545 [INFO] llm_service: 短文生成完成: 6705 字符, 10 单词, 耗时: 87128ms
+2026-08-25 22:09:26,553 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:09:26] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 22:13:30,764 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://192.168.50.154:5003
+2026-08-25 22:13:30,765 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 22:16:52,546 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:16:52] "GET /passages HTTP/1.1" 200 -
+2026-08-25 22:16:52,624 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:16:52] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 22:16:52,628 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:16:52] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 22:16:53,037 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:16:53] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 22:16:53,039 [INFO] llm_service: 开始生成短文，主题: 服饰穿搭, 单词数: 10
+2026-08-25 22:17:45,779 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:18:24,935 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:18:24,944 [INFO] llm_service: 短文生成完成: 6496 字符, 10 单词, 耗时: 91905ms
+2026-08-25 22:18:24,955 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:18:24] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 22:36:24,549 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:36:24] "GET /passages HTTP/1.1" 200 -
+2026-08-25 22:36:24,618 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:36:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 22:36:24,623 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:36:24] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 22:36:24,716 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:36:24] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 22:36:24,719 [INFO] llm_service: 开始生成短文，主题: 工作职业, 单词数: 10
+2026-08-25 22:37:16,589 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:37:50,438 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:37:50,440 [INFO] llm_service: 短文生成完成: 6855 字符, 10 单词, 耗时: 85721ms
+2026-08-25 22:37:50,445 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:37:50] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 22:39:31,582 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5003
+ * Running on http://192.168.50.154:5003
+2026-08-25 22:39:31,582 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 22:43:05,979 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:43:05] "GET /passages HTTP/1.1" 200 -
+2026-08-25 22:43:06,043 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:43:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-25 22:43:06,044 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:43:06] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-25 22:43:06,090 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:43:06] "GET /api/passages HTTP/1.1" 200 -
+2026-08-25 22:43:06,091 [INFO] llm_service: 开始生成短文，主题: 学校学习, 单词数: 10
+2026-08-25 22:43:59,411 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:44:05,080 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:44:05,089 [WARNING] llm_service: 生成响应太短，重试 1/3
+2026-08-25 22:44:13,199 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:44:13,202 [INFO] llm_service: 短文生成完成: 3 字符, 0 单词, 耗时: 67111ms
+2026-08-25 22:44:13,211 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:44:13] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 22:56:53,711 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-25 22:56:53,711 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 22:56:53,712 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 22:56:53,958 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 22:56:53,967 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 22:57:26,889 [INFO] llm_service: 开始生成短文，主题: 友谊, 单词数: 10
+2026-08-25 22:58:15,952 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:58:28,237 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:58:28,237 [WARNING] llm_service: 生成响应太短，重试 1/3
+2026-08-25 22:58:36,994 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:58:36,995 [WARNING] llm_service: 生成响应太短，重试 2/3
+2026-08-25 22:58:44,157 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 22:58:44,158 [WARNING] llm_service: 生成响应太短，重试 3/3
+2026-08-25 22:58:44,158 [ERROR] llm_service: 翻译失败: 生成失败，已达最大重试次数
+2026-08-25 22:58:44,158 [INFO] llm_service: 短文生成完成: 40 字符, 0 单词, 耗时: 77268ms
+2026-08-25 22:58:44,162 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 22:58:44] "POST /api/passages/generate HTTP/1.1" 200 -
+2026-08-25 23:02:06,039 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 23:02:06,137 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:02:06,468 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:02:06,477 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:02:12,530 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 23:02:12,563 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:02:12,834 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:02:12,841 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:02:29,354 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 23:02:29,394 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:02:29,694 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:02:29,701 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:02:34,378 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 23:02:34,410 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:02:34,671 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:02:34,678 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:02:37,949 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 23:02:37,986 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:02:38,258 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:02:38,264 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:03:39,600 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 23:03:39,660 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:03:40,076 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:03:40,086 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:04:49,112 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 23:04:49,148 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:04:49,476 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:04:49,484 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:05:21,054 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_providers.py', reloading
+2026-08-25 23:05:21,086 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:05:21,423 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:05:21,430 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:05:36,619 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 23:05:36,651 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:05:36,966 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:05:36,973 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:05:43,573 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-25 23:05:43,573 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 23:05:43,574 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:05:43,818 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:05:43,826 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:05:51,848 [INFO] llm_service: 开始生成短文，主题: 友谊, 单词数: 10
+2026-08-25 23:05:52,224 [ERROR] llm_service: 生成失败，重试 1/3: Messages.create() got an unexpected keyword argument 'thinking'
+2026-08-25 23:05:52,256 [ERROR] llm_service: 生成失败，重试 2/3: Messages.create() got an unexpected keyword argument 'thinking'
+2026-08-25 23:05:52,290 [ERROR] llm_service: 生成失败，重试 3/3: Messages.create() got an unexpected keyword argument 'thinking'
+2026-08-25 23:05:52,291 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:05:52] "[35m[1mPOST /api/passages/generate HTTP/1.1[0m" 500 -
+2026-08-25 23:06:05,148 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_providers.py', reloading
+2026-08-25 23:06:05,233 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:06:05,572 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:06:05,580 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:06:32,151 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 23:06:32,183 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:06:32,513 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:06:32,520 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:06:38,824 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-25 23:06:38,824 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 23:06:38,825 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:06:39,065 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:06:39,072 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:10:50,050 [INFO] llm_service: 开始生成短文，主题: 友谊, 单词数: 10
+2026-08-25 23:11:45,863 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.380454 seconds
+2026-08-25 23:12:41,715 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.832836 seconds
+2026-08-25 23:13:29,290 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_providers.py', reloading
+2026-08-25 23:13:29,378 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:13:29,700 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:13:29,709 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:16:07,779 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_service.py', reloading
+2026-08-25 23:16:07,824 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:16:08,159 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:16:08,168 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:16:30,574 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_providers.py', reloading
+2026-08-25 23:16:30,610 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:16:30,907 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:16:30,915 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:16:51,624 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_providers.py', reloading
+2026-08-25 23:16:51,662 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:16:52,008 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:16:52,017 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:17:08,957 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/app.py', reloading
+2026-08-25 23:17:08,996 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:17:09,326 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:17:09,337 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:17:17,992 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/app.py', reloading
+2026-08-25 23:17:18,023 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:17:18,279 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:17:18,287 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:17:25,494 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/app.py', reloading
+2026-08-25 23:17:25,526 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:17:25,777 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:17:25,783 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:18:06,540 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-25 23:18:06,540 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 23:18:06,541 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:18:06,782 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:18:06,789 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:18:13,925 [INFO] llm_service: 开始生成短文，主题: 友谊, 单词数: 10
+2026-08-25 23:18:13,926 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:18:13] "POST /api/passages/generate/stream HTTP/1.1" 200 -
+2026-08-25 23:18:30,285 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_providers.py', reloading
+2026-08-25 23:18:30,397 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:18:30,697 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:18:30,705 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:18:42,031 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-25 23:18:42,031 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 23:18:42,032 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:18:42,275 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:18:42,282 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:18:51,000 [INFO] llm_service: 开始生成短文，主题: 友谊, 单词数: 10
+2026-08-25 23:18:51,000 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:18:51] "POST /api/passages/generate/stream HTTP/1.1" 200 -
+2026-08-25 23:18:55,326 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-25 23:24:51,762 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/llm_providers.py', reloading
+2026-08-25 23:24:51,893 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:24:54,646 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:24:54,670 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:26:54,034 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-25 23:26:54,034 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 23:26:54,036 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:26:54,291 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:26:54,301 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:27:02,245 [INFO] llm_service: 开始生成短文，主题: 友谊, 单词数: 10
+2026-08-25 23:27:02,246 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:27:02] "POST /api/passages/generate/async HTTP/1.1" 200 -
+2026-08-25 23:27:11,281 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:27:11] "[35m[1mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 500 -
+2026-08-25 23:27:19,342 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/app.py', reloading
+2026-08-25 23:27:19,417 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:27:19,761 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:27:19,769 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:27:27,235 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-25 23:27:27,235 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 23:27:27,237 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:27:27,649 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:27:27,657 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:27:35,536 [INFO] llm_service: 开始生成短文，主题: 友谊, 单词数: 10
+2026-08-25 23:27:35,537 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:27:35] "POST /api/passages/generate/async HTTP/1.1" 200 -
+2026-08-25 23:27:50,728 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:27:50] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-25 23:28:24,857 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:28:24] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-25 23:28:31,309 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.437476 seconds
+2026-08-25 23:29:27,152 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.816834 seconds
+2026-08-25 23:29:37,109 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:29:37] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-25 23:30:23,383 [ERROR] llm_service: 生成失败，重试 1/3: Connection error.
+2026-08-25 23:31:18,867 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.429569 seconds
+2026-08-25 23:32:05,467 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:32:05] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-25 23:32:14,885 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.907211 seconds
+2026-08-25 23:33:11,304 [ERROR] llm_service: 生成失败，重试 2/3: Connection error.
+2026-08-25 23:34:06,732 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.381143 seconds
+2026-08-25 23:35:02,475 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.770508 seconds
+2026-08-25 23:35:20,157 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:35:20] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-25 23:38:34,409 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-25 23:38:34,409 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 23:38:34,411 [INFO] werkzeug:  * Restarting with stat
+2026-08-25 23:38:34,665 [WARNING] werkzeug:  * Debugger is active!
+2026-08-25 23:38:34,674 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-25 23:38:43,202 [INFO] llm_service: 开始生成短文，主题: 友谊, 单词数: 10
+2026-08-25 23:38:43,202 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:38:43] "POST /api/passages/generate/async HTTP/1.1" 200 -
+2026-08-25 23:39:33,576 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:39:33] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-25 23:39:39,191 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.488355 seconds
+2026-08-25 23:40:35,105 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.787651 seconds
+2026-08-25 23:40:48,425 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:40:48] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-25 23:41:39,997 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-25 23:41:39,997 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 23:41:47,312 [INFO] llm_service: 开始生成短文，主题: 友谊, 单词数: 10
+2026-08-25 23:41:47,313 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:41:47] "POST /api/passages/generate/async HTTP/1.1" 200 -
+2026-08-25 23:42:13,868 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:42:13] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-25 23:43:48,366 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-25 23:43:48,366 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-25 23:43:56,623 [INFO] llm_service: 开始生成短文，主题: 友谊, 单词数: 10
+2026-08-25 23:43:56,624 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:43:56] "POST /api/passages/generate/async HTTP/1.1" 200 -
+2026-08-25 23:44:52,479 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.375536 seconds
+2026-08-25 23:45:02,736 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:45:02] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-25 23:45:48,300 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.809751 seconds
+2026-08-25 23:46:44,572 [ERROR] llm_service: 生成失败，重试 1/3: Connection error.
+2026-08-25 23:47:12,917 [INFO] werkzeug: 127.0.0.1 - - [25/Aug/2026 23:47:12] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-25 23:47:39,988 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.429784 seconds
+2026-08-26 00:23:04,310 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.765393 seconds
+2026-08-26 03:28:14,706 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 03:28:14] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 08:02:26,372 [ERROR] llm_service: 生成失败，重试 2/3: Connection error.
+2026-08-26 08:03:21,774 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.480981 seconds
+2026-08-26 08:04:17,611 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.813595 seconds
+2026-08-26 08:05:13,768 [ERROR] llm_service: 生成失败，重试 3/3: Connection error.
+2026-08-26 09:39:02,408 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5004
+ * Running on http://7.249.243.180:5004
+2026-08-26 09:39:02,409 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-26 09:39:03,017 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 09:39:03,219 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 09:39:03,226 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 09:40:32,249 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 09:40:32] "GET /api/statistics HTTP/1.1" 200 -
+2026-08-26 09:41:08,114 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 09:41:08] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 11:45:34,524 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 11:45:34] "GET / HTTP/1.1" 200 -
+2026-08-26 11:45:34,580 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 11:45:34] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-08-26 11:45:34,580 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 11:45:34] "GET /static/js/app.js HTTP/1.1" 200 -
+2026-08-26 11:45:34,803 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 11:45:34] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 16:42:32,932 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5004
+ * Running on http://7.249.243.180:5004
+2026-08-26 16:42:32,933 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-26 16:42:32,940 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 16:42:33,098 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 16:42:33,104 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 16:42:38,139 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:38] "GET / HTTP/1.1" 200 -
+2026-08-26 16:42:38,248 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:38] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-08-26 16:42:38,248 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:38] "GET /static/js/app.js HTTP/1.1" 200 -
+2026-08-26 16:42:38,471 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:38] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 16:42:38,718 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:38] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-08-26 16:42:40,381 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:40] "GET /passages HTTP/1.1" 200 -
+2026-08-26 16:42:40,406 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:40] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 16:42:40,407 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:40] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 16:42:40,449 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:40] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 16:42:40,451 [INFO] llm_service: 开始生成短文，主题: 家庭生活, 单词数: 10
+2026-08-26 16:42:40,453 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:40] "POST /api/passages/generate/async HTTP/1.1" 200 -
+2026-08-26 16:42:42,480 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:42] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:42:44,477 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:44] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:42:46,478 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:46] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:42:47,725 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:47] "GET /settings HTTP/1.1" 200 -
+2026-08-26 16:42:47,753 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 16:42:47,754 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:42:47] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 16:43:36,213 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.441822 seconds
+2026-08-26 16:44:17,448 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.GxyNrx', reloading
+2026-08-26 16:44:17,530 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 16:44:17,788 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 16:44:17,795 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 16:45:09,616 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/common/storage/.hermes-tmp.05Yw1g', reloading
+2026-08-26 16:45:09,651 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 16:45:09,901 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 16:45:09,907 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 16:47:34,378 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:47:34] "GET /settings HTTP/1.1" 200 -
+2026-08-26 16:47:34,494 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:47:34] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 16:47:34,495 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:47:34] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 16:47:40,525 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-26 16:47:40,533 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:47:40] "GET /api/test/connection HTTP/1.1" 200 -
+2026-08-26 16:52:20,206 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:20] "GET /dashboard HTTP/1.1" 200 -
+2026-08-26 16:52:20,327 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:20] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 16:52:20,389 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:20] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 16:52:21,920 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:21] "GET /passages HTTP/1.1" 200 -
+2026-08-26 16:52:21,976 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:21] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 16:52:21,976 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:21] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 16:52:21,998 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:21] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 16:52:21,999 [INFO] llm_service: 开始生成短文，主题: 饮食, 单词数: 10
+2026-08-26 16:52:21,999 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:21] "POST /api/passages/generate/async HTTP/1.1" 200 -
+2026-08-26 16:52:24,027 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:24] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:52:26,020 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:26] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:52:28,023 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:28] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:52:30,021 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:30] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:52:32,031 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:32] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:52:33,026 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.11crNM', reloading
+2026-08-26 16:52:33,169 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 16:52:33,457 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 16:52:33,463 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 16:52:34,022 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:34] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:36,019 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:36] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:38,024 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:38] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:40,026 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:40] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:42,020 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:42] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:44,036 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:44] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:46,960 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:46] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:48,965 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:48] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:50,695 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:50] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:52,023 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:52] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:54,019 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:54] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:56,034 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:56] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:52:58,025 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:52:58] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:53:00,040 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:00] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:53:02,025 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:02] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:53:04,020 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:04] "[33mGET /api/passages/generate/status/task_1 HTTP/1.1[0m" 404 -
+2026-08-26 16:53:04,173 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:04] "GET /settings HTTP/1.1" 200 -
+2026-08-26 16:53:04,353 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:04] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 16:53:04,354 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:04] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 16:53:09,867 [INFO] httpx: HTTP Request: POST https://api.longcat.chat/anthropic/v1/messages "HTTP/1.1 200 OK"
+2026-08-26 16:53:09,875 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:09] "GET /api/test/connection HTTP/1.1" 200 -
+2026-08-26 16:53:11,397 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:11] "GET /passages HTTP/1.1" 200 -
+2026-08-26 16:53:11,436 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:11] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 16:53:11,437 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 16:53:11,479 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:11] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 16:53:11,480 [INFO] llm_service: 开始生成短文，主题: 自然世界, 单词数: 10
+2026-08-26 16:53:11,480 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:11] "POST /api/passages/generate/async HTTP/1.1" 200 -
+2026-08-26 16:53:13,509 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:13] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:15,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:15] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:17,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:17] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:19,533 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:19] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:21,509 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:21] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:23,987 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:23] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:25,510 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:25] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:27,971 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:27] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:29,761 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:29] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:31,509 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:31] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:33,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:33] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:35,508 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:35] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:37,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:37] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:39,508 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:39] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:41,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:41] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:43,510 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:43] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:45,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:45] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:47,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:47] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:49,510 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:49] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:51,510 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:51] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:53,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:53] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:55,510 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:55] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:57,513 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:57] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:53:59,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:53:59] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:01,509 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:01] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:03,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:03] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:05,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:05] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:06,982 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.422927 seconds
+2026-08-26 16:54:07,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:07] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:09,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:09] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:11,510 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:11] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:13,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:13] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:15,508 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:15] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:17,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:17] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:19,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:19] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:21,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:21] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:23,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:23] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:25,514 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:25] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:27,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:27] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:29,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:29] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:31,514 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:31] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:33,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:33] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:35,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:35] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:37,510 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:37] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:39,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:39] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:41,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:41] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:43,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:43] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:45,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:45] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:47,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:47] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:49,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:49] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:51,513 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:51] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:53,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:53] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:55,509 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:55] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:57,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:57] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:54:59,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:54:59] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:01,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:01] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:02,820 [INFO] anthropic._base_client: Retrying request to /v1/messages in 0.792936 seconds
+2026-08-26 16:55:03,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:03] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:05,513 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:05] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:07,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:07] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:09,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:09] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:11,511 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:11] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:13,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:13] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:15,513 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:15] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:17,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:17] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:19,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:19] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:21,514 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:21] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:23,513 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:23] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:25,513 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:25] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:27,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:27] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:29,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:29] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:31,510 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:31] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:33,513 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:33] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:35,514 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:35] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:37,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:37] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:39,513 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:39] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:41,513 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:41] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:43,517 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:43] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:45,969 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:45] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:47,967 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:47] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:49,962 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:49] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:51,964 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:51] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:53,962 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:53] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:55,971 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:55] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:57,965 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:57] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:55:58,991 [ERROR] llm_service: 生成失败，重试 1/3: Connection error.
+2026-08-26 16:55:59,962 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:55:59] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:56:01,514 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:01] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:56:03,516 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:03] "GET /api/passages/generate/status/task_1 HTTP/1.1" 200 -
+2026-08-26 16:56:05,414 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:05] "GET /settings HTTP/1.1" 200 -
+2026-08-26 16:56:05,489 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:05] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 16:56:05,492 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:05] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 16:56:20,245 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5004
+ * Running on http://7.249.243.180:5004
+2026-08-26 16:56:20,245 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-26 16:56:20,251 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 16:56:20,400 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 16:56:20,407 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 16:56:30,738 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:30] "GET / HTTP/1.1" 200 -
+2026-08-26 16:56:30,817 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:30] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 16:56:30,817 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:30] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 16:56:30,839 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:30] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 16:56:33,082 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:33] "GET /settings HTTP/1.1" 200 -
+2026-08-26 16:56:33,096 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:33] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 16:56:33,101 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 16:56:33] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:04:21,236 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:21] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:04:21,292 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:21] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:04:21,298 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:21] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:04:22,258 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:22] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:04:22,282 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:22] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:04:22,283 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:22] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:04:23,935 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:23] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:04:23,953 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:04:23,955 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:23] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:04:24,654 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:24] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:04:24,668 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:04:24,669 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:24] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:04:27,012 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:27] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:04:27,036 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:04:27,036 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:27] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:04:27,322 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:27] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:04:27,337 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:04:27,337 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:27] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:04:27,836 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:27] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:04:27,851 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:04:27,851 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:04:27] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:32,244 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:32] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:32,386 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:32] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:32,392 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:32] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:32,622 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:32] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:32,636 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:32] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:32,638 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:32] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:33,845 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:33] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:33,870 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:33] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:33,871 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:33] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:34,532 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:34] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:34,556 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:34] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:34,557 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:34] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:39,935 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5004
+ * Running on http://7.249.243.180:5004
+2026-08-26 17:09:39,935 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-26 17:09:39,942 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 17:09:40,088 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 17:09:40,094 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 17:09:42,260 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:42] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:42,303 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:42] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:42,306 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:42] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:42,757 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:42] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:42,773 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:42] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:42,774 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:42] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:43,265 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:43] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:43,290 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:43] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:43,292 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:43] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:51,144 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:51] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:51,175 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:51,175 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:51] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:51,568 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:51] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:51,587 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:51,589 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:51] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:53,055 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:53] "GET /dashboard HTTP/1.1" 200 -
+2026-08-26 17:09:53,076 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:53] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:53,091 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:53] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:55,156 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:55] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:55,183 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:55] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:55,184 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:55] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:55,940 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:55] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:55,954 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:55] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:55,959 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:55] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:56,444 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:56] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:56,458 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:56] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:56,461 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:56] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:57,046 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:57] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:57,076 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:57] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:57,077 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:57] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:57,455 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:57] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:09:57,482 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:57] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:57,483 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:57] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:59,574 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:59] "GET /observability HTTP/1.1" 200 -
+2026-08-26 17:09:59,609 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:59] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:09:59,610 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:59] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:09:59,615 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:59] "GET /static/js/observability.js HTTP/1.1" 200 -
+2026-08-26 17:09:59,672 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:59] "GET /api/admin/logs HTTP/1.1" 200 -
+2026-08-26 17:09:59,673 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:59] "GET /api/admin/llm-traces HTTP/1.1" 200 -
+2026-08-26 17:09:59,676 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:59] "GET /api/admin/status HTTP/1.1" 200 -
+2026-08-26 17:09:59,715 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:09:59] "GET /api/providers HTTP/1.1" 200 -
+2026-08-26 17:10:01,195 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:01] "GET / HTTP/1.1" 200 -
+2026-08-26 17:10:01,225 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:01] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:10:01,225 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:01] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:10:01,257 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:01] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 17:10:01,956 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:01] "GET /dictation HTTP/1.1" 200 -
+2026-08-26 17:10:01,991 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:01] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:10:01,992 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:01] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:10:02,003 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:02] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-26 17:10:03,477 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:03] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:10:03,500 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:03] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:10:03,501 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:10:03] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:15:09,069 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:09] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:15:09,125 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:15:09,130 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:09] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:15:09,665 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:09] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:15:09,687 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:15:09,688 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:09] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:15:09,994 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:09] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:15:10,012 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:15:10,014 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:15:10,218 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:15:10,230 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:15:10,232 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:15:10,461 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:15:10,477 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:15:10,478 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:15:10,648 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:15:10,664 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:15:10,665 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:15:10,887 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:15:10,910 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:15:10,911 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:10] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:15:13,297 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:13] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:15:13,315 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:13] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:15:13,318 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:13] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:15:13,499 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:13] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:15:13,514 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:13] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:15:13,515 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:15:13] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:22:07,138 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:22:07] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:22:07,250 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:22:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:22:07,251 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:22:07] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:22:07,512 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:22:07] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:22:07,556 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:22:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:22:07,556 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:22:07] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:33:10,323 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:10] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:33:10,461 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:33:10,462 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:10] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:33:11,178 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:11] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:33:11,203 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:11] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:33:11,203 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:33:11,548 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:11] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:33:11,564 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:33:11,564 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:11] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:33:11,803 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:11] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:33:11,820 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:33:11,822 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:11] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:33:22,903 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5004
+ * Running on http://7.249.243.180:5004
+2026-08-26 17:33:22,903 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-26 17:33:22,910 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 17:33:23,065 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 17:33:23,072 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 17:33:29,477 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:29] "GET / HTTP/1.1" 200 -
+2026-08-26 17:33:29,521 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:29] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:33:29,522 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:29] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:33:29,542 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:29] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 17:33:31,484 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:31] "GET /observability HTTP/1.1" 200 -
+2026-08-26 17:33:31,532 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:31] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:33:31,534 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:31] "[36mGET /static/js/observability.js HTTP/1.1[0m" 304 -
+2026-08-26 17:33:31,534 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:31] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:33:31,578 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:31] "GET /api/admin/logs HTTP/1.1" 200 -
+2026-08-26 17:33:31,579 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:31] "GET /api/admin/llm-traces HTTP/1.1" 200 -
+2026-08-26 17:33:31,583 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:31] "GET /api/admin/status HTTP/1.1" 200 -
+2026-08-26 17:33:31,602 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:31] "GET /api/providers HTTP/1.1" 200 -
+2026-08-26 17:33:32,427 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:32] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:33:32,449 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:32] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:33:32,451 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:33:32] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:39:25,705 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:39:25] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:39:25,821 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:39:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:39:25,824 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:39:25] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:39:26,106 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:39:26] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:39:26,121 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:39:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:39:26,122 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:39:26] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 17:39:26,458 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:39:26] "GET /settings HTTP/1.1" 200 -
+2026-08-26 17:39:26,471 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:39:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 17:39:26,474 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 17:39:26] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 18:52:38,214 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.u0CPsL', reloading
+2026-08-26 18:52:38,252 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 18:52:38,509 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 18:52:38,516 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 18:53:45,412 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.2uNhx8', reloading
+2026-08-26 18:53:45,453 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 18:53:45,720 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 18:53:45,726 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 18:57:33,019 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/common/llm/.hermes-tmp.qw8B9g', reloading
+2026-08-26 18:57:33,062 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 18:57:33,306 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 18:57:33,317 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 18:57:52,727 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/common/llm/.hermes-tmp.1kx3Qx', reloading
+2026-08-26 18:57:52,758 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 18:57:53,007 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 18:57:53,013 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 18:58:32,019 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.xI2dm7', reloading
+2026-08-26 18:58:32,067 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 18:58:32,321 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 18:58:32,330 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 19:11:04,969 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.vnFraD', reloading
+2026-08-26 19:11:05,029 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 19:11:05,658 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 19:11:05,684 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 19:38:03,302 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.uvSWQ3', reloading
+2026-08-26 19:38:03,357 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 19:38:03,844 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 19:38:03,856 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 19:38:14,500 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.kuGiTz', reloading
+2026-08-26 19:38:14,540 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 19:38:14,835 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 19:38:14,846 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 19:40:36,717 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.ChM22v', reloading
+2026-08-26 19:40:36,757 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 19:40:37,089 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 19:40:37,098 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 19:53:27,673 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/common/llm/.hermes-tmp.Z7259b', reloading
+2026-08-26 19:53:27,734 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 19:53:28,440 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 19:53:28,460 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 19:54:58,985 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/common/llm/.hermes-tmp.8gjQVT', reloading
+2026-08-26 19:54:59,039 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 19:54:59,417 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 19:54:59,427 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 19:55:34,815 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.QXAV5Q', reloading
+2026-08-26 19:55:34,871 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 19:55:35,210 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 19:55:35,225 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 19:56:05,009 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.TqbGWZ', reloading
+2026-08-26 19:56:05,047 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 19:56:05,381 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 19:56:05,391 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 19:56:36,273 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.9Xbb1L', reloading
+2026-08-26 19:56:36,311 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 19:56:36,684 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 19:56:36,692 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 20:36:14,197 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.pQnroo', reloading
+2026-08-26 20:36:14,245 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 20:36:14,830 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 20:36:14,872 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 20:36:56,660 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.WfEnLe', reloading
+2026-08-26 20:36:56,709 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 20:36:57,088 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 20:36:57,100 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 20:37:06,791 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.pfkjUR', reloading
+2026-08-26 20:37:06,845 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 20:37:07,208 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 20:37:07,223 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 20:53:18,983 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.HkZtA9', reloading
+2026-08-26 20:53:19,044 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 20:53:19,870 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 20:53:19,894 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 21:04:07,658 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.ah2CnN', reloading
+2026-08-26 21:04:07,710 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 21:04:08,107 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 21:04:08,119 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 21:04:37,084 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.xo0pXW', reloading
+2026-08-26 21:04:37,141 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 21:04:37,789 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 21:04:37,806 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 21:04:58,236 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.b29g88', reloading
+2026-08-26 21:04:58,236 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/app.py', reloading
+2026-08-26 21:04:58,296 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 21:04:58,973 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 21:04:58,990 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 21:18:24,482 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.0rxGK7', reloading
+2026-08-26 21:18:24,534 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 21:18:24,848 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 21:18:24,857 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 21:18:57,134 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.C7FsCW', reloading
+2026-08-26 21:18:57,185 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 21:18:57,461 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 21:18:57,468 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 21:19:18,940 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.2HElLn', reloading
+2026-08-26 21:19:18,978 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 21:19:19,269 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 21:19:19,278 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 21:19:52,690 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.YvXQmO', reloading
+2026-08-26 21:19:52,734 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 21:19:53,046 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 21:19:53,052 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 21:22:18,176 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 21:22:18] "GET /settings HTTP/1.1" 200 -
+2026-08-26 21:22:18,219 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 21:22:18] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 21:22:18,219 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 21:22:18] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 21:32:14,732 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/web/.hermes-tmp.4uTGDt', reloading
+2026-08-26 21:32:14,777 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 21:32:14,993 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 21:32:15,000 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 21:34:07,875 [INFO] werkzeug:  * Detected change in '/opt/homebrew/lib/python3.11/site-packages/flet/version.py', reloading
+2026-08-26 21:34:07,912 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 21:34:08,138 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 21:34:08,145 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 22:48:21,247 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.79:5002
+2026-08-26 22:48:21,247 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-26 22:48:21,263 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 22:48:21,510 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 22:48:21,521 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 22:48:41,033 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:48:41] "GET / HTTP/1.1" 200 -
+2026-08-26 22:48:41,155 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:48:41] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-08-26 22:48:41,155 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:48:41] "GET /static/js/app.js HTTP/1.1" 200 -
+2026-08-26 22:48:41,324 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:48:41] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 22:48:41,740 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:48:41] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-08-26 22:48:46,599 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:48:46] "GET /passages HTTP/1.1" 200 -
+2026-08-26 22:48:46,642 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:48:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:48:46,650 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:48:46] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:48:46,666 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:48:46] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-26 22:48:46,668 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:48:46] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 22:49:14,992 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:14] "GET /observability HTTP/1.1" 200 -
+2026-08-26 22:49:15,020 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:15] "GET /static/js/observability.js HTTP/1.1" 200 -
+2026-08-26 22:49:15,025 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:15] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:49:15,027 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:15] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:49:15,235 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:15] "GET /api/admin/llm-traces HTTP/1.1" 200 -
+2026-08-26 22:49:15,237 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:15] "GET /api/admin/logs HTTP/1.1" 200 -
+2026-08-26 22:49:15,240 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:15] "GET /api/admin/status HTTP/1.1" 200 -
+2026-08-26 22:49:15,272 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:15] "GET /api/providers HTTP/1.1" 200 -
+2026-08-26 22:49:17,003 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:17] "GET /passages HTTP/1.1" 200 -
+2026-08-26 22:49:17,035 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:17] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:49:17,042 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:17] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:49:17,066 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:17] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-26 22:49:17,071 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:17] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 22:49:34,976 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:34] "GET / HTTP/1.1" 200 -
+2026-08-26 22:49:35,007 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:35] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:49:35,013 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:35] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:49:35,034 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:35] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 22:49:36,825 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:36] "GET /dictation HTTP/1.1" 200 -
+2026-08-26 22:49:36,862 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:36] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:49:36,872 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:36] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:49:36,893 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:36] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-26 22:49:42,352 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:42] "GET /dictation HTTP/1.1" 200 -
+2026-08-26 22:49:42,386 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:42] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:49:42,392 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:42] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:49:42,524 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:49:42] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-26 22:49:43,735 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:49:43] "GET / HTTP/1.1" 200 -
+2026-08-26 22:49:43,780 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:49:43] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:49:43,781 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:49:43] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:49:43,917 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:49:43] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 22:49:45,999 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:49:45] "GET /passages HTTP/1.1" 200 -
+2026-08-26 22:49:46,055 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:49:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:49:46,063 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:49:46] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:49:46,116 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:49:46] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-26 22:49:46,122 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:49:46] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 22:49:49,023 [INFO] werkzeug:  * Detected change in '/opt/homebrew/lib/python3.11/site-packages/distlib/__init__.py', reloading
+2026-08-26 22:49:49,060 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 22:49:49,379 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 22:49:49,388 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 22:50:03,250 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:50:03] "POST /api/dictation/check HTTP/1.1" 200 -
+2026-08-26 22:50:10,120 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:50:10] "POST /api/dictation/check HTTP/1.1" 200 -
+2026-08-26 22:50:19,727 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:50:19] "GET /dictation HTTP/1.1" 200 -
+2026-08-26 22:50:19,769 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:50:19] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:19,772 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:50:19] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:50:19,793 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:50:19] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-26 22:50:31,262 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:50:31] "POST /api/dictation/check HTTP/1.1" 200 -
+2026-08-26 22:50:42,002 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:50:42] "POST /api/dictation/check HTTP/1.1" 200 -
+2026-08-26 22:50:43,279 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:43] "GET /dashboard HTTP/1.1" 200 -
+2026-08-26 22:50:43,339 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:43] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:43,352 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:43] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:50:45,126 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:45] "GET /dictation HTTP/1.1" 200 -
+2026-08-26 22:50:45,160 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:45] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:45,160 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:45] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:50:45,187 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:45] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-26 22:50:46,138 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:46] "GET / HTTP/1.1" 200 -
+2026-08-26 22:50:46,160 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:46,163 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:46] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:50:46,210 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:46] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 22:50:47,202 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:47] "GET /passages HTTP/1.1" 200 -
+2026-08-26 22:50:47,241 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:47,242 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:47] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:50:47,268 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:47] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-26 22:50:47,272 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:47] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 22:50:48,418 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:48] "GET /settings HTTP/1.1" 200 -
+2026-08-26 22:50:48,446 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:48,448 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:48] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:50:49,193 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:49] "GET /passages HTTP/1.1" 200 -
+2026-08-26 22:50:49,252 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:49,252 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:49] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:50:49,278 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:49] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-26 22:50:49,280 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:49] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 22:50:49,959 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:49] "GET /dashboard HTTP/1.1" 200 -
+2026-08-26 22:50:49,979 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:49,980 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:49] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:50:50,601 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:50] "GET /settings HTTP/1.1" 200 -
+2026-08-26 22:50:50,674 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:50] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:50:50,675 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:50] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:52,651 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:50:52] "POST /api/dictation/check HTTP/1.1" 200 -
+2026-08-26 22:50:54,885 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:54] "GET /passages HTTP/1.1" 200 -
+2026-08-26 22:50:54,924 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:54] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:54,925 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:54] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:50:54,964 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:54] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-26 22:50:54,968 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:54] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 22:50:55,780 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:55] "GET /settings HTTP/1.1" 200 -
+2026-08-26 22:50:55,843 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:55] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:50:55,844 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 22:50:55] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:52:12,262 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.79:5002
+2026-08-26 22:52:12,262 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-26 22:52:12,276 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 22:52:12,528 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 22:52:12,536 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 22:52:14,108 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:52:14] "POST /api/dictation/check HTTP/1.1" 200 -
+2026-08-26 22:53:59,911 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:53:59] "GET /dashboard HTTP/1.1" 200 -
+2026-08-26 22:54:00,042 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:54:00] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:54:00,256 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:54:00] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:54:11,767 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:54:11] "GET /dictation HTTP/1.1" 200 -
+2026-08-26 22:54:11,795 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:54:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 22:54:11,800 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:54:11] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 22:54:11,834 [INFO] werkzeug: 192.168.50.60 - - [26/Aug/2026 22:54:11] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-26 23:08:04,910 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.79:5002
+2026-08-26 23:08:04,911 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-26 23:08:04,921 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 23:08:05,170 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 23:08:05,179 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 23:08:05,971 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/mobile_main.py', reloading
+2026-08-26 23:08:06,006 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 23:08:06,261 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 23:08:06,268 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 23:08:13,018 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.V8YLLl', reloading
+2026-08-26 23:08:13,070 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 23:08:13,435 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 23:08:13,446 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 23:08:13,478 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:13] "GET / HTTP/1.1" 200 -
+2026-08-26 23:08:13,569 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:13] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:08:13,570 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:13] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:08:13,818 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:13] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 23:08:15,620 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:15] "GET /passages HTTP/1.1" 200 -
+2026-08-26 23:08:15,664 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:15] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:08:15,664 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:15] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:08:15,701 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:15] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-26 23:08:15,709 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:15] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 23:08:21,581 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:21] "GET /settings HTTP/1.1" 200 -
+2026-08-26 23:08:21,635 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:21] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:08:21,642 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:21] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:08:22,449 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:22] "GET /dashboard HTTP/1.1" 200 -
+2026-08-26 23:08:22,467 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:22] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:08:22,503 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:22] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:08:23,498 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:23] "GET /dictation HTTP/1.1" 200 -
+2026-08-26 23:08:23,521 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:08:23,521 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:23] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:08:23,577 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:23] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-26 23:08:24,371 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:24] "GET / HTTP/1.1" 200 -
+2026-08-26 23:08:24,421 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:08:24,421 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:24] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:08:24,452 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:24] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 23:08:25,719 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:25] "GET /passages HTTP/1.1" 200 -
+2026-08-26 23:08:25,769 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:08:25,769 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:25] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:08:25,785 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:25] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-26 23:08:25,793 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:08:25] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 23:08:27,742 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/mobile/.buildozer/android/platform/python-for-android/testapps/testapp_vispy/main.py', reloading
+2026-08-26 23:08:27,790 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 23:08:28,067 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 23:08:28,075 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 23:25:31,567 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5004
+ * Running on http://192.168.50.79:5004
+2026-08-26 23:25:31,567 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-26 23:25:31,575 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 23:25:31,828 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 23:25:31,840 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-26 23:25:43,597 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:43] "GET / HTTP/1.1" 200 -
+2026-08-26 23:25:43,692 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:43] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:25:43,699 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:43] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:25:43,993 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:43] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 23:25:45,888 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:45] "GET /passages HTTP/1.1" 200 -
+2026-08-26 23:25:45,946 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:45] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:25:45,947 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:45] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:25:46,034 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:46] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-26 23:25:46,039 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:46] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 23:25:48,575 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:48] "GET /dashboard HTTP/1.1" 200 -
+2026-08-26 23:25:48,624 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:25:48,631 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:48] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:25:49,288 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:49] "GET /dictation HTTP/1.1" 200 -
+2026-08-26 23:25:49,339 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:49] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:25:49,340 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:25:49,376 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:49] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-26 23:25:50,099 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:50] "GET / HTTP/1.1" 200 -
+2026-08-26 23:25:50,141 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:50] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:25:50,141 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:50] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:25:50,184 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:50] "GET /api/words HTTP/1.1" 200 -
+2026-08-26 23:25:51,302 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:51] "GET /settings HTTP/1.1" 200 -
+2026-08-26 23:25:51,368 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:25:51,369 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:51] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:25:51,767 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:51] "GET /passages HTTP/1.1" 200 -
+2026-08-26 23:25:51,798 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-26 23:25:51,799 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:51] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-26 23:25:51,844 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:51] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-26 23:25:51,847 [INFO] werkzeug: 127.0.0.1 - - [26/Aug/2026 23:25:51] "GET /api/passages HTTP/1.1" 200 -
+2026-08-26 23:25:53,646 [INFO] werkzeug:  * Detected change in '/Users/backyes/dictation-app/platforms/android/.hermes-tmp.ZGG5bh', reloading
+2026-08-26 23:25:53,724 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
+2026-08-26 23:25:54,117 [WARNING] werkzeug:  * Debugger is active!
+2026-08-26 23:25:54,127 [INFO] werkzeug:  * Debugger PIN: 735-645-679

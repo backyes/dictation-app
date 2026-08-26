@@ -537,28 +537,7 @@ const KET_THEMES = [
   { id: 'technology', label: '通讯技术' }
 ];
 
-const DEFAULT_PROMPT = `Write a short English story (300-400 words) for KET-level learners.
-
-Words to include (bold with **word**): {words}
-Error words (use ≥3 times each): {wrong_words}
-
-CRITICAL RULES:
-1. Start DIRECTLY with the story - first word should be a character name or "Once" or "One day"
-2. NO thinking, NO planning, NO reasoning, NO explanation before or after the story
-3. NO word frequency counts, NO usage notes, NO annotations like (1) (2) (M)
-4. NO bullet points, NO lists, NO meta-commentary
-5. Fun and simple grammar suitable for KET-level learners
-6. Output ONLY the story text, nothing else
-
-Example of CORRECT output:
-"Once upon a time, there was a young girl named Sarah. She worked as a waitress..."
-
-Example of WRONG output:
-"Let me plan this story first. I need to include these words..."
-"- quarter: I will use this 3 times"
-"Lucy is a waitress (1) at a restaurant"
-
-Now write the story:`;
+const DEFAULT_PROMPT = "Write a short English story (300-400 words) for KET-level learners.\n\nWords to include (bold with **word**): {words}\nError words (use \u22653 times each): {wrong_words}\n\nCRITICAL RULES:\n1. Start DIRECTLY with the story - first word should be a character name or \"Once\" or \"One day\"\n2. NO thinking, NO planning, NO reasoning, NO explanation before or after the story\n3. NO word frequency counts, NO usage notes, NO annotations like (1) (2) (M)\n4. NO bullet points, NO lists, NO meta-commentary\n5. Fun and simple grammar suitable for KET-level learners\n6. Output ONLY the story text, nothing else\n\nNow write the story:";
 
 // ==================== init ====================
 document.addEventListener('DOMContentLoaded', function() {
@@ -569,75 +548,115 @@ document.addEventListener('DOMContentLoaded', function() {
   generatePassage();  // auto-generate on page load
 });
 
-// ==================== generate passage ====================
+// ==================== generate passage with streaming ====================
 async function generatePassage() {
   const stage = document.getElementById('passageStage');
-  const placeholder = document.getElementById('placeholder');
-
-  // show loading
-  stage.innerHTML = '<div class="passage-placeholder"><div class="spinner"></div><div>正在生成短文...</div></div>';
+  
+  stage.innerHTML = `
+    <div class="passage-card" id="streamingCard">
+      <div class="passage-card-title">正在生成...</div>
+      <div class="passage-card-meta" id="streamStatus">准备中...</div>
+      <div class="progress-bar" style="width: 100%; height: 4px; background: var(--border); border-radius: 2px; margin: 16px 0; overflow: hidden;">
+        <div class="progress-fill" id="progressFill" style="width: 0%; height: 100%; background: var(--accent); transition: width 0.3s;"></div>
+      </div>
+      <div id="thinkingSection" style="display: none; margin: 16px 0; padding: 12px; background: var(--bg-secondary); border-radius: 8px; border-left: 3px solid var(--accent);">
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px;">💭 Thinking...</div>
+        <div id="thinkingContent" style="font-size: 0.8rem; color: var(--text-secondary); white-space: pre-wrap; max-height: 200px; overflow-y: auto;"></div>
+      </div>
+      <div class="passage-text" id="streamContent" style="color: var(--text-muted);"></div>
+      <hr class="passage-divider" id="streamDivider" style="display: none;">
+      <div class="passage-translation" id="streamTranslation"></div>
+    </div>
+  `;
   document.getElementById('detailsFab').style.display = 'none';
 
-  // pick random KET theme
   const theme = KET_THEMES[Math.floor(Math.random() * KET_THEMES.length)];
 
-  const prompt = document.getElementById('promptTemplate').value;
-
   try {
-    const r = await fetch('/api/passages/generate', {
+    const resp = await fetch('/api/passages/generate/stream', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        difficulty: 'intermediate',
-        custom_prompt: prompt,
-        theme: theme.id,
-        theme_label: theme.label
-      })
+      body: JSON.stringify({ difficulty: 'intermediate', theme: theme.id, theme_label: theme.label })
     });
-    const data = await r.json();
 
-    if (data.success) {
-      currentPassage = { ...data, theme: theme.label };
-      showPassage(data, theme);
-      document.getElementById('detailsFab').style.display = 'block';
-    } else {
-      showError(data.message || '生成失败');
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n\n');
+      buffer = lines.pop() || '';
+
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = JSON.parse(line.slice(6));
+          handleStreamEvent(data, theme);
+        }
+      }
     }
   } catch (e) {
     showError('请求失败: ' + e.message);
   }
 }
 
+function handleStreamEvent(data, theme) {
+  const progressFill = document.getElementById('progressFill');
+  const streamStatus = document.getElementById('streamStatus');
+  const streamContent = document.getElementById('streamContent');
+  const streamDivider = document.getElementById('streamDivider');
+  const thinkingSection = document.getElementById('thinkingSection');
+  const thinkingContent = document.getElementById('thinkingContent');
+
+  switch (data.type) {
+    case 'status':
+      if (streamStatus) streamStatus.textContent = data.message;
+      if (streamContent) streamContent.textContent = data.message;
+      break;
+    case 'thinking_start':
+      if (thinkingSection) thinkingSection.style.display = 'block';
+      if (streamStatus) streamStatus.textContent = '思考中...';
+      break;
+    case 'thinking':
+      if (thinkingContent) thinkingContent.textContent += data.content;
+      if (progressFill) progressFill.style.width = '30%';
+      break;
+    case 'text_start':
+      if (streamStatus) streamStatus.textContent = '生成中...';
+      if (progressFill) progressFill.style.width = '60%';
+      break;
+    case 'text':
+      if (streamContent) streamContent.textContent += data.content;
+      if (streamContent) streamContent.style.color = 'var(--text)';
+      break;
+    case 'done':
+      if (progressFill) progressFill.style.width = '100%';
+      if (streamDivider) streamDivider.style.display = 'block';
+      showPassage(data.result, theme);
+      document.getElementById('detailsFab').style.display = 'block';
+      break;
+    case 'error':
+      showError(data.message || '生成失败');
+      break;
+  }
+}
+
 function showPassage(data, theme) {
   const stage = document.getElementById('passageStage');
+  
+  const englishText = data.content || '';
+  const chineseText = data.translation || '';
 
-  let englishText = '';
-  let chineseText = '';
-
-  if (data.content) {
-    const engMatch = data.content.match(/(?:English|英文)[：:]\s*([\s\S]*?)(?:Chinese|中文|$)/i);
-    const chnMatch = data.content.match(/(?:Chinese|中文)[：:]\s*([\s\S]*?)(?:📝|Word Check|$)/i);
-    if (engMatch && chnMatch) {
-      englishText = engMatch[1].trim();
-      chineseText = chnMatch[1].trim();
-    } else {
-      englishText = data.content;
-      chineseText = data.translation || '';
-    }
-  }
-
-  // Process: bold unknown words + add tooltips
   const formatEnglish = (text) => {
     return text
-      .replace(/\*\*(.*?)\*\*/g, function(m, word) {
-        const meaning = getWordMeaning(word);
-        return `<span class="word-unknown">${word}<span class="tooltip">${meaning}</span></span>`;
-      })
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\n/g, '<br>');
   };
 
   const formatChinese = (text) => {
-    // 清理 markdown 标记：**bold** → 纯文本
     return text
       .replace(/\*\*(.*?)\*\*/g, '$1')
       .replace(/\n/g, '<br>');
@@ -645,9 +664,9 @@ function showPassage(data, theme) {
 
   stage.innerHTML = `
     <div class="passage-card">
-      <div class="passage-card-title">${escapeHtml(data.title || '短文')}</div>
+      <div class="passage-card-title">${escapeHtml(data.title || 'Generated Passage')}</div>
       <div class="passage-card-meta">
-        ${theme.label} · ${(data.words_used || []).length} 个目标单词
+        ${theme.label} · ${(data.words_used || []).length} words
       </div>
       <div class="passage-text">${formatEnglish(englishText)}</div>
       <hr class="passage-divider">
@@ -657,11 +676,7 @@ function showPassage(data, theme) {
       ${generateIllustration(theme.label)}
     </div>
   `;
-
-  // 显示调试信息
-  if (data.debug_info && data.debug_info.length > 0) {
-    showDebugInfo(data.debug_info);
-  }
+  document.getElementById('detailsFab').style.display = 'block';
 }
 
 // ==================== debug panel ====================

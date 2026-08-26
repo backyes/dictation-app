@@ -114,6 +114,9 @@
                     <tr>
                         <th>#</th>
                         <th>单词</th>
+                        <th>音标</th>
+                        <th>释义</th>
+                        <th>例句</th>
                         <th>错误次数</th>
                         <th>优先级</th>
                         <th>操作</th>
@@ -124,6 +127,9 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td><strong>{{ word.word }}</strong></td>
+                        <td><code style="color: var(--blue); font-size: 0.85rem;">{{ word.phonetic or '-' }}</code></td>
+                        <td style="color: var(--text-light); font-size: 0.9rem;">{{ word.meaning or '-' }}</td>
+                        <td style="color: var(--text-light); font-size: 0.85rem; font-style: italic;">{{ word.example or '-' }}</td>
                         <td><span style="color: var(--danger); font-weight: 600;">{{ word.error_count }}</span></td>
                         <td>
                             {% if word.error_count >= 3 %}

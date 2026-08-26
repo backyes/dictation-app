@@ -6,7 +6,7 @@ import logging
 import json
 import time
 from collections import deque
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, Response
 import random
 import re
 from config import Config
@@ -23,7 +23,7 @@ from database import (
     add_provider, update_provider, delete_provider, set_active_provider,
     add_passage, get_all_passages, get_passage_by_id, delete_passage
 )
-from llm_service import extract_words_from_text, generate_hint_for_word, test_connection, batch_generate_meanings, generate_meaning_for_word, generate_passage
+from llm_service import extract_words_from_text, generate_hint_for_word, test_connection, batch_generate_meanings, generate_meaning_for_word, generate_passage, PassageGenerator
 from llm_providers import PROVIDER_PRESETS
 
 # 确保 instance 目录存在
@@ -280,6 +280,86 @@ def api_generate_passage():
     except Exception as e:
         add_log('error', 'api', f'短文生成失败: {str(e)}')
         return jsonify({'success': False, 'message': str(e)}), 500
+
+
+# ==================== 后台任务管理 ====================
+import threading
+
+# 任务存储 {task_id: {'status': 'running'|'done'|'error', 'progress': 0, 'result': {}, 'error': ''}}
+_tasks = {}
+_tasks_lock = threading.Lock()
+_task_counter = 0
+
+def _get_next_task_id():
+    global _task_counter
+    _task_counter += 1
+    return f"task_{_task_counter}"
+
+def _run_generation(task_id, words, wrong_words, theme_label):
+    """后台运行短文生成"""
+    try:
+        generator = PassageGenerator()
+        result = generator.generate(words, wrong_words, theme_label)
+        with _tasks_lock:
+            _tasks[task_id]['status'] = 'done'
+            _tasks[task_id]['progress'] = 100
+            _tasks[task_id]['result'] = result
+    except Exception as e:
+        with _tasks_lock:
+            _tasks[task_id]['status'] = 'error'
+            _tasks[task_id]['error'] = str(e)
+
+@app.route('/api/passages/generate/async', methods=['POST'])
+def api_generate_passage_async():
+    """异步生成短文 - 返回任务ID"""
+    data = request.json or {}
+    difficulty = data.get('difficulty', 'intermediate')
+    theme = data.get('theme', '')
+    theme_label = data.get('theme_label', '')
+    
+    # 获取词库中的单词
+    all_words = get_all_words()
+    words = [w['word'] for w in all_words if w.get('meaning')]
+    
+    # 获取高频错误词汇（错误次数 >= 2）
+    wrong_words_data = get_wrong_words()
+    wrong_words = [w['word'] for w in wrong_words_data if w.get('error_count', 0) >= 2]
+    
+    if len(words) < 3:
+        return jsonify({'success': False, 'message': '词库单词不足，请先添加至少3个单词'}), 400
+    
+    task_id = _get_next_task_id()
+    with _tasks_lock:
+        _tasks[task_id] = {'status': 'running', 'progress': 0, 'result': {}, 'error': ''}
+    
+    # 启动后台线程
+    thread = threading.Thread(target=_run_generation, args=(task_id, words, wrong_words, theme_label))
+    thread.daemon = True
+    thread.start()
+    
+    return jsonify({'success': True, 'task_id': task_id})
+
+@app.route('/api/passages/generate/status/<task_id>', methods=['GET'])
+def api_generate_passage_status(task_id):
+    """查询异步生成任务状态"""
+    with _tasks_lock:
+        task = _tasks.get(task_id)
+    
+    if not task:
+        return jsonify({'success': False, 'message': '任务不存在'}), 404
+    
+    response = {
+        'success': True,
+        'status': task['status'],
+        'progress': task['progress'],
+    }
+    
+    if task['status'] == 'done':
+        response['result'] = task['result']
+    elif task['status'] == 'error':
+        response['error'] = task['error']
+    
+    return jsonify(response)
 
 
 @app.route('/api/passages/<int:passage_id>', methods=['DELETE'])

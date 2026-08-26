@@ -1,10 +1,15 @@
 """
-短文生成服务 - 鲁棒性重构 v6
-核心改进：通过prompt约束让LLM直接输出可用内容，简化后端处理
+短文生成服务 - v9: 流式输出 + JSON 结构化
+核心设计：
+1. 保持 thinking，扩大 token 范围（8000+）
+2. 流式展示生成过程，提升用户体验
+3. 坚持 JSON 输出，做好 JSON 接口设计
+4. 直接从 JSON 获取中英文内容
 """
 import logging
 import time
 import re
+import json
 from database import get_active_provider, update_word_meaning, get_words_without_meanings
 from llm_providers import create_provider, LLMResponse
 from logger import add_log, add_llm_trace
@@ -16,51 +21,8 @@ class PassageGenerationError(Exception):
     pass
 
 
-class OutputCleaner:
-    """输出清洗器 - 简化版，主要做兜底处理"""
-    
-    ANNOTATION_PATTERN = r'\(\d+\)|\([A-Z]\)'
-    
-    @classmethod
-    def clean_annotations(cls, text: str) -> str:
-        """清除标注符号"""
-        return re.sub(cls.ANNOTATION_PATTERN, '', text)
-    
-    @classmethod
-    def extract_story(cls, response: str) -> str:
-        """从响应中提取故事内容 - 简化版"""
-        paragraphs = [p.strip() for p in re.split(r'\n\n+', response) if p.strip()]
-        
-        if not paragraphs:
-            return response
-        
-        # 简单过滤明显的规划内容
-        story_parts = []
-        for p in paragraphs:
-            # 跳过太短的段落
-            if len(p) < 20:
-                continue
-            # 跳过编号列表开头
-            if re.match(r'^\d+\.\s+[A-Z]', p):
-                continue
-            # 跳过 Step-by-Step 等标题
-            if re.match(r'^(?:Step|Drafting|Brainstorm|Deconstruct|Plot|Character|Outline|Plan)\b', p, re.IGNORECASE):
-                continue
-            story_parts.append(p)
-        
-        if not story_parts:
-            # Fallback: 取最长的段落
-            filtered = [p for p in paragraphs if len(p) > 100]
-            if filtered:
-                story_parts = [max(filtered, key=len)]
-            else:
-                story_parts = [max(paragraphs, key=len)]
-        
-        return '\n\n'.join(story_parts)
-
-
 class PassageGenerator:
-    """短文生成器"""
+    """短文生成器 - 流式 + JSON 结构化输出版"""
     
     MAX_RETRIES = 3
     
@@ -91,38 +53,56 @@ class PassageGenerator:
         return words[:max_words] if len(words) > max_words else words
     
     def _build_story_prompt(self, theme_label: str, word_list: str, wrong_list: str) -> str:
-        """构建故事生成 prompt - 添加严格约束"""
+        """构建故事生成 prompt - 强制 JSON 输出"""
         return f"""Write a short English story (200-300 words) about "{theme_label}" for KET-level learners.
 
 Words to include: {word_list}
 Important words (use at least 3 times each): {wrong_list}
 
-STRICT OUTPUT REQUIREMENTS:
-1. Output MUST be a readable story with characters, dialogue, and descriptions
-2. Start DIRECTLY with the story - first word must be a character name or "Once" or "One day"
-3. Do NOT include ANY of the following:
-   - Planning or thinking (e.g., "Let me plan...", "I need to include...")
-   - Word frequency counts (e.g., "quarter: 3 times", "diary (2 uses)")
-   - Annotations or markers (e.g., "(1)", "(2)", "(M)")
-   - Numbered lists (e.g., "1. ", "2. ", "3. ")
-   - Section headers (e.g., "Step-by-Step", "Drafting", "Brainstorming")
-   - Character planning (e.g., "Tom: An old explorer")
-   - Bullet points (e.g., "- quarter: ...")
-4. The output should be directly readable and suitable for web display
-5. Bold each target word like **word**
-6. End naturally with the story conclusion
+Write a real story with characters, dialogue, and descriptions.
+Use the words naturally in sentences.
+Bold each target word like **word**.
 
-Output ONLY the story text, nothing else."""
-    
+Output MUST be a valid JSON object:
+{{"story": "Your complete story text here with **bold** words"}}
+
+Do NOT include any text outside the JSON object."""
+
     def _build_translation_prompt(self, story_text: str) -> str:
-        """构建翻译 prompt"""
-        return f"""Translate this English story to Chinese. Output ONLY the translation.
+        """构建翻译 prompt - 强制 JSON 输出"""
+        return f"""Translate this English story to Chinese.
 
-{story_text}"""
+{story_text}
+
+Output MUST be a valid JSON object:
+{{"translation": "Your complete Chinese translation here"}}
+
+Do NOT include any text outside the JSON object."""
+    
+    def _generate_stream(self, prompt: str, temperature: float = 0.7, 
+                          max_tokens: int = 8000):
+        """流式生成 - 返回 generator"""
+        client = self._get_client()
+        
+        for attempt in range(self.MAX_RETRIES):
+            try:
+                response = client.chat_stream(
+                    [{"role": "user", "content": prompt}],
+                    temperature=temperature,
+                    max_tokens=max_tokens
+                )
+                return response
+            except Exception as e:
+                logger.error(f"流式生成失败，重试 {attempt + 1}/{self.MAX_RETRIES}: {e}")
+                if attempt == self.MAX_RETRIES - 1:
+                    raise
+                max_tokens = int(max_tokens * 1.2)
+        
+        raise PassageGenerationError("生成失败，已达最大重试次数")
     
     def _generate_with_retry(self, prompt: str, temperature: float = 0.7, 
-                              max_tokens: int = 2000) -> LLMResponse:
-        """带重试的生成"""
+                              max_tokens: int = 8000) -> LLMResponse:
+        """带重试的生成（非流式）"""
         client = self._get_client()
         
         for attempt in range(self.MAX_RETRIES):
@@ -147,11 +127,153 @@ Output ONLY the story text, nothing else."""
                 logger.error(f"生成失败，重试 {attempt + 1}/{self.MAX_RETRIES}: {e}")
                 if attempt == self.MAX_RETRIES - 1:
                     raise
+                max_tokens = int(max_tokens * 1.2)
         
         raise PassageGenerationError("生成失败，已达最大重试次数")
     
+    def _parse_json_response(self, content: str, key: str) -> str:
+        """从 JSON 响应中提取指定字段的值"""
+        if not content:
+            return ''
+        
+        text = content.strip()
+        
+        # 尝试直接解析 JSON
+        try:
+            data = json.loads(text)
+            if key in data:
+                return data[key].strip()
+        except json.JSONDecodeError:
+            pass
+        
+        # 尝试提取 JSON 块（可能嵌在 markdown 中）
+        json_match = re.search(r'```(?:json)?\s*(\{[\s\S]*?\})\s*```', text)
+        if json_match:
+            try:
+                data = json.loads(json_match.group(1))
+                if key in data:
+                    return data[key].strip()
+            except json.JSONDecodeError:
+                pass
+        
+        # 尝试提取裸 JSON
+        json_match = re.search(r'\{[^{}]*"key"[^{}]*\}', text)
+        if not json_match:
+            json_match = re.search(r'\{[\s\S]*?"' + key + r'"[\s\S]*?\}', text)
+        if json_match:
+            try:
+                data = json.loads(json_match.group())
+                if key in data:
+                    return data[key].strip()
+            except json.JSONDecodeError:
+                pass
+        
+        # 尝试提取 key: "value" 格式（处理多行值）
+        key_match = re.search(rf'"{key}"\s*:\s*"((?:[^"\\]|\\.)*)"', text, re.DOTALL)
+        if key_match:
+            value = key_match.group(1)
+            value = value.replace('\\n', '\n').replace('\\"', '"').replace('\\\\', '\\')
+            return value.strip()
+        
+        # Fallback: 返回原始内容
+        return text
+    
+    def generate_stream(self, words: list, wrong_words: list, theme_label: str):
+        """流式生成短文的完整流程 - 返回 generator"""
+        start_time = time.time()
+        self.debug_info = []
+        
+        # 1. 选择单词
+        selected_words = self._select_words(words, wrong_words)
+        word_list = ', '.join(selected_words)
+        wrong_list = ', '.join(wrong_words[:10]) if wrong_words else ''
+        
+        logger.info(f"开始生成短文，主题: {theme_label}, 单词数: {len(selected_words)}")
+        
+        yield {'type': 'status', 'message': '正在准备单词...', 'words': selected_words}
+        
+        # 2. 流式生成英文故事
+        story_prompt = self._build_story_prompt(theme_label, word_list, wrong_list)
+        yield {'type': 'status', 'message': '正在生成英文故事...'}
+        
+        full_thinking = ''
+        full_content = ''
+        
+        try:
+            stream = self._generate_stream(story_prompt, temperature=0.7, max_tokens=8000)
+            for event in stream:
+                if event['type'] == 'thinking':
+                    full_thinking += event['content']
+                    yield {'type': 'thinking', 'content': event['content']}
+                elif event['type'] == 'text':
+                    full_content += event['content']
+                    yield {'type': 'text', 'content': event['content']}
+                elif event['type'] == 'done':
+                    break
+        except Exception as e:
+            yield {'type': 'error', 'message': f'故事生成失败: {str(e)}'}
+            return
+        
+        logger.debug(f"原始响应:\n{full_content}")
+        
+        # 3. 从 JSON 提取故事
+        story_text = self._parse_json_response(full_content, 'story')
+        
+        if not story_text or len(story_text) < 50:
+            yield {'type': 'error', 'message': '故事生成结果异常，请重试'}
+            return
+        
+        # 4. 格式化处理
+        formatted_story = self._format_story(story_text, selected_words)
+        
+        yield {'type': 'story', 'content': formatted_story, 'raw': story_text}
+        
+        # 5. 流式生成中文翻译
+        yield {'type': 'status', 'message': '正在生成中文翻译...'}
+        
+        translation_prompt = self._build_translation_prompt(story_text)
+        translation_thinking = ''
+        translation_content = ''
+        
+        try:
+            stream = self._generate_stream(translation_prompt, temperature=0.3, max_tokens=6000)
+            for event in stream:
+                if event['type'] == 'thinking':
+                    translation_thinking += event['content']
+                elif event['type'] == 'text':
+                    translation_content += event['content']
+                elif event['type'] == 'done':
+                    break
+        except Exception as e:
+            logger.error(f"翻译失败: {e}")
+            yield {'type': 'error', 'message': f'翻译失败: {str(e)}'}
+            return
+        
+        translation = self._parse_json_response(translation_content, 'translation')
+        
+        if not translation:
+            translation = translation_content.strip()
+        
+        yield {'type': 'translation', 'content': translation}
+        
+        # 6. 提取实际使用的单词
+        words_used = [w for w in selected_words if w.lower() in story_text.lower()]
+        
+        elapsed = int((time.time() - start_time) * 1000)
+        logger.info(f"短文生成完成: {len(story_text)} 字符, {len(words_used)} 单词, 耗时: {elapsed}ms")
+        
+        yield {
+            'type': 'done',
+            'title': '',
+            'content': formatted_story,
+            'translation': translation,
+            'words_used': words_used,
+            'debug_info': self.debug_info,
+            'elapsed': elapsed,
+        }
+    
     def generate(self, words: list, wrong_words: list, theme_label: str) -> dict:
-        """生成短文的完整流程"""
+        """生成短文的完整流程（非流式）"""
         start_time = time.time()
         self.debug_info = []
         
@@ -164,13 +286,12 @@ Output ONLY the story text, nothing else."""
         
         # 2. 生成英文故事
         story_prompt = self._build_story_prompt(theme_label, word_list, wrong_list)
-        raw_response = self._generate_with_retry(story_prompt, temperature=0.7)
+        raw_response = self._generate_with_retry(story_prompt, temperature=0.7, max_tokens=8000)
         
         logger.debug(f"原始响应:\n{raw_response.content}")
         
-        # 3. 提取和清洗故事内容（简化版）
-        story_text = OutputCleaner.extract_story(raw_response.content)
-        story_text = OutputCleaner.clean_annotations(story_text)
+        # 3. 从 JSON 提取故事
+        story_text = self._parse_json_response(raw_response.content, 'story')
         
         # 4. 格式化处理
         formatted_story = self._format_story(story_text, selected_words)
@@ -206,11 +327,9 @@ Output ONLY the story text, nothing else."""
         """生成中文翻译"""
         try:
             prompt = self._build_translation_prompt(story_text)
-            response = self._generate_with_retry(prompt, temperature=0.3, max_tokens=1500)
+            response = self._generate_with_retry(prompt, temperature=0.3, max_tokens=6000)
             
-            translation = response.content.strip()
-            translation = OutputCleaner.clean_annotations(translation)
-            
+            translation = self._parse_json_response(response.content, 'translation')
             return translation
         except Exception as e:
             logger.error(f"翻译失败: {e}")
@@ -303,7 +422,6 @@ def generate_meaning_for_word(word: str) -> dict:
     
     try:
         response = client.chat([{"role": "user", "content": prompt}], temperature=0.3)
-        import json
         
         try:
             result = json.loads(response.content)
