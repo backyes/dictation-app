@@ -15,7 +15,7 @@ version = 1.0.0
 # anthropic: LLM SDK
 # requests: HTTP client (used by anthropic and providers)
 # python-dotenv: environment config
-requirements = python3,flet==0.21.2,anthropic==0.40.0,requests==2.31.0,python-dotenv==1.0.0,charset_normalizer,certifi,idna,urllib3,anyio,distro,httpx,httpx-socks,httpcore,pysocks,sniffio,typing_extensions,markdown,pygments,websocket_client,oauthlib,watchdog,packaging,pyyaml,qrcode,pillow,arrow,types_python_dateutil,sh
+requirements = python3,flet==0.21.2,anthropic==0.40.0,requests==2.31.0,python-dotenv==1.0.0,charset_normalizer,certifi,idna,urllib3,anyio,distro,httpx,httpx-socks,httpcore,pysocks,sniffio,typing_extensions,markdown,pygments,websocket_client,oauthlib,packaging,pyyaml,qrcode,arrow,types_python_dateutil,sh
 
 orientation = portrait
 fullscreen = 0
@@ -29,7 +29,7 @@ android.archs = arm64-v8a
 android.allow_backup = True
 
 # Use gradle for dependency resolution
-android.gradle_dependencies = 
+# android.gradle_dependencies = 
 
 # Enable AndroidX
 android.enable_androidx = True

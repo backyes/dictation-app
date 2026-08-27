@@ -115,3 +115,16 @@ def generate_meaning_for_word(word: str) -> dict:
         }
     except Exception as e:
         raise Exception(f"生成释义失败: {str(e)}")
+
+
+def generate_hint_for_word(word: str) -> dict:
+    """Generate learning hint for a word"""
+    logger.info(f"为单词 [{word}] 生成学习提示")
+    client = get_active_client()
+    
+    try:
+        hint = client.generate_hint(word)
+        return hint
+    except Exception as e:
+        logger.error(f"生成提示失败: {e}")
+        raise

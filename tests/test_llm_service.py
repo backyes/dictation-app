@@ -9,8 +9,13 @@ from unittest.mock import patch, MagicMock, PropertyMock
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from llm_providers import AnthropicProvider, OpenAIProvider, create_provider, PROVIDER_PRESETS
-from logger import add_log, add_llm_trace, get_logs, get_traces, clear_logs, clear_traces
+from common.llm.providers import AnthropicProvider, OpenAIProvider, create_provider, PROVIDER_PRESETS, LLMResponse
+from common.logger import add_log, add_llm_trace, get_logs, get_traces, clear_logs, clear_traces
+
+
+def make_response(text):
+    """Helper to create LLMResponse for mocking"""
+    return LLMResponse(content=text, thinking='', model='test-model')
 
 
 class TestLogger(unittest.TestCase):
@@ -96,8 +101,8 @@ class TestAnthropicProvider(unittest.TestCase):
         provider = AnthropicProvider(config)
         kwargs = provider._get_client_kwargs()
 
-        # auth_token 应该作为 api_key 传递
-        self.assertEqual(kwargs['api_key'], 'ak_test_token')
+        # auth_token should be passed as auth_token
+        self.assertEqual(kwargs['auth_token'], 'ak_test_token')
         self.assertEqual(kwargs['base_url'], 'https://api.longcat.chat/anthropic')
 
     def test_get_client_kwargs_no_auth(self):
@@ -125,7 +130,7 @@ class TestAnthropicProvider(unittest.TestCase):
         provider = AnthropicProvider(config)
         result = provider.chat([{'role': 'user', 'content': 'Hi'}])
 
-        self.assertEqual(result, 'Hello World')
+        self.assertEqual(result.content, 'Hello World')
         mock_client.messages.create.assert_called_once()
 
     @patch.object(AnthropicProvider, '_get_client_kwargs', return_value={'api_key': 'test'})
@@ -145,7 +150,7 @@ class TestAnthropicProvider(unittest.TestCase):
         provider = AnthropicProvider(config)
         result = provider.chat([{'role': 'user', 'content': 'Hi'}])
 
-        self.assertEqual(result, 'Final answer')
+        self.assertEqual(result.content, 'Final answer')
 
     @patch.object(AnthropicProvider, '_get_client_kwargs', return_value={'api_key': 'test'})
     @patch('anthropic.Anthropic')
@@ -183,7 +188,7 @@ class TestAnthropicProvider(unittest.TestCase):
 class TestOpenAIProvider(unittest.TestCase):
     """测试 OpenAI 提供商"""
 
-    @patch('llm_providers.requests.post')
+    @patch('common.llm.providers.requests.post')
     def test_chat_success(self, mock_post):
         """测试成功调用 chat"""
         mock_response = MagicMock()
@@ -203,9 +208,9 @@ class TestOpenAIProvider(unittest.TestCase):
         provider = OpenAIProvider(config)
         result = provider.chat([{'role': 'user', 'content': 'Hi'}])
 
-        self.assertEqual(result, 'Hello from OpenAI')
+        self.assertEqual(result.content, 'Hello from OpenAI')
 
-    @patch('llm_providers.requests.post')
+    @patch('common.llm.providers.requests.post')
     def test_test_connection_success(self, mock_post):
         """测试连接成功"""
         mock_response = MagicMock()
@@ -277,10 +282,10 @@ class TestExtractWords(unittest.TestCase):
     def setUp(self):
         clear_logs()
 
-    @patch('llm_providers.AnthropicProvider.chat')
+    @patch('common.llm.providers.AnthropicProvider.chat')
     def test_extract_words_from_text(self, mock_chat):
         """测试从文本提取单词"""
-        mock_chat.return_value = '{"words": ["apple", "banana", "cherry"]}'
+        mock_chat.return_value = make_response('{"words": ["apple", "banana", "cherry"]}')
 
         config = {'api_key': 'test', 'model': 'test'}
         provider = AnthropicProvider(config)
@@ -288,10 +293,10 @@ class TestExtractWords(unittest.TestCase):
 
         self.assertEqual(words, ['apple', 'banana', 'cherry'])
 
-    @patch('llm_providers.AnthropicProvider.chat')
+    @patch('common.llm.providers.AnthropicProvider.chat')
     def test_extract_words_lowercase(self, mock_chat):
         """测试提取单词转小写"""
-        mock_chat.return_value = '{"words": ["APPLE", "Banana"]}'
+        mock_chat.return_value = make_response('{"words": ["APPLE", "Banana"]}')
 
         config = {'api_key': 'test', 'model': 'test'}
         provider = AnthropicProvider(config)
@@ -299,10 +304,10 @@ class TestExtractWords(unittest.TestCase):
 
         self.assertEqual(words, ['apple', 'banana'])
 
-    @patch('llm_providers.AnthropicProvider.chat')
+    @patch('common.llm.providers.AnthropicProvider.chat')
     def test_extract_words_deduplication(self, mock_chat):
         """测试提取单词去重"""
-        mock_chat.return_value = '{"words": ["apple", "apple", "banana"]}'
+        mock_chat.return_value = make_response('{"words": ["apple", "apple", "banana"]}')
 
         config = {'api_key': 'test', 'model': 'test'}
         provider = AnthropicProvider(config)
@@ -314,15 +319,15 @@ class TestExtractWords(unittest.TestCase):
 class TestGenerateHint(unittest.TestCase):
     """测试提示生成功能"""
 
-    @patch('llm_providers.AnthropicProvider.chat')
+    @patch('common.llm.providers.AnthropicProvider.chat')
     def test_generate_hint(self, mock_chat):
         """测试生成学习提示"""
-        mock_chat.return_value = '''{
+        mock_chat.return_value = make_response('''{
             "translation": "苹果",
             "example": "I eat an apple.",
             "example_translation": "我吃了一个苹果。",
             "memory_tip": "a-pple 像苹果"
-        }'''
+        }''')
 
         config = {'api_key': 'test', 'model': 'test'}
         provider = AnthropicProvider(config)

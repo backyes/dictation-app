@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional
 import sqlite3
 import os
+import sys
 from datetime import datetime
 
 
@@ -139,9 +140,18 @@ class SQLiteStorage(StorageBackend):
 
     def __init__(self, db_path: str = None):
         if db_path is None:
-            db_path = os.path.join(os.path.dirname(__file__), '..', '..', 'instance', 'dictation.db')
+            db_path = self._default_db_path()
         self.db_path = db_path
         self.init()
+
+    @staticmethod
+    def _default_db_path() -> str:
+        """Get default DB path — handles macOS frozen app (App Translocation)"""
+        if getattr(sys, 'frozen', False) and sys.platform == 'darwin':
+            app_support = os.path.expanduser('~/Library/Application Support/DictationPractice')
+            os.makedirs(app_support, exist_ok=True)
+            return os.path.join(app_support, 'dictation.db')
+        return os.path.join(os.path.dirname(__file__), '..', '..', 'instance', 'dictation.db')
 
     def get_db(self):
         conn = sqlite3.connect(self.db_path)

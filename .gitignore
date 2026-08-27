@@ -16,6 +16,7 @@ env/
 .env
 
 # Flask
+instance/
 
 # IDE
 .vscode/
@@ -28,3 +29,18 @@ env/
 .DS_Store
 Thumbs.db
 
+# Buildozer
+.buildozer/
+mobile/.buildozer/
+
+# PyInstaller
+*.spec
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Database
+*.db
+*.sqlite3

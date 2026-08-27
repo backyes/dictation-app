@@ -9,7 +9,7 @@ from unittest.mock import patch, MagicMock
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from llm_providers import (
+from common.llm.providers import (
     BaseLLMProvider, AnthropicProvider, OpenAIProvider,
     create_provider, PROVIDER_PRESETS
 )
@@ -195,7 +195,7 @@ class TestAnthropicProviderChat(unittest.TestCase):
 class TestOpenAIProviderChat(unittest.TestCase):
     """测试 OpenAI 提供商聊天功能（模拟）"""
 
-    @patch('llm_providers.requests.post')
+    @patch('common.llm.providers.requests.post')
     def test_successful_chat(self, mock_post):
         """测试成功的聊天调用"""
         mock_response = MagicMock()
@@ -216,10 +216,10 @@ class TestOpenAIProviderChat(unittest.TestCase):
         provider = OpenAIProvider(config)
         result = provider.chat([{'role': 'user', 'content': 'Hi'}])
 
-        self.assertEqual(result, 'Hello there!')
+        self.assertEqual(result.content, 'Hello there!')
         mock_post.assert_called_once()
 
-    @patch('llm_providers.requests.post')
+    @patch('common.llm.providers.requests.post')
     def test_chat_with_custom_temperature(self, mock_post):
         """测试自定义温度的聊天调用"""
         mock_response = MagicMock()

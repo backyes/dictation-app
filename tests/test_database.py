@@ -9,7 +9,7 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from database import (
+from storage.database import (
     init_db, get_db,
     add_words, get_all_words, get_pending_words, get_right_words, get_wrong_words,
     mark_word_correct, mark_word_wrong, record_correct_answer,
@@ -18,7 +18,7 @@ from database import (
     get_all_providers, get_active_provider, get_provider_by_id,
     add_provider, update_provider, delete_provider, set_active_provider
 )
-from config import Config
+from common.config import Config
 
 
 class TestDatabase(unittest.TestCase):

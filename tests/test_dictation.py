@@ -15,7 +15,7 @@ class TestClueGeneration(unittest.TestCase):
 
     def setUp(self):
         """导入 generate_clue 函数"""
-        from app import generate_clue
+        from core.dictation import generate_clue
         self.generate_clue = generate_clue
 
     def test_short_word_two_letters(self):
@@ -76,11 +76,11 @@ class TestClueGeneration(unittest.TestCase):
 class TestDictationSession(unittest.TestCase):
     """测试听写会话生成算法"""
 
-    @patch('app.get_pending_words')
-    @patch('app.get_wrong_words')
+    @patch('platforms.web.app.get_pending_words')
+    @patch('platforms.web.app.get_wrong_words')
     def test_session_covers_all_wrong_words(self, mock_wrong, mock_pending):
         """测试会话覆盖所有错误单词"""
-        from app import api_dictation_session
+        from platforms.web.app import app
 
         mock_wrong.return_value = [
             {'id': 1, 'word': 'apple', 'error_count': 2},
@@ -90,30 +90,25 @@ class TestDictationSession(unittest.TestCase):
             {'id': 3, 'word': 'cherry', 'error_count': 0},
         ]
 
-        # 模拟 Flask request context
-        from app import app
         with app.test_client() as client:
             response = client.get('/api/dictation/session')
             data = response.get_json()
 
             self.assertTrue(data['success'])
-            # 提取会话中的单词ID
             session_ids = [w['id'] for w in data['session']]
 
-            # 确保所有错误单词都出现
-            self.assertIn(1, session_ids)  # apple
-            self.assertIn(2, session_ids)  # banana
-            # 确保pending单词出现
-            self.assertIn(3, session_ids)  # cherry
+            self.assertIn(1, session_ids)
+            self.assertIn(2, session_ids)
+            self.assertIn(3, session_ids)
 
-    @patch('app.get_pending_words')
-    @patch('app.get_wrong_words')
+    @patch('platforms.web.app.get_pending_words')
+    @patch('platforms.web.app.get_wrong_words')
     def test_high_frequency_wrong_word_appears_three_times(self, mock_wrong, mock_pending):
         """测试高频错误单词至少出现3次"""
-        from app import app
+        from platforms.web.app import app
 
         mock_wrong.return_value = [
-            {'id': 1, 'word': 'apple', 'error_count': 5},  # 高频错误
+            {'id': 1, 'word': 'apple', 'error_count': 5},
         ]
         mock_pending.return_value = []
 
@@ -122,15 +117,14 @@ class TestDictationSession(unittest.TestCase):
             data = response.get_json()
 
             self.assertTrue(data['success'])
-            # 统计 apple 出现次数
             apple_count = sum(1 for w in data['session'] if w['id'] == 1)
             self.assertGreaterEqual(apple_count, 3)
 
-    @patch('app.get_pending_words')
-    @patch('app.get_wrong_words')
+    @patch('platforms.web.app.get_pending_words')
+    @patch('platforms.web.app.get_wrong_words')
     def test_empty_session(self, mock_wrong, mock_pending):
         """测试无单词时会话为空"""
-        from app import app
+        from platforms.web.app import app
 
         mock_wrong.return_value = []
         mock_pending.return_value = []
@@ -148,8 +142,8 @@ class TestAnswerCheck(unittest.TestCase):
 
     def test_correct_answer(self):
         """测试正确答案"""
-        from app import app
-        from database import init_db, add_words, get_all_words, clear_all_words
+        from platforms.web.app import app
+        from storage.database import init_db, add_words, get_all_words, clear_all_words
 
         with app.test_client() as client:
             # 先添加测试单词
@@ -170,8 +164,8 @@ class TestAnswerCheck(unittest.TestCase):
 
     def test_incorrect_answer(self):
         """测试错误答案"""
-        from app import app
-        from database import add_words, get_all_words, clear_all_words
+        from platforms.web.app import app
+        from storage.database import add_words, get_all_words, clear_all_words
 
         with app.test_client() as client:
             clear_all_words()
@@ -194,8 +188,8 @@ class TestAnswerCheck(unittest.TestCase):
 
     def test_case_insensitive(self):
         """测试大小写不敏感"""
-        from app import app
-        from database import add_words, get_all_words, clear_all_words
+        from platforms.web.app import app
+        from storage.database import add_words, get_all_words, clear_all_words
 
         with app.test_client() as client:
             clear_all_words()
@@ -213,7 +207,7 @@ class TestAnswerCheck(unittest.TestCase):
 
     def test_nonexistent_word(self):
         """测试不存在的单词"""
-        from app import app
+        from platforms.web.app import app
 
         with app.test_client() as client:
             response = client.post('/api/dictation/check', json={

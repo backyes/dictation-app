@@ -64,6 +64,29 @@ class BaseLLMProvider(ABC):
         except Exception as e:
             raise Exception(f"提取单词失败: {str(e)}")
     
+    def generate_hint(self, word: str) -> dict:
+        """Generate learning hint for a word"""
+        prompt = f"""请为英语单词 "{word}" 生成学习辅助内容，帮助中学生记忆这个单词。
+
+请严格按照以下JSON格式返回，不要包含任何其他内容：
+{{
+  "translation": "中文翻译",
+  "example": "英文例句（适合中学生水平）",
+  "example_translation": "例句的中文翻译",
+  "memory_tip": "记忆方法（如词根词缀、联想记忆、谐音记忆等，简洁有趣）"
+}}
+
+要求：
+1. 例句要简单实用，适合中学生理解
+2. 记忆方法要生动有趣，容易记住
+3. 所有内容用中文解释（除了example用英文）"""
+        
+        try:
+            response = self.chat([{"role": "user", "content": prompt}])
+            return self._parse_hint_response(response.content)
+        except Exception as e:
+            raise Exception(f"生成提示失败: {str(e)}")
+    
     def _parse_words_response(self, text: str) -> list:
         try:
             result = json.loads(text)
@@ -84,6 +107,19 @@ class BaseLLMProvider(ABC):
                 cleaned.append(w)
                 seen.add(w)
         return cleaned
+
+    def _parse_hint_response(self, text: str) -> dict:
+        """Parse hint generation response"""
+        default = {'translation': '', 'example': '', 'example_translation': '', 'memory_tip': ''}
+        try:
+            result = json.loads(text)
+        except json.JSONDecodeError:
+            json_match = re.search(r'\{[^}]+\}', text, re.DOTALL)
+            if json_match:
+                result = json.loads(json_match.group())
+            else:
+                return {**default, 'example': text}
+        return {**default, **{k: result.get(k, '') for k in default.keys()}}
 
 
 class AnthropicProvider(BaseLLMProvider):
@@ -350,3 +386,58 @@ def create_provider(config: dict) -> BaseLLMProvider:
         return OpenAIProvider(config)
     else:
         raise ValueError(f"不支持的提供商类型: {provider_type}")
+
+
+# ==================== Provider Presets ====================
+
+PROVIDER_PRESETS = {
+    'anthropic': {
+        'name': 'Anthropic (Claude)',
+        'default_base_url': 'https://api.anthropic.com',
+        'default_model': 'claude-sonnet-4-20250514',
+        'provider_type': 'anthropic',
+        'docs': 'https://console.anthropic.com/'
+    },
+    'openai': {
+        'name': 'OpenAI',
+        'default_base_url': 'https://api.openai.com/v1',
+        'default_model': 'gpt-4o-mini',
+        'provider_type': 'openai',
+        'docs': 'https://platform.openai.com/'
+    },
+    'openrouter': {
+        'name': 'OpenRouter',
+        'default_base_url': 'https://openrouter.ai/api/v1',
+        'default_model': 'anthropic/claude-sonnet-3.5',
+        'provider_type': 'openai',
+        'docs': 'https://openrouter.ai/'
+    },
+    'deepseek': {
+        'name': 'DeepSeek',
+        'default_base_url': 'https://api.deepseek.com/v1',
+        'default_model': 'deepseek-chat',
+        'provider_type': 'openai',
+        'docs': 'https://platform.deepseek.com/'
+    },
+    'longcat': {
+        'name': 'LongCat',
+        'default_base_url': 'https://api.longcat.chat/openai/v1',
+        'default_model': 'LongCat-2.0[1m]',
+        'provider_type': 'openai',
+        'docs': 'https://api.longcat.chat/'
+    },
+    'ollama': {
+        'name': 'Ollama (本地)',
+        'default_base_url': 'http://localhost:11434/v1',
+        'default_model': 'llama3',
+        'provider_type': 'openai',
+        'docs': 'https://ollama.com/'
+    },
+    'custom': {
+        'name': '自定义 (OpenAI 兼容)',
+        'default_base_url': '',
+        'default_model': '',
+        'provider_type': 'openai',
+        'docs': ''
+    }
+}
