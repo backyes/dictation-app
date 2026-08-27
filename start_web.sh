@@ -7,8 +7,8 @@ cd "$(dirname "$0")"
 # 设置 Python 路径
 export PYTHONPATH="$(pwd):$PYTHONPATH"
 
-# 使用与打包 App 相同的数据库路径
-export DATABASE_PATH="$HOME/Library/Application Support/DictationWeb/dictation.db"
+# 使用项目本地 data/ 目录的数据库
+export DATABASE_PATH="$(pwd)/data/dictation.db"
 
 # 启动 Flask 应用
 echo "Starting Dictation Web..."

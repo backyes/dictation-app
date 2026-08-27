@@ -44,3 +44,4 @@ htmlcov/
 # Database
 *.db
 *.sqlite3
+!data/dictation.db
