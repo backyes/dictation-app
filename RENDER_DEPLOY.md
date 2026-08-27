@@ -18,7 +18,7 @@
    - **Name**: `dictation-app`
    - **Runtime**: `Python 3`
    - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `gunicorn app:app --bind 0.0.0.0:$PORT --workers 2`
+   - **Start Command**: `gunicorn platforms.web.app:app --bind 0.0.0.0:$PORT --workers 2`
 
 ## 环境变量配置
 
@@ -26,11 +26,12 @@
 
 | 变量名 | 说明 | 示例 |
 |--------|------|------|
-| `ANTHROPIC_AUTH_TOKEN` | LongCat API Token | `ak_2Ma1Z46P38qs8V01QC1UU1Jy2x23V` |
+| `ANTHROPIC_AUTH_TOKEN` | LongCat API Token | `your_token` |
 | `ANTHROPIC_BASE_URL` | API 地址 | `https://api.longcat.chat/anthropic` |
 | `LLM_MODEL` | 模型名称 | `LongCat-2.0` |
 | `SECRET_KEY` | Flask 密钥 | 随机生成 |
 | `PYTHON_VERSION` | Python 版本 | `3.11.15` |
+| `DATABASE_PATH` | 数据库路径 | `/opt/render/project/src/instance/dictation.db` |
 
 ## 持久化存储
 
