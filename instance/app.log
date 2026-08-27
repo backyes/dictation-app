@@ -11378,3 +11378,61 @@ Format:
 2026-08-26 23:25:53,724 [INFO] werkzeug:  * Restarting with watchdog (fsevents)
 2026-08-26 23:25:54,117 [WARNING] werkzeug:  * Debugger is active!
 2026-08-26 23:25:54,127 [INFO] werkzeug:  * Debugger PIN: 735-645-679
+2026-08-27 23:14:58,518 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://192.168.50.154:5002
+2026-08-27 23:14:58,519 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-08-27 23:15:01,359 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:01] "GET / HTTP/1.1" 200 -
+2026-08-27 23:15:02,064 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:02] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:02,074 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:02] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:02,488 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:02] "GET /api/words HTTP/1.1" 200 -
+2026-08-27 23:15:05,407 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:05] "GET /settings HTTP/1.1" 200 -
+2026-08-27 23:15:05,473 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:05] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:05,473 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:05] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:07,472 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:07] "GET /passages HTTP/1.1" 200 -
+2026-08-27 23:15:07,512 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:07] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:07,512 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:07,528 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:07] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-27 23:15:07,530 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:07] "GET /api/passages HTTP/1.1" 200 -
+2026-08-27 23:15:08,731 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:08] "GET /settings HTTP/1.1" 200 -
+2026-08-27 23:15:08,778 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:08,781 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:08] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:09,595 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:09] "GET /dashboard HTTP/1.1" 200 -
+2026-08-27 23:15:09,628 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:09,629 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:09] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:11,288 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:11] "GET /dictation HTTP/1.1" 200 -
+2026-08-27 23:15:11,335 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:11,336 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:11] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:11,346 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:11] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-27 23:15:13,523 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:13] "GET / HTTP/1.1" 200 -
+2026-08-27 23:15:13,579 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:13] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:13,580 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:13] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:13,613 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:13] "GET /api/words HTTP/1.1" 200 -
+2026-08-27 23:15:42,826 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:42] "GET /dictation HTTP/1.1" 200 -
+2026-08-27 23:15:43,323 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:43] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:43,343 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:43] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:43,793 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:43] "GET /api/dictation/session HTTP/1.1" 200 -
+2026-08-27 23:15:44,748 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:44] "GET /dashboard HTTP/1.1" 200 -
+2026-08-27 23:15:44,777 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:44] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:44,784 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:44] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:46,019 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:46] "GET /settings HTTP/1.1" 200 -
+2026-08-27 23:15:46,052 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:46] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:46,053 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:47,604 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:47] "GET /passages HTTP/1.1" 200 -
+2026-08-27 23:15:47,696 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:47] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:47,696 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:47,702 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:47] "GET /api/passages HTTP/1.1" 200 -
+2026-08-27 23:15:47,707 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:47] "[33mPOST /api/passages/generate/stream HTTP/1.1[0m" 404 -
+2026-08-27 23:15:48,723 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:48] "GET /observability HTTP/1.1" 200 -
+2026-08-27 23:15:48,764 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:48,773 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:48] "GET /static/js/observability.js HTTP/1.1" 200 -
+2026-08-27 23:15:48,774 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:48] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:48,986 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:48] "GET /api/admin/logs HTTP/1.1" 200 -
+2026-08-27 23:15:48,987 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:48] "GET /api/admin/llm-traces HTTP/1.1" 200 -
+2026-08-27 23:15:48,990 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:48] "GET /api/admin/status HTTP/1.1" 200 -
+2026-08-27 23:15:49,002 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:49] "GET /api/providers HTTP/1.1" 200 -
+2026-08-27 23:15:51,209 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:51] "GET / HTTP/1.1" 200 -
+2026-08-27 23:15:51,274 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-08-27 23:15:51,284 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:51] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2026-08-27 23:15:51,324 [INFO] werkzeug: 127.0.0.1 - - [27/Aug/2026 23:15:51] "GET /api/words HTTP/1.1" 200 -

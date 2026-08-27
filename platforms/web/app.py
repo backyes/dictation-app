@@ -9,13 +9,19 @@ from collections import deque
 import os
 import random
 import re
+import sys
 
 from flask import Flask, render_template, request, jsonify, redirect, url_for, Response
 
 from common.config import Config
 
-# Get the project root directory (where templates/ and static/ are located)
-project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# 获取项目根目录（templates/ 和 static/ 所在位置）
+if getattr(sys, 'frozen', False):
+    # PyInstaller 打包后：sys._MEIPASS 指向 Contents/Resources/
+    project_root = sys._MEIPASS
+else:
+    # 开发模式：从 platforms/web/app.py 向上 3 级到项目根
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # ==================== 系统日志和追踪 ====================
 from common.logger import add_log, add_llm_trace, get_logs, get_traces, get_trace_detail, clear_logs, clear_traces
