@@ -4,7 +4,8 @@ import random
 import sys
 import os
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add project root to path (go up from common/ui/ to project root)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from storage.sqlite_storage import SQLiteStorage
 from core.dictation import generate_clue, check_answer, generate_dictation_session, generate_full_library_session
